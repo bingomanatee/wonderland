@@ -1,0 +1,7 @@
+{
+	"routes": {
+	          "get": ["/sign_in/facebook"]
+	},
+
+    "handler_failsafe_time": 1000000
+}

@@ -1,0 +1,24 @@
+{
+	"static": {
+		"img": "/img/members"
+	},
+
+	"member_actions": [
+        "view member data",
+		"edit member",
+		"delete member"
+	],
+
+	"member_roles": [
+		{
+			"name":    "member_admin",
+			"actions": [
+                "view member data",
+				"edit member",
+				"delete member"
+			]
+
+		}
+
+	]
+}

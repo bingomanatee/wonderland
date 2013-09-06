@@ -1,0 +1,83 @@
+{
+    "name": "string",
+    "player": "objectid",
+
+    "traits": {
+        "body": {"type": "number", "default": 10},
+        "speed": {"type": "number", "default": 10},
+        "mind": {"type": "number", "default": 10},
+        "will": {"type": "number", "default": 10},
+
+        "run":{"type": "number", "default": 10, "base": ["body", "speed"]},
+        "perception":{"type": "number", "default": 10, "base": ["mind", "body"]},
+        "stamina":{"type": "number", "default": 10, "base": ["body", "will"]},
+        "dexterity": {"type": "number", "default": 10, "base": ["mind","speed"]},
+        "charm": {"type": "number", "default": 10, "base": ["mind", "will"]}
+    },
+
+    "background": {
+        "birthday": "date",
+        "age": "number",
+        "gender": {
+            "type": "string",
+            "enum": ["male", "female", "nonbilogical", "other"]
+        },
+        "height": "number",
+        "weight": "number",
+
+        "race": {
+            "type": "string",
+            "default": "human"
+        },
+        "culture": "string",
+        "status": {
+            "type": "number",
+            "default": 0
+        }
+    },
+
+    "stuff": [
+        {
+            "name": "string",
+            "type": "string",
+            "quantity": {
+                "type": "number",
+                "min": 0,
+                "default": 1
+            },
+            "container": "boolean",
+            "contents": ["objectid"],
+            "contained_in": "objectid",
+            "value": "number",
+            "condition": {
+                "type": "number",
+                "default": 1
+            },
+            "weight": "number",
+            "size": "number"
+        }
+    ],
+
+    "training": [
+        {
+            "name": "string",
+            "type": {
+                "type": "string",
+                "default": "skill"
+            },
+            "basis": [
+                {
+                    "name": "string"
+                }
+            ]
+        }
+    ],
+
+    "appearance": {
+        "eyes": "string",
+        "hair": "string",
+        "build": "string",
+        "skin": "string",
+        "notes": "string"
+    }
+}

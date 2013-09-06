@@ -1,0 +1,28 @@
+<link rel="stylesheet" type="text/css" href="/js/vendor/angular/ng-grid.css" />
+<link rel="stylesheet" type="text/css" href="/css/admin/members/list/list.css" />
+
+<div ng-app="memberApp">
+    <div ng-controller="memberController">
+        <div modal="show_role_dialog" close="close_member_role_dialog()" options="role_dialog_options">
+            <div class="modal-header">
+                <h4>Set Member Roles</h4>
+            </div>
+            <div class="modal-body" style="max-height: 400px">
+               <p><b>Member:</b> {{ active_member.displayName }}, <b>Provider:</b> {{ active_member.provider }}</p>
+                <div ng-repeat="role in rolesCollection">
+                    <label ><input type="checkbox" ng-model="role.active"  />
+                        {{ role._id }}</label></div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" ng-click="update_member_roles()">Update Member</button>
+                <button class="btn btn-warning cancel" ng-click="close_member_role_dialog()">Cancel</button>
+            </div>
+        </div>
+
+        <h1>Members</h1>
+
+        <div class="memberGrid" ng-grid="gridOptions"></div>
+
+
+    </div>
+</div>

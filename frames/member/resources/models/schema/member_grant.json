@@ -1,0 +1,15 @@
+{
+	"oauth_id": "String",
+	"oauth_provider": "String",
+
+	"granter_id": "String",
+	"granter_provider": "String",
+
+	"action_name": "String",
+	"role_name": "String",
+	"block_name": "Boolean",
+
+	"created": {"type": "Date" },
+	
+	"deleted": "Boolean"
+}

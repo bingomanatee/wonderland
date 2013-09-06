@@ -1,0 +1,6 @@
+{
+	"routes": {
+		"get": "/admin/members/actions"
+	},
+	"layout_name": "admin"
+}

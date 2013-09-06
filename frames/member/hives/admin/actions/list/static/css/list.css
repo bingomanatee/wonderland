@@ -1,0 +1,32 @@
+.memberGrid {
+    min-height: 40em;
+}
+
+
+section.homepage-articles {
+    clear: both;
+    overflow: auto;
+    padding-top: 4em;
+}
+
+section.homepage-articles article:hover {
+    border-color: red;
+}
+
+section.homepage-articles article {
+    float: left;
+    background-color: white;
+    width: 200px;
+    min-height: 100px;
+    padding: 0.75em;
+    margin: 0.5em;
+    margin-top: -1em;
+    margin-right: -0.5em;
+    border: 1px solid rgb(200,200,200);
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+
+    transform:rotate(2deg);
+    -ms-transform:rotate(2deg); /* IE 9 */
+    -webkit-transform:rotate(2deg); /* Safari and Chrome */
+}

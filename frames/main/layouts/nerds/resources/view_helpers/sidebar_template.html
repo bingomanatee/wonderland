@@ -1,0 +1,11 @@
+<ul class="nav nav-list">
+    <% items.forEach(function(item){ %>
+    <li class="nav-header"><%= item.title %></li>
+    <% item.items.forEach(function(subitem){ %>
+
+    <li <% if( subitem.active) { %>class="active"<% } %> >
+    <a href="<%= subitem.link %>"><%= subitem.title %></a>
+    </li>
+    <% }) %>
+    <% }) %>
+</ul>

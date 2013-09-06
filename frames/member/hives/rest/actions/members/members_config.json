@@ -1,0 +1,8 @@
+{
+
+	"routes": {
+	          "get": "/admin/members/rest/members",
+	          "put": "/admin/members/rest/members/:_id"
+	}
+
+}

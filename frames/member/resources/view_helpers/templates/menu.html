@@ -1,0 +1,26 @@
+<div class="well sidebar-nav">
+    <%
+    var member = false;
+    auths.forEach(function(auth){
+    if (auth.member){
+    member = auth.member;
+    } });
+    %>
+    <ul class="nav nav-list">
+        <li class="nav-header">Member</li>
+        <% auths.forEach(function(auth){
+        if (auth.member){
+        %>
+        <li><img src="/img/members/social_media_icons/16px/<%- auth.type %>.png" title="<%= auth.label %>"/>
+            <%= auth.member.displayName %>
+        </li>
+        <li><a href="/sign_out/<%= auth.type %>">Sign Out</a></li>
+        <% if (member.provider == 'twitter'){ %>
+        <li><a href="/my_tweets">My Tweets (private)</a></li>
+        <% } %>
+        <% } else if (!member) { %>
+        <li><a href="/sign_in/<%= auth.type %>"><img src="/img/members/social_media_icons/16px/<%- auth.type %>.png"/>
+            Sign In via <%= auth.type %></a></li>
+        <% } }) %>
+    </ul>
+</div>

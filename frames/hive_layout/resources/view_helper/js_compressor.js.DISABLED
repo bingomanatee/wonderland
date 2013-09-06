@@ -1,0 +1,37 @@
+var _ = require('underscore');
+var util = require('util');
+var path = require('path');
+var _DEBUG = false;
+
+var mvc_path = path.resolve(__dirname, './../../../../../../index');
+var mvc = require(mvc_path);
+
+function _get_js(err, item) {
+	if (item) {
+		var item_js = item.get_config('javascript', []);
+	}
+
+	cb(null, ctx, output);
+}
+
+module.exports = function (cb) {
+
+	var helper = {
+		name: 'layout',
+
+		test: function (ctx, output) {
+			return output.layout_name;
+		},
+
+		weight: 95,
+
+		respond: function (ctx, output, cb) {
+			var lm = mvc.Model.list.get('$layouts');
+			mvc._on('layout', _get_js, lm);
+			cb();
+		}
+
+	};
+
+	cb(null, helper);
+};

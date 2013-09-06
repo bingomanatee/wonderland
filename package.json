@@ -1,0 +1,29 @@
+{
+  "name": "wonderland",
+  "version": "0.0.1",
+  "description": "A Node.js mud",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bingomanatee/wonderland.git"
+  },
+  "keywords": [
+    "MUD"
+  ],
+  "author": "David Edelhart",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/bingomanatee/wonderland/issues"
+  },
+  "dependencies": {
+    "mongoose": "~3.6.19",
+    "hive-mvc": "~0.1.0",
+    "passport": "~0.1.17"
+  },
+  "devDependencies": {
+    "tap": "~0.4.4"
+  }
+}

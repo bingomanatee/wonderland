@@ -1,0 +1,7 @@
+{
+
+	"routes": {
+	          "get": "/admin/members/rest/roles"
+	}
+
+}

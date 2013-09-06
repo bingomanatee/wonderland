@@ -1,0 +1,9 @@
+{
+	"name":       "main",
+	"base_route": "/main",
+	"static":     {
+		"js":  "/js",
+		"css": "/css"
+
+	}
+}

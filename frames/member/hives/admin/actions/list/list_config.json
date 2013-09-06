@@ -1,0 +1,45 @@
+{
+	"routes": {
+		"get": "/admin/members/list"
+	},
+	"layout_name": "admin",
+
+	"static": {
+	    "js": "/js/admin/members/list",
+	    "css": "/css/admin/members/list"
+	},
+
+	"javascript": [
+		{
+			"url":     "/js/admin/vendor/underscore-min.js",
+			"context": "head"
+		},
+		{
+			"url":     "/js/admin/vendor/jquery-1.10.1.min.js",
+			"context": "head"
+		},
+		{
+			"url":     "/js/admin/vendor/angular/angular.min.js",
+			"context": "head"
+		},
+		{
+			"url":     "/js/admin/vendor/angular/angular-resource.min.js",
+			"context": "head"
+		},
+		{
+			"url":     "/js/admin/vendor/angular/ng-grid.debug.js",
+			"context": "head",
+			"requires": ["angular"]
+		},
+		{
+			"url": "/js/blog/vendor/angular/ui-bootstrap-tpls-0.5.0.min.js",
+			"context": "head",
+			"requires": ["angular", "bootstrap"]
+		},
+		{
+			"url":      "/js/admin/members/list/controller.js",
+			"context":  "head",
+			"requires": ["angular"]
+		}
+	]
+}

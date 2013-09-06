@@ -1,0 +1,12 @@
+{
+    "displayName": "String",
+    "oauthProfiles": ["Mixed"],
+    "roles": ["String"],
+    "actions": ["String"],
+    "settings": [
+        {
+            "option": "string",
+            "value": "mixed"
+        }
+    ]
+}

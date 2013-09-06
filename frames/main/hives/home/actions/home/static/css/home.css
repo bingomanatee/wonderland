@@ -1,0 +1,11 @@
+article h2 a {
+    text-decoration: none;
+}
+
+article h2 a.folder {
+    color: rgb(0,0,0);
+}
+
+article .folder-colon {
+    color: rgb(153, 102,102);
+}

@@ -1,0 +1,17 @@
+{
+	"name":        "home",
+	"layout_name": "nerds",
+	"routes":      {
+		"get": [
+			"/"
+		]
+	},
+
+	"static": {
+		"css": "/css",
+	          "js": "/js/home"
+	},
+
+	"javascript": [
+	]
+}
