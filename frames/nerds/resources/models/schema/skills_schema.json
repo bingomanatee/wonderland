@@ -1,0 +1,8 @@
+{
+    "name": "string",
+    "aliases": ["string"],
+    "base": "string",
+    "school": ["string"],
+    "description": "string",
+    "requires": ["string"]
+}

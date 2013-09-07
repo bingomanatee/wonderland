@@ -1,0 +1,35 @@
+{
+	"routes": {
+		"get": "/admin/state"
+	},
+	"static": {
+		"js": "/js/admin/state"
+	},
+
+	"javascript":  [
+		{
+			"url":     "/js/admin/vendor/angular/angular.js",
+			"defer":   true,
+			"context": "head"
+		},
+		{
+			"url":     "/js/admin/vendor/angular/angular-resource.min.js",
+			"defer":   true,
+			"context": "head",
+			"require": ["angular"]
+		},
+		{
+			"url":     "/js/admin/vendor/angular/ng-grid-2.0.7.min.js",
+			"defer":   true,
+			"context": "head",
+			"require": ["angular"]
+		},
+		{
+			"url":     "/js/admin/state/controller.js",
+			"defer":   true,
+			"context": "head",
+			"require": "angular"
+		}
+	],
+	"layout_name": "admin"
+}

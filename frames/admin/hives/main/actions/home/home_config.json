@@ -1,0 +1,6 @@
+{
+	"routes":      {
+		"get": "/admin"
+	},
+	"layout_name": "admin"
+}

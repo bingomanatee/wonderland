@@ -1,0 +1,7 @@
+{
+    "routes": {
+        "get": ["/nerds/rest/games/:game_id","/nerds/rest/games"],
+        "post": "/nerds/rest/games",
+        "put": "/nerds/rest/games/:game_id"
+    }
+}

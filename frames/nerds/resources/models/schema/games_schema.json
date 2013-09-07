@@ -1,0 +1,9 @@
+{
+    "name": "string",
+    "director": "ObjectId",
+    "setting": "string",
+    "genre": {"type": "string", "enum": ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror", "sci fi"]},
+    "game_year_start": "number",
+    "notes": "string",
+    "active": {"type": "boolean", "default": true}
+}

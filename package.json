@@ -21,7 +21,13 @@
   "dependencies": {
     "mongoose": "~3.6.19",
     "hive-mvc": "~0.1.0",
-    "passport": "~0.1.17"
+    "passport": "~0.1.17",
+    "express": "~3.3.8",
+    "ejs": "~0.8.4",
+    "gate": "~0.3.0",
+    "underscore": "~1.5.1",
+    "async": "~0.2.9",
+    "hive-menu": "0.0.1"
   },
   "devDependencies": {
     "tap": "~0.4.4"

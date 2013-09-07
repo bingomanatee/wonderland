@@ -1,0 +1,22 @@
+{
+	"name":        "admin",
+	"route_root":  "/admin",
+	"layout_name": "admin",
+	"static":      {
+		"js": "/js/admin"
+	},
+
+	"member_actions": [
+		"administer site"
+	],
+
+	"member_roles": [
+		{
+			"name": "site admin",
+			"actions": [
+				"administer site"
+			]
+		}
+	]
+
+}

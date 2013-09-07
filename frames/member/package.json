@@ -1,20 +1,22 @@
 {
-	"name":            "member",
-	"description":     "a frame for managing membership/oauth",
-	"version":         "0.0.1",
-	"private":         true,
-	"dependencies":    {
-		"hive-model-mongoose": "0.0.1",
-		"passport-facebook":   "~0.1.5",
-		"passport-twitter":    "~0.1.5"
-	},
-	"devDependencies": {
-		"tap": "~0.4.3"
-	},
-	"keywords":        [
-		"hive-mvc",
-		"frame",
-		"membership",
-		"oauth"
-	]
+  "name": "member",
+  "description": "a frame for managing membership/oauth",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "hive-model-mongoose": "0.0.1",
+    "passport-facebook": "~0.1.5",
+    "passport-twitter": "~0.1.5",
+    "moment": "~2.1.0",
+    "hive-menu": "0.0.1"
+  },
+  "devDependencies": {
+    "tap": "~0.4.3"
+  },
+  "keywords": [
+    "hive-mvc",
+    "frame",
+    "membership",
+    "oauth"
+  ]
 }

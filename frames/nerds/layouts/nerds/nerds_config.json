@@ -1,0 +1,12 @@
+{
+	"name":   "nerds",
+	"static": {
+		"/img": "/img/nerds",
+		"/css": "/css/nerds",
+		"/js":  "/js/nerds"
+	},
+	"javascript": [
+		{"url": "/js/nerds/vendor/jquery-1.10.2.min.js", "context": "foot" },
+		{"url": "/js/nerds/vendor/bootstrap.js", "context": "foot" }
+	]
+}

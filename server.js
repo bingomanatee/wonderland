@@ -11,7 +11,7 @@ var express = require('express')
     , mongoose = require('mongoose');
 
 var app = express();
-var PORT = 8080;
+var PORT = 80;
 
 app.configure(function () {
     app.set('port', PORT);
@@ -45,7 +45,7 @@ var log_file = path.resolve(__dirname, '../actions.log');
 server.listen(app.get('port'), function () {
     mongoose.connect('mongodb://localhost/wonderland');
     var apiary = mvc.Apiary({mongoose: mongoose, log_file: log_file, action_handler_failsafe_time: 3000}, __dirname + '/frames');
-    apiary._config.setAll(require('./site_identity.json'));
+ //   apiary._config.setAll(require('./site_identity.json'));
     apiary._config.setAll(require('./passport_config.json'));
     apiary.set_config('god_mode', false);
     console.log('initializing apiary for port %s', PORT);

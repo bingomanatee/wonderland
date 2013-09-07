@@ -1,0 +1,55 @@
+{
+    "routes": {
+        "get": "/nerds/games"
+    },
+
+    "static": {
+        "js": "/js/nerds/games"
+    },
+
+    "javascript": [
+        {
+            "url": "/js/nerds/vendor/angular/angular.min.js",
+            "context": "foot",
+            "name": "angular"
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/ng-grid.min.js",
+            "context": "foot",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/ui-bootstrap-0.3.0.min.js",
+            "context": "foot",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/angular-resource.min.js",
+            "name": "angular-resource",
+            "context": "foot",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/jquery-1.10.2.min.js",
+            "context": "head"
+        },
+
+        {
+            "url": "/js/nerds/app.js",
+            "context": "foot",
+            "name": "nerds_app",
+            "defer" : "defer",
+            "requires": ["angular", "angular-resource"]
+        },
+        {
+            "url": "/js/nerds/games/games_controller.js",
+            "context": "foot",
+            "defer" : "defer",
+            "requires": ["nerds_app"]
+        }
+    ]
+}

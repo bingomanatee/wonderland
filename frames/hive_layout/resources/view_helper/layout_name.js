@@ -9,13 +9,13 @@ module.exports = function (apiary, cb) {
 		name: 'layout_name',
 
 		test: function (ctx, output) {
-			return ctx.$action.get_config('layout_name');
+			return ctx.$action.has_config('layout_name') || ctx.$action.get_config('hive').has_config('layout_name');
 		},
 
 		weight:-100,
 
 		respond: function (ctx, output, cb) {
-			output.layout_name = ctx.$action.get_config('layout_name');
+			output.layout_name = ctx.$action.get_config('layout_name') || ctx.$action.get_config('hive').get_config('layout_name');
 		    cb(null, ctx, output);
 		}
 	};

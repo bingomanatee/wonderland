@@ -1,0 +1,24 @@
+{
+    "layout_name": "admin",
+    "routes": {
+        "get": "/admin/nerds/games/add",
+        "put": "/admin/nerds/games/add"
+    },
+    "javascript": [
+        {
+            "url": "/js/nerds/vendor/underscore-min.js",
+            "defer": true,
+            "context": "foot",
+            "requires": ["jquery"]
+        },
+        {
+            "url": "/js/admin/nerds/add_game_form.js",
+            "defer": true,
+            "context": "foot",
+            "requires": ["jquery", "underscore"]
+        }
+    ],
+    "static": {
+        "js": "/js/admin/nerds"
+    }
+}

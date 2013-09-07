@@ -1,0 +1,10 @@
+
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
+<div id="games" ng-app="NERDS_app" ng-controller="GamesController">
+    <h1>NERDS Games</h1>
+
+    <p>The following campaigns are active in the NERDS multiverse:</p>
+
+    <div ng-grid="gameGridOptions" style="width: 100%; height:  30em" ng-show="games.length"></div>
+    <p><a class="btn" href="/admin/nerds/games/add">Click here</a> to add a game</p>
+</div>
