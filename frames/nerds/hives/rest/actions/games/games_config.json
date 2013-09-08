@@ -1,7 +1,8 @@
 {
     "routes": {
-        "get": ["/nerds/rest/games/:game_id","/nerds/rest/games"],
+        "get": ["/nerds/rest/games/:_id","/nerds/rest/games"],
         "post": "/nerds/rest/games",
-        "put": "/nerds/rest/games/:game_id"
-    }
+        "put": "/nerds/rest/games/:_id"
+    },
+    "handler_failsafe_time": 6000
 }

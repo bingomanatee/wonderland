@@ -13,18 +13,59 @@ module.exports = {
 
         Q.when(this.model('nerds_games'), function (games_model) {
 
-            games_model.all(function (err, games) {
-                context.games = games.map(function (game) {
-                    return game.toJSON();
+            if (context._id) {
+                games_model.get(context._id, function (err, game) {
+                    context.game = game.toJSON();
+                    done();
                 });
-                done();
-            })
+            } else {
+                games_model.all(function (err, games) {
+                    context.games = games.map(function (game) {
+                        return game.toJSON();
+                    });
+                    done();
+                })
+            }
         });
 
     },
 
     on_get_output: function (context, done) {
-        context.$out = context.games;
+        context.$out = context._id ? context.game : context.games;
         context.$send(done);
+    },
+
+    /* --------------- VALIDATE ------------------- */
+
+    on_put_validate: function (context, done) {
+
+        if (!context._id) {
+            return done('No ID found');
+        }
+
+        this.model('member').ican(context, ['edit nerds games'], done, {
+            go: '/',
+            message: 'You do not have authorization to administer nerds games',
+            key: 'error'
+        })
+    },
+
+    on_put_input: function (context, done) {
+        Q.when(this.model('nerds_games'), function (games_model) {
+
+            var game = _.pick(context, '_id', 'name', 'genre', 'description');
+            console.log('updating game %s', util.inspect(game));
+
+            games_model.revise( game, function (err, game) {
+                context.game = game.toJSON();
+                console.log('updated %s', util.inspect(context.game));
+                done();
+            });
+
+        });
+    },
+
+    on_put_output: function (context, done) {
+        context.$send(context.game, done);
     }
-}
+};

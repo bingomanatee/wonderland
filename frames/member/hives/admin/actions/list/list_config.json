@@ -28,7 +28,7 @@
             "requires": ["angular"]
         },
         {
-            "url":     "/js/vendor/angular/ui-bootstrap-0.3.0.min.js",
+            "url": "/js/nerds/vendor/angular/ui-bootstrap-tpls-0.6.0.min.js",
             "context": "head",
             "requires": ["angular"]
         },

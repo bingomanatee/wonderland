@@ -1,0 +1,19 @@
+<%
+var member = false;
+auths.forEach(function(auth){
+if (auth.member){
+    member = auth.member;
+} });
+%>
+<li><a>Member</a></li>
+<% auths.forEach(function(auth){
+if (auth.member){
+%>
+<li><a><img src="/img/members/social_media_icons/16px/<%- auth.type %>.png" title="<%= auth.label %>"/>
+    <%= auth.member.displayName %></a>
+</li>
+<li><a href="/sign_out/<%= auth.type %>">Sign Out</a></li>
+<% } else if (!member) { %>
+<li><a href="/sign_in/<%= auth.type %>"><img src="/img/members/social_media_icons/16px/<%- auth.type %>.png"/>
+    Sign In via <%= auth.type %></a></li>
+<% } }) %>

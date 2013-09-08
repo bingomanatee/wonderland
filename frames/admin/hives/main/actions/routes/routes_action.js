@@ -28,7 +28,7 @@ module.exports = {
 		context.$out.set('routes', _.reduce(this.get_config('apiary').Action.list.all().records(),
 			function (out, action) {
 				var routes = action.get_config('routes');
-				console.log('action: %s', util.inspect(action, false, 0));
+			//	console.log('action: %s', util.inspect(action, false, 0));
 				return out.concat(_.reduce(routes, function (out, paths, method) {
 					if (!_.isArray(paths)){
 						paths = [paths];

@@ -1,0 +1,12 @@
+{
+	"name":   "nerds_game",
+	"static": {
+		"img": "/img/nerds_game",
+		"css": "/css/nerds_game",
+		"js":  "/js/nerds_game"
+	},
+	"javascript": [
+		{"url": "/js/nerds_game/vendor/jquery-1.10.2.min.js", "context": "foot" },
+		{"url": "/js/nerds_game/vendor/bootstrap.js", "context": "foot" }
+	]
+}

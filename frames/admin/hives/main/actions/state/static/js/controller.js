@@ -15,13 +15,18 @@
 				query:  {method: 'GET', isArray: true}
 			});
 		}).factory('Models',
-		function ($resource) {
-			return $resource('/admin/state/models', {}, {
-				query:  {method: 'GET', isArray: true}
-			});
-		});
+        function ($resource) {
+            return $resource('/admin/state/models', {}, {
+                query:  {method: 'GET', isArray: true}
+            });
+        }).factory('StaticContent',
+        function ($resource) {
+            return $resource('/admin/state/staticcontent/:prefix', {}, {
+                query:  {method: 'GET', isArray: true}
+            });
+        });
 
-	function StateController($scope, $filter, $compile, Routes, StaticPaths, Models) {
+	function StateController($scope, $filter, $compile, Routes, StaticPaths, StaticContent, Models) {
 
 		$scope.routes = Routes.query();
 		$scope.staticpaths = StaticPaths.query();
@@ -34,16 +39,25 @@
 			columnDefs:     [
 				{field: 'action', displayName: 'Action', width: "**"},
 				{field: 'method', displayName: 'Method', width: "*"},
-				{field: 'path', displayName: 'Route', width: "***", groupable: false},
+				{field: 'path', displayName: 'Route', width: "***", groupable: false}
 				// more fields here
 			]
 
 		};
+
+        $scope.static_path = [];
+
+        $scope.$watch('static_path[0]', function(path){
+            $scope.static_files = StaticContent.query(path);
+        })
+
 		$scope.staticGridOptions = {
 			data:           'staticpaths',
+            selectedItems: $scope.static_path,
+            multiSelect: false,
 			showFilter:     true,
 			columnDefs:     [
-				{field: 'alias', displayName: 'Action', width: "**"},
+				{field: 'alias', displayName: 'alias', width: "**"},
 				{field: 'prefix', displayName: 'Method', width: "***"}
 			]
 
@@ -59,7 +73,7 @@
 
 	}
 
-	StateController.$inject = ['$scope', '$filter', '$compile', 'Routes', 'StaticPaths', 'Models'];
+	StateController.$inject = ['$scope', '$filter', '$compile', 'Routes', 'StaticPaths', 'StaticContent', 'Models'];
 
 	homeApp.controller('StateController', StateController);
 })();

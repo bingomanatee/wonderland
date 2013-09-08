@@ -1,0 +1,18 @@
+<div class="breadcrumb">
+    <a href="/nerds">NERDS</a>
+    <span class="divider">&raquo;</span>
+    <a href="/nerds/games">Games</a>
+</div>
+<script language="javascript">
+    window.nerds_key = '<%= twitter_nonce ? twitter_nonce.key : '' %>';
+    window.twitter_id = <%= twitter_nonce ? twitter_nonce.twitter_user._id : 0 %>;
+    window.twitter_display_name = '<%= twitter_nonce ? twitter_nonce.twitter_user.displayName : '' %>';
+    window.nerds_game_id = '<%= game_id %>';
+</script>
+
+<div ng-controller="GameController">
+    <h1>Game &quot {{  game.name }}&quot -- {{ game.genre }}</h1>
+    <p>Twitter User: {{ twitter_display_name }}</p>
+    <p><b>twitter key</b>: {{ nerds_key }}</p>
+    <p><b>twitter id</b>: {{ twitter_id  }}</p>
+</div>

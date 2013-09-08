@@ -43,7 +43,8 @@ module.exports = function (apiary, cb) {
 					name: 'admin',
 					title: 'Administration',
 					items: [
-						{name: 'home', title: 'Home', link: '/', weight: -1000000}
+						{name: 'home', title: 'Home', link: '/', weight: -1000000},
+                        {name: 'state', title: 'State', link: 'admin/state', weight: 0}
 					]
 				})
 

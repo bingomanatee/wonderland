@@ -26,7 +26,11 @@ module.exports = {
 	on_input: function (context, callback) {
 		//console.log('action: %s', util.inspect(this._config, false, 1));
 		this.model('$static_prefixes').all(function(err, prefixes){
-			context.$send(prefixes, callback);
+			context.$send(prefixes.map(function(item){
+                var out = _.clone(item);
+                out.prefix = out.prefix.replace(/^.*\/frames/, 'frames');
+                return out;
+            }), callback);
 		})
 	}
 

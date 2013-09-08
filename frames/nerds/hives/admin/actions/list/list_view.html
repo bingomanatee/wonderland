@@ -1,0 +1,56 @@
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
+<div id="games" ng-app="NERDS_app" ng-controller="GamesAdminController">
+    <h1>NERDS Games</h1>
+
+    <p>The following campaigns are active in the NERDS multiverse:</p>
+
+    <div ng-grid="gameGridOptions" style="width: 100%; height:  30em" ng-show="games.length"></div>
+
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3>Edit NERDS Game</h3>
+        </div>
+
+        <div class="modal-body">
+            <div class="form-horizontal">
+                <div class="control-group">
+                    <label class="control-label" for="inputName">Name</label>
+
+                    <div class="controls">
+                        <input type="text" id="inputName" class="input-xlarge" name="name" ng-model="game.name"
+                               placeholder="Name">
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Genre</label>
+
+                    <div class="controls">
+                        <select name="genre" ng-model="game.genre" class="input-xlarge">
+                            <option ng-repeat="genre in genres" ng-value="genre">{{ genre }}</option>
+                        </select>
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="descriptionInput">Description</label>
+
+                    <div class="controls">
+                        <textarea id="descriptionInput" class="input-xlarge" name="description" rows="8"
+                                  placeholder="description"
+                                  ng-model="game.description">
+                        </textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" ng-click="ok()">Update</button>
+        </div>
+    </script>
+
+</div>

@@ -1,0 +1,38 @@
+<div class="modal-header">
+    <h3>NERDS Game</h3>
+</div>
+<div class="modal-body">
+
+        <div class="control-group">
+            <label class="control-label" for="inputName">Name</label>
+
+            <div class="controls">
+                <input type="text" id="inputName" name="name" class="input-large" ng-model="game.name" placeholder="Name">
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label">Genre</label>
+
+            <div class="controls">
+
+                <label
+                       ng-repeat="genre in genres"
+                        ><input type="radio" name="genre" ng-model="game.genre" value="{{ genre }}"/>{{ genre }}</label>
+                <% }) %>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="descriptionInput">Description</label>
+
+            <div class="controls">
+                <textarea id="descriptionInput" name="description" class="input-large" rows="8" placeholder="description"
+                          ng-model="game.description">
+                </textarea>
+            </div>
+        </div>
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">OK</button>
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+</div>

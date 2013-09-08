@@ -1,5 +1,27 @@
 {
+
+    "layout_name": "nerds",
+
     "static": {
         "js": "/js/nerds"
-    }
+    },
+
+    "member_actions": [
+        "create nerds game",
+        "edit nerds game",
+        "delete nerds game",
+        "view nerds rules"
+    ],
+
+    "member_roles": [
+        {
+            "name":    "nerdmaster",
+            "actions": [
+                "create nerds game",
+                "view nerds rules"
+            ]
+
+        }
+
+    ]
 }

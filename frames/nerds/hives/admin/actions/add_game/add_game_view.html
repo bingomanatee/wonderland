@@ -9,13 +9,22 @@
         </div>
     </div>
     <div class="control-group">
-        <label class="control-label">genre</label>
+        <label class="control-label">Genre</label>
 
         <div class="controls">
             <% ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror",
             "sci fi"].forEach(function(genre){ %>
             <label class="radio"><input type="radio" name="genre" value="<%= genre %>"/><%= genre %></label>
             <% }) %>
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label" for="descriptionInput">Description</label>
+
+        <div class="controls">
+            <textarea id="descriptionInput" name="description" rows="8" placeholder="description">
+
+            </textarea>
         </div>
     </div>
     <div class="control-group">
