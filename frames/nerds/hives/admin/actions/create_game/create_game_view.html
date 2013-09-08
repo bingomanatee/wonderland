@@ -1,0 +1,34 @@
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
+
+<script language="javascript">
+    window.game_id = '<%= game_id %>';
+</script>
+<div id="game_creation" ng-app="NERDS_app" ng-controller="GameCreationCtrl">
+    <h1>Game World Editor: {{ game.name }}</h1>
+
+    <div>
+        <canvas id="create_canvas" width="800" height="640">
+
+        </canvas>
+    </div>
+
+    <p>What you are looking at is a blank slate of "regions" or "places" that can be explored in your game world.
+        No assumption of scale/size is made here, or of equalilty of relative size or connectivity. This is a "blank
+        slate"
+        around which you can create your game flow. </p>
+
+
+    <script type="text/ng-template" id="modalTileEditor.html">
+        <div class="modal-header">
+            <h3>Create/edit tile</h3>
+        </div>
+
+        <div class="modal-body">
+         <p>Tile</p>
+
+        </div>
+
+        <div class="modal-footer">
+            </div>
+    </script>
+</div>

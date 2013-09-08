@@ -5,12 +5,14 @@
 
         $scope.games = Games.query();
 
-        $scope.go = function(row){
-            console.log('row clicked: ', row);
-            document.location = '/admin/nerds/game/' + row.entity._id;
+        $scope.go = function (game) {
+            document.location = '/admin/nerds/game/' + game._id;
+        };
+        $scope.create = function (game) {
+            document.location = '/admin/nerds/create_game/' + game._id;
         };
 
-        $scope.genres =  ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror",
+        $scope.genres = ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror",
             "sci fi"];
 
         $scope.gameGridOptions = {
@@ -20,13 +22,15 @@
             selectedItems: $scope.active_tweet,
             multiSelect: false,
             columnDefs: [
-                {name: 'go', title: '&nbsp;', cellTemplate:
-                    '<button id="editBtn" type="button" class="btn btn-primary" ng-click="open(row)" >Edit</button> ',
+                {name: 'go', title: '&nbsp;', cellTemplate: '<button id="editBtn" type="button" class="btn btn-primary" ng-click="open(row.entity)" >Edit</button> ',
                     width: '*'
                 },
                 {field: 'name', displayName: 'Name', width: '***'},
                 {field: 'genre', displayName: 'Genre', width: '*'},
-                {field: 'description', displayName: 'Descripiton', width: '****'}
+                {field: 'description', displayName: 'Descripiton', width: '****'},
+                {name: 'create', title: '&nbsp;', cellTemplate: '<button id="editBtn" type="button" class="btn" ng-click="create(row.entity)" >Create</button> ',
+                    width: '*'
+                }
             ]
 
         };
@@ -37,8 +41,8 @@
             $scope.game = row.entity;
 
             var modalInstance = $modal.open({
-                templateUrl: 'myModalContent.html'    ,
-          controller: ModalGameEditCtrl  ,
+                templateUrl: 'myModalContent.html',
+                controller: ModalGameEditCtrl,
                 resolve: {
                     game: function () {
                         return $scope.game;
@@ -47,7 +51,7 @@
             });
 
             modalInstance.result.then(function (game) {
-                if (game){
+                if (game) {
                     $scope.game = game;
                     console.log('putting ', game);
                     Games.update(game);
@@ -63,13 +67,15 @@
 
     angular.module('NERDS_app').controller('GamesAdminController', GamesAdminController);
 
-    function ModalGameEditCtrl($scope, $modalInstance, game){
+    function ModalGameEditCtrl($scope, $modalInstance, game) {
 
-        $scope.genres =  ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror",
+        $scope.genres = ["historical", "fantasy", "modern", "near future/cyberpunk", "superhero", "action/cinematic", "horror",
             "sci fi"];
 
-        $scope.ok = function(){$modalInstance.close($scope.game); };
-        $scope.cancel = _.bind( $modalInstance.dismiss, $modalInstance);
+        $scope.ok = function () {
+            $modalInstance.close($scope.game);
+        };
+        $scope.cancel = _.bind($modalInstance.dismiss, $modalInstance);
 
         $scope.game = game;
     }
