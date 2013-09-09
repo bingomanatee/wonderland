@@ -14,19 +14,45 @@
         return pip;
     }
 
+    // ----------------------- modal for editing tile ---------------------------
+
+    function ModalTileEditor($scope, $modalInstance, game, pip) {
+        $scope.game = game;
+
+        $scope.pip = pip;
+
+        $scope.sizes = [
+            {value: '0', label: 'Indefinite'},
+            {value: '50', label: 'Spot (up to 50m)'},
+            {value: '500', label: 'Tiny (500m)'},
+            {value: '1000', label: 'Small (1km)'},
+            {value: '5000', label: 'Fair (5km)'},
+            {value: '20000', label: 'Medium (20km)'},
+            {value: '50000', label: 'Large (50km)'},
+            {value: '100000', label: 'Great (100km)'},
+            {value: '500000', label: 'Huge (500km)'},
+            {value: '1000000', label: 'Vast (1000km)'}
+        ];
+
+        $scope.types = [
+            'city', 'town', 'village', 'forest', 'hills', 'mountains', 'desert', 'ocean', 'lake', 'river', 'swamp', 'building', 'room', 'hall', 'cave'
+        ];
+
+        $scope.save = function(){
+            $modalInstance.close($scope.pip);
+        };
+
+        $scope.cancel = function(){
+            $modalInstance.dismiss();
+        }
+    }
+
+    angular.module('NERDS_app').controller('ModalTileEditor', ModalTileEditor);
+
     // ----------------------- root controller ---------------------------
 
     function GameCreationCtrl($scope, $filter, $compile, $modal, Games, $window) {
 
-        // ----------------------- modal for editing tile ---------------------------
-
-        function ModalTileEditor($scope, $modalInstance) {
-            $scope.types = [
-                'city', 'town', 'village', 'forest', 'hills', 'mountains', 'desert', 'ocean', 'lake', 'river', 'swamp', 'building', 'room', 'hall', 'cave'
-            ];
-        }
-
-        angular.module('NERDS_app').controller('ModalTileEditor', ModalTileEditor);
 
         $scope.games = Games.query();
         $scope.game = Games.get({_id: $window.game_id});
@@ -65,15 +91,22 @@
 
             var modalInstance = $modal.open({
                 templateUrl: 'modalTileEditor.html',
-                controller: ModalTileEditor
+                controller: ModalTileEditor,
+                resolve: {
+                    game: function () {
+                        return $scope.game;
+                    },
+                    pip: function(){
+                        return $scope.pip;
+                    }
+                }
             });
+            $scope.$apply();
 
-            modalInstance.result.then(function () {
-            }, function () {
-                $log.info('Modal dismissed at: ' + new Date());
+            modalInstance.result.then(function (pip) {
+                console.log('done with pip ', pip);
             });
         };
-
 
     }
 

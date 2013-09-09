@@ -20,15 +20,67 @@
 
     <script type="text/ng-template" id="modalTileEditor.html">
         <div class="modal-header">
-            <h3>Create/edit tile</h3>
+            <h3>Create/edit place for game &quot;{{ game.name }}&quot;</h3>
         </div>
 
         <div class="modal-body">
-         <p>Tile</p>
+            <div class="form-horizontal" ng-form="pipForm">
+                <div class="control-group">
+                    <label class="control-label" for="inputName">Name</label>
 
+                    <div class="controls">
+                        <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="pip.name"
+                               placeholder="Name" />
+                        <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name is required</div>
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Type</label>
+
+                    <div class="controls">
+                        <select name="type" ng-model="pip.type" class="input-xlarge">
+                            <option ng-repeat="type in types" ng-value="type">{{ type }}</option>
+                        </select>
+                        <br/>
+                        <label for="otherInput">Other:</label>
+                        <input name="other_type" id="otherInput" type="text" ng-model="pip.type"
+                               ng-value="type" placeholder="other type"/>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Size</label>
+
+                    <div class="controls">
+                        <select name="type" required ng-model="pip.size" class="input-xlarge">
+                            <option ng-repeat="size in sizes" ng-value="size.value">{{ size.label }}</option>
+                        </select>
+                        <br/>
+                        <label for="otherInput">Other:</label>
+                        <input name="other_type" id="otherInput" type="text" ng-model="pip.sizeOther"
+                               ng-value="type" placeholder="other type"/> km
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="descriptionInput">Description</label>
+
+                    <div class="controls">
+                        <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
+                                  placeholder="description"
+                                  ng-model="pip.description">
+                        </textarea>
+                    </div>
+                </div>
+
+            </div>
         </div>
 
         <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" ng-click="save()"  ng-show="pipForm.$valid" >Save</button>
             </div>
     </script>
 </div>
