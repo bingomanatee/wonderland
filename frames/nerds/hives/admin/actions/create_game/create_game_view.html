@@ -5,18 +5,46 @@
 </script>
 <div id="game_creation" ng-app="NERDS_app" ng-controller="GameCreationCtrl">
     <h1>Game World Editor: {{ game.name }}</h1>
+    <ul class="nav nav-tabs">
+        <li class="active"><a href="#places_graph" data-toggle="tab">Places Graph</a></li>
+        <li><a href="#places_list" data-toggle="tab">Places List</a></li>
+        <li><a href="#type_editor" data-toggle="tab">Type Editor</a></li>
+        <li><a href="#type_list" data-toggle="tab">Type List</a></li>
+    </ul>
 
-    <div>
-        <canvas id="create_canvas" width="800" height="640">
+    <div class="tab-content">
+        <div class="tab-pane active" id="places_graph">
+            <h2>Places</h2>
 
-        </canvas>
+            <div>
+                <canvas id="create_canvas" width="800" height="640">
+
+                </canvas>
+
+                <p>What you are looking at is a blank slate of "places" that can be explored in your game world.
+                    No assumption of scale/size is made here, or of equalilty of relative size or connectivity.
+                    This is a "blank slate" around which you can create your game flow. </p>
+            </div>
+        </div>
+
+        <div class="tab-pane" id="places_list">
+            <h2>Places List</h2>
+
+            <div ng-grid="placeGridOptions" style="width: 100%; height:  30em"></div>
+        </div>
+
+        <div class="tab-pane" id="type_editor">
+
+            <h2>Type Editor</h2>
+
+            <div>
+                <canvas id="type_canvas" width="400" height="300">
+
+                </canvas>
+            </div>
+
+        </div>
     </div>
-
-    <p>What you are looking at is a blank slate of "regions" or "places" that can be explored in your game world.
-        No assumption of scale/size is made here, or of equalilty of relative size or connectivity. This is a "blank
-        slate"
-        around which you can create your game flow. </p>
-
 
     <script type="text/ng-template" id="modalTileEditor.html">
         <div class="modal-header">
@@ -30,8 +58,11 @@
 
                     <div class="controls">
                         <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="pip.name"
-                               placeholder="Name" />
-                        <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name is required</div>
+                               placeholder="Name"/>
+
+                        <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name
+                            is required
+                        </div>
 
                     </div>
                 </div>
@@ -44,8 +75,8 @@
                             <option ng-repeat="type in types" ng-value="type">{{ type }}</option>
                         </select>
                         <br/>
-                        <label for="otherInput">Other:</label>
-                        <input name="other_type" id="otherInput" type="text" ng-model="pip.type"
+                        <label for="otherTypeInput">Other:</label>
+                        <input name="other_type" id="otherTypeInput" type="text" ng-model="pip.type"
                                ng-value="type" placeholder="other type"/>
                     </div>
                 </div>
@@ -58,8 +89,8 @@
                             <option ng-repeat="size in sizes" ng-value="size.value">{{ size.label }}</option>
                         </select>
                         <br/>
-                        <label for="otherInput">Other:</label>
-                        <input name="other_type" id="otherInput" type="text" ng-model="pip.sizeOther"
+                        <label for="otherSizeInput">Other:</label>
+                        <input name="other_type" id="otherSizeInput" type="text" ng-model="pip.sizeOther"
                                ng-value="type" placeholder="other type"/> km
                     </div>
                 </div>
@@ -80,7 +111,7 @@
 
         <div class="modal-footer">
             <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            <button class="btn btn-primary" ng-click="save()"  ng-show="pipForm.$valid" >Save</button>
-            </div>
+            <button class="btn btn-primary" ng-click="save()" ng-show="pipForm.$valid">Save</button>
+        </div>
     </script>
 </div>

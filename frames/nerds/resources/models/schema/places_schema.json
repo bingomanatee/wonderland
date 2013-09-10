@@ -1,0 +1,15 @@
+{
+    "name": "string",
+    "type": "string",
+    "center": {
+        "row": "number",
+        "col": "number"
+    },
+    "size_in_km": "number",
+    "game": "objectId",
+    "description": "string",
+    "active": {
+        "type": "boolean",
+        "default": true
+    }
+}

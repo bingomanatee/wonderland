@@ -19,7 +19,6 @@
             data: 'games',
             showFilter: true,
             showGroupPanel: true,
-            selectedItems: $scope.active_tweet,
             multiSelect: false,
             columnDefs: [
                 {name: 'go', title: '&nbsp;', cellTemplate: '<button id="editBtn" type="button" class="btn btn-primary" ng-click="open(row.entity)" >Edit</button> ',

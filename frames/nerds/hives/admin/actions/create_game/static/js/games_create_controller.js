@@ -1,117 +1,42 @@
 (function () {
 
-    function _random_color() {
-        var b = Math.floor((Math.random() + Math.random()) * 128);
-        return 'rgb(' + b + ',' + b + ',' + b + ')';
-    }
-
-    function _add_pip(stage, r, c, PIP_SIZE) {
-        var pip = new createjs.Shape();
-        pip.graphics.beginFill(_random_color()).drawRect(0, 0, PIP_SIZE, PIP_SIZE);
-        pip.x = r * PIP_SIZE;
-        pip.y = c * PIP_SIZE;
-        stage.addChild(pip);
-        return pip;
-    }
-
-    // ----------------------- modal for editing tile ---------------------------
-
-    function ModalTileEditor($scope, $modalInstance, game, pip) {
-        $scope.game = game;
-
-        $scope.pip = pip;
-
-        $scope.sizes = [
-            {value: '0', label: 'Indefinite'},
-            {value: '50', label: 'Spot (up to 50m)'},
-            {value: '500', label: 'Tiny (500m)'},
-            {value: '1000', label: 'Small (1km)'},
-            {value: '5000', label: 'Fair (5km)'},
-            {value: '20000', label: 'Medium (20km)'},
-            {value: '50000', label: 'Large (50km)'},
-            {value: '100000', label: 'Great (100km)'},
-            {value: '500000', label: 'Huge (500km)'},
-            {value: '1000000', label: 'Vast (1000km)'}
-        ];
-
-        $scope.types = [
-            'city', 'town', 'village', 'forest', 'hills', 'mountains', 'desert', 'ocean', 'lake', 'river', 'swamp', 'building', 'room', 'hall', 'cave'
-        ];
-
-        $scope.save = function(){
-            $modalInstance.close($scope.pip);
-        };
-
-        $scope.cancel = function(){
-            $modalInstance.dismiss();
-        }
-    }
-
-    angular.module('NERDS_app').controller('ModalTileEditor', ModalTileEditor);
+    var app = angular.module('NERDS_app');
 
     // ----------------------- root controller ---------------------------
 
-    function GameCreationCtrl($scope, $filter, $compile, $modal, Games, $window) {
+    function GameCreationCtrl($scope, $filter, $compile, $modal, Games, Places, placeGraph, $window) {
 
+        var GAME_ID = $window.game_id;
 
         $scope.games = Games.query();
-        $scope.game = Games.get({_id: $window.game_id});
+        $scope.game = Games.get({_id: GAME_ID});
 
-        var scope_ele = $('#game_creation');
-        var create_canvas = scope_ele.find('#create_canvas')[0];
+        $scope.places = Places.query({game: GAME_ID});
 
+        $scope.placeGridOptions = {
+            data: 'places',
+            showFilter: true,
+            showGroupPanel: true,
+            multiSelect: false,
+            columnDefs: [
+                {field: 'name', displayName: 'Name', width: '***'},
+                {field: 'type', displayName: 'Type', width: '*'},
+                {field: 'description', displayName: 'Description', width: '****'}
+            ]
+        };
 
-        var stage = new createjs.Stage(create_canvas);
-        var PIP_SIZE = Math.floor(create_canvas.width / 5);
-        var pips = [];
-        for (var r = 0; r < create_canvas.width / PIP_SIZE; ++r) {
-            for (var c = 0; c < create_canvas.height / PIP_SIZE; ++c) {
-                var pip = _add_pip(stage, r, c, PIP_SIZE);
-                pip.r = r;
-                pip.c = c;
-                (function (pip) {
-
-                    pip.addEventListener('mousedown', function (evt) {
-                        console.log('clicked on pip ', pip.r, pip.c);
-                        $scope.pip = pip;
-                        $scope.edit_tile(pip);
-                    });
-                })(pip);
-                pips.push(pip);
-            }
-        }
-        stage.update();
+        var graph = placeGraph($scope, GAME_ID, $modal);
 
         $scope.create = function (type) {
         };
 
-        $scope.edit_tile = function (pip) {
-            console.log('opening pip ', pip);
-            $scope.pip = pip;
-
-            var modalInstance = $modal.open({
-                templateUrl: 'modalTileEditor.html',
-                controller: ModalTileEditor,
-                resolve: {
-                    game: function () {
-                        return $scope.game;
-                    },
-                    pip: function(){
-                        return $scope.pip;
-                    }
-                }
-            });
-            $scope.$apply();
-
-            modalInstance.result.then(function (pip) {
-                console.log('done with pip ', pip);
-            });
-        };
-
     }
 
-    GameCreationCtrl.$inject = ['$scope', '$filter', '$compile', '$modal', 'Games', '$window'];
+    GameCreationCtrl.$inject = ['$scope', '$filter', '$compile', '$modal',
+        'Games', 'Places', 'placeGraph',
+        '$window'];
 
-    angular.module('NERDS_app').controller('GameCreationCtrl', GameCreationCtrl);
+
+    app.controller('GameCreationCtrl', GameCreationCtrl);
 
 })();

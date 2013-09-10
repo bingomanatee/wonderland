@@ -6,7 +6,16 @@
                 get: {method: 'GET'},
                 query: {method: 'GET', isArray: true},
                 update: {method: 'PUT'}
-                });
+            });
+        });
+    angular.module('placesService', ['ngResource']).factory('Places',
+        function ($resource) {
+            return $resource('/nerds/rest/places/:_id', {_id: '@_id'}, {
+                get: {method: 'GET'},
+                query: {method: 'GET', isArray: true},
+                put: {method: 'POST'},
+                update: {method: 'PUT'}
+            });
         });
 
     angular.module('skillsService', ['ngResource']).factory('Skills',
@@ -16,6 +25,8 @@
                 query: {method: 'GET', isArray: true}
             });
         });
-    var NERDS_app = angular.module('NERDS_app', ['gamesService', 'skillsService', 'ngGrid', 'ui.bootstrap', 'ui.bootstrap.modal']);
+    var NERDS_app = angular.module('NERDS_app', [
+        'gamesService', 'skillsService', 'placesService',
+        'ngGrid', 'ui.bootstrap', 'ui.bootstrap.modal']);
 
 })();

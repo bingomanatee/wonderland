@@ -1,0 +1,8 @@
+{
+    "routes": {
+        "get": ["/nerds/rest/places/:_id","/nerds/rest/places"],
+        "post": "/nerds/rest/places",
+        "put": "/nerds/rest/places/:_id"
+    },
+    "handler_failsafe_time": 6000
+}

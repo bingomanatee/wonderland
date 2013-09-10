@@ -52,13 +52,21 @@
             "url": "/js/nerds/app.js",
             "context": "foot",
             "name": "nerds_app",
-            "defer" : "defer",
+            "defer": "defer",
             "requires": ["angular", "angular-resource"]
         },
+
         {
             "url": "/js/admin/nerds/create_game/games_create_controller.js",
             "context": "foot",
-            "defer" : "defer",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
+            "url": "/js/admin/nerds/create_game/place_graph.js",
+            "context": "foot",
+            "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         }
     ]
