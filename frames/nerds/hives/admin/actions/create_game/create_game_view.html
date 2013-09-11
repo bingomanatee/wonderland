@@ -1,5 +1,6 @@
 <link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
 <link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_game/create_game.css"/>
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/angular-bootstrap-colorpicker/css/colorpicker.css"/>
 
 <script language="javascript">
     window.game_id = '<%= game_id %>';
@@ -35,7 +36,7 @@
         </div>
 
         <div class="tab-pane" id="thing_editor">
-
+            <form name="thing_editor_form">
             <h2>Thing Editor</h2>
 
             <div class="ui">
@@ -47,6 +48,8 @@
                     <button  ng-class="db_icon('circle')"  ng-click="thing_draw('circle')"></button>
                     <button  ng-class="db_icon('triangle')" ng-click="thing_draw('triangle')"></button>
                     <button  ng-class="db_icon('polygon')"  ng-click="thing_draw('polygon')"></button>
+                    <colorpicker input-name="current_color" input-class="color-text" color-format="rgb" ng-model="current_color"></colorpicker>
+
                 </div>
             </div>
             <div class="details form-horizontal">
@@ -120,7 +123,7 @@
                     </div>
                 </div>
             </div>
-
+            </form>
         </div>
 
         <div class="tab-pane" id="thing_list">

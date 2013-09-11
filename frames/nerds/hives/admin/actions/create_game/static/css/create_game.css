@@ -84,3 +84,10 @@
 #thing_editor .ui .draw_buttons  button.polygon:hover {
     background-position: -180px -60px;
 }
+
+#thing_editor .ui .color {
+    width: 9em;
+}
+#thing_editor .ui .color input {
+    width: 8.5em;
+}

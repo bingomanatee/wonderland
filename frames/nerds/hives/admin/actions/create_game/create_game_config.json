@@ -11,6 +11,11 @@
 
     "javascript": [
         {
+            "url": "/js/nerds/vendor/jquery-1.10.2.min.js",
+            "context": "head"
+        },
+
+        {
             "url": "/js/nerds/vendor/easel/easeljs-0.6.1.min.js",
             "context": "foot",
             "name": "easel"
@@ -46,8 +51,17 @@
         },
 
         {
-            "url": "/js/nerds/vendor/jquery-1.10.2.min.js",
-            "context": "head"
+            "url": "/js/nerds/vendor/angular/angular-bootstrap-colorpicker/lib/bootstrap-colorpicker.js",
+            "name": "angular-colorpicker",
+            "context": ["foot"],
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js",
+            "name": "angular-colorpicker",
+            "context": ["foot"],
+            "requires": ["angular", "colorpicker"]
         },
 
         {
@@ -73,10 +87,18 @@
         },
 
         {
+            "url": "/js/admin/nerds/create_game/Thing_Sprite.js",
+            "context": "foot",
+            "defer": "defer",
+            "name": "Thing_Sprite",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
             "url": "/js/admin/nerds/create_game/thing_editor.js",
             "context": "foot",
             "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
+            "requires": ["nerds_app", "angular", "underscore", "easel", "Thing_Sprite"]
         }
     ]
 }

@@ -18,7 +18,7 @@
                 update: {method: 'PUT'}
             });
         });
-    
+
     angular.module('thingsService', ['ngResource']).factory('Things',
         function ($resource) {
             return $resource('/nerds/rest/types/:_id', {_id: '@_id'}, {
@@ -38,6 +38,7 @@
         });
     var NERDS_app = angular.module('NERDS_app', [
         'gamesService', 'skillsService', 'placesService', 'thingsService',
+        'colorpicker.module',
         'ngGrid', 'ui.bootstrap', 'ui.bootstrap.modal']);
 
 })();
