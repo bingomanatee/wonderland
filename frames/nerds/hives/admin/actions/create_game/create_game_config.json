@@ -4,7 +4,9 @@
     },
 
     "static": {
-        "js": "/js/admin/nerds/create_game"
+        "js": "/js/admin/nerds/create_game",
+        "css": "/css/admin/nerds/create_game",
+        "img": "/img/admin/nerds/create_game"
     },
 
     "javascript": [
@@ -65,6 +67,13 @@
 
         {
             "url": "/js/admin/nerds/create_game/place_graph.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
+            "url": "/js/admin/nerds/create_game/thing_editor.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]

@@ -28,7 +28,7 @@
         ];
 
         $scope.save = function () {
-            $modalInstance.close($scope.pip);
+            $modalInstance.close(pip);
         };
 
         $scope.cancel = function () {
