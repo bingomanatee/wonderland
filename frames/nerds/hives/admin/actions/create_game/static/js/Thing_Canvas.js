@@ -8,11 +8,12 @@
     var HANDLE_SIZE = 25;
     var ROT_BOX_SIZE = 10;
 
-    function _gdx(x, evt){
+    function _gdx(x, evt) {
         var d = evt.stageX - x;
         return d - (d % GRID_SIZE);
     }
-    function _gdy(y, evt){
+
+    function _gdy(y, evt) {
         var d = evt.stageY - y;
         return d - (d % GRID_SIZE);
     }
@@ -30,7 +31,8 @@
         this.$scope = $scope;
 
         this._make_click_shape();
-        this._make_grid();
+
+        this._make_grid_shape();
 
         this._make_draw_container();
 
@@ -43,8 +45,8 @@
 
     _.extend(Thing_Canvas.prototype, {
 
-        update_color: function(c){
-            if (c && this.current_sprite){
+        update_color: function (c) {
+            if (c && this.current_sprite) {
                 this.current_sprite.set_color(c);
                 this.us();
             }
@@ -54,8 +56,14 @@
 
             var self = this;
 
-            this._box_hs = [[], []];
-            this._box_vs = [[], []];
+            this._box_hs = [
+                [],
+                []
+            ];
+            this._box_vs = [
+                [],
+                []
+            ];
 
             this._boxes = _.map(
                 [
@@ -72,15 +80,15 @@
                     shape.graphics.f('rgba(0,0,0,0.66)').r(0, 0, HANDLE_SIZE, HANDLE_SIZE).es();
                     shape.__move_around = function (target) {
                         if (dim.h) {
-                            shape.x = target.container.x + target.width;
+                            shape.x = target.edge('right');
                         } else {
-                            shape.x = target.container.x - HANDLE_SIZE;
+                            shape.x = target.edge('left') - HANDLE_SIZE;
                         }
 
                         if (dim.v) {
-                            shape.y = target.container.y + target.height;
+                            shape.y = target.edge('bottom');
                         } else {
-                            shape.y = target.container.y - HANDLE_SIZE;
+                            shape.y = target.edge('top') - HANDLE_SIZE;
                         }
                         shape.__target = target;
                     };
@@ -90,18 +98,18 @@
 
                         event.addEventListener('mousemove', function (evt) {
 
-                            _.each(self._box_hs[dim.h], function(shape){
+                            _.each(self._box_hs[dim.h], function (shape) {
                                 shape.x = evt.stageX;
                                 shape.x -= shape.x % GRID_SIZE;
                             });
-                            _.each(self._box_vs[dim.v], function(shape){
+                            _.each(self._box_vs[dim.v], function (shape) {
                                 shape.y = evt.stageY;
                                 shape.y -= shape.y % GRID_SIZE;
                             });
 
-                            if (shape.__target){
-                                var x = Math.min(self._box_hs[1][0].x , self._box_hs[0][0].x) + HANDLE_SIZE;
-                                var y = Math.min(self._box_vs[1][0].y , self._box_vs[0][0].y) + HANDLE_SIZE;
+                            if (shape.__target) {
+                                var x = Math.min(self._box_hs[1][0].x, self._box_hs[0][0].x) + HANDLE_SIZE;
+                                var y = Math.min(self._box_vs[1][0].y, self._box_vs[0][0].y) + HANDLE_SIZE;
 
                                 var width = Math.abs(self._box_hs[1][0].x - self._box_hs[0][0].x - HANDLE_SIZE);
                                 var height = Math.abs(self._box_vs[1][0].y - self._box_vs[0][0].y - HANDLE_SIZE);
@@ -140,10 +148,10 @@
             this.us();
         },
 
-        move_boxes_around_sprite: function(sprite){
-            _.each(this._box_hs, function(boxes, i){
-                _.each(boxes, function(box){
-                    switch(i){
+        move_boxes_around_sprite: function (sprite) {
+            _.each(this._box_hs, function (boxes, i) {
+                _.each(boxes, function (box) {
+                    switch (i) {
                         case 0:
                             box.x = sprite.container.x - HANDLE_SIZE;
                             break;
@@ -155,9 +163,9 @@
                 });
             })
 
-            _.each(this._box_vs, function(boxes, i){
-                _.each(boxes, function(box){
-                    switch(i){
+            _.each(this._box_vs, function (boxes, i) {
+                _.each(boxes, function (box) {
+                    switch (i) {
                         case 0:
                             box.y = sprite.container.y - HANDLE_SIZE;
                             break;
@@ -178,7 +186,7 @@
 
         add_sprite: function (type) {
             console.log('adding type ... ', type);
-            if (type === false){
+            if (type === false) {
                 console.log('... toggling off ');
                 this.show_boxes(false);
                 this.sprite_type = '';
@@ -194,22 +202,22 @@
             this.draw_container = new createjs.Container();
             this.stage.addChild(this.draw_container);
         },
+
         _make_box_container: function () {
             this.box_container = new createjs.Container();
             this.stage.addChild(this.box_container);
         },
 
-        _make_grid: function () {
-            this.grid = new createjs.Shape();
-            this.stage.addChild(this.grid);
-            this.grid.graphics.s('rgb(225,225,225)');
+        _make_grid_shape: function () {
+            this.grid_shape = new createjs.Shape();
+            this.stage.addChild(this.grid_shape);
+            var g = this.grid_shape.graphics;
+            g.s('rgb(225,225,225)');
 
             for (var a = 0; a < MAX_A; a += GRID_SIZE) {
-                this.grid.graphics.mt(0, a).lt(STAGE_HEIGHT, a);
-                this.grid.graphics.mt(a, 0).lt(a, STAGE_WIDTH)
-
+                g.mt(0, a).lt(STAGE_HEIGHT, a).mt(a, 0).lt(a, STAGE_WIDTH);
             }
-            this.grid.graphics.es();
+            g.es();
         },
 
         /**
@@ -228,7 +236,7 @@
         },
 
         on_mousedown: function (ev) {
-            if (this.sprite_type){
+            if (this.sprite_type) {
                 var sprite = this.add_sprite(this.sprite_type);
                 sprite.container.x = ev.stageX - (ev.stageX % GRID_SIZE);
                 sprite.container.y = ev.stageY - (ev.stageY % GRID_SIZE);

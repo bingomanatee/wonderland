@@ -39,6 +39,29 @@
             this.redraw_shape();
         },
 
+        edge: function (which) {
+            switch (which) {
+                case 'right':
+                    return this.container.x + this.width;
+                    break;
+
+                case 'left':
+                    return this.container.x;
+                    break;
+
+                case 'top':
+                    return this.container.y;
+                    break;
+
+                case 'bottom':
+                    return this.container.y + this.height;
+                    break;
+
+                default:
+                    throw new Error('cannot recognize edge ' + which);
+            }
+        },
+
         redraw_shape: function () {
             if (!this.shape) {
                 this.shape = new createjs.Shape();
@@ -274,7 +297,7 @@
         },
 
         update: function () {
-            this.thing_canvas.stage.update();
+            this.thing_canvas.us();
         },
 
         _on_mousedown: function (event) {
