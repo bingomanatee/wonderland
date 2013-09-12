@@ -93,12 +93,19 @@
             "name": "Thing_Sprite",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
+        {
+            "url": "/js/admin/nerds/create_game/Thing_Canvas.js",
+            "context": "foot",
+            "defer": "defer",
+            "name": "Thing_Sprite",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
 
         {
             "url": "/js/admin/nerds/create_game/thing_editor.js",
             "context": "foot",
             "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "Thing_Sprite"]
+            "requires": ["nerds_app", "angular", "underscore", "easel", "Thing_Sprite", "Thing_Canvas"]
         }
     ]
 }

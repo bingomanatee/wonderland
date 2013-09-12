@@ -1,36 +1,79 @@
 (function () {
 
-    var STAGE_WIDTH = 400;
-    var STAGE_HEIGHT = 400;
-    var GRID_SIZE = 25;
-    var MAX_A = Math.max(STAGE_WIDTH, STAGE_HEIGHT);
-    var HANDLE_SIZE = 15;
-    var ROT_BOX_SIZE = 10;
+    /**
+     * This factory handles most of the binding/variable interaction.
+     * The sprite drawing is handled by Thing_Canvas and Thing_Sprite.
+     *
+     */
 
     var app = angular.module('NERDS_app');
 
-    function _add_thing_part(sprite_type, thing, stage, color) {
+    var field;
 
-        var shape = new createjs.Shape();
-        shape.__thing_order = thing.draw_steps.length;
-        return  new Thing_Sprite(sprite_type, thing, stage, color);
+    function _update_current_color($scope) {
+        setInterval(function () {
+            if (!field) return  field = $($('#thing_editor .ui .color input')[0]);
+            if (field.val() != $scope.current_color) {
+                $scope.current_color = field.val();
+                $scope.$apply();
+            }
+        }, 1200);
     }
 
-    function _make_grid(stage) {
-        var grid = new createjs.Shape();
-        stage.addChild(grid);
-        grid.graphics.s('rgb(225,225,225)');
+    // --------------------------- type graph ---------------------------------
 
-        var draw_container = new createjs.Container();
-        stage.addChild(draw_container);
+    app.factory('typeGraph', function () {
 
-        for (var a = 0; a < MAX_A; a += GRID_SIZE) {
-            grid.graphics.mt(0, a).lt(STAGE_HEIGHT, a);
-            grid.graphics.mt(a, 0).lt(a, STAGE_WIDTH)
+        return function ($scope, GAME_ID, $modal) {
 
+            _update_current_color($scope);
+
+            $scope.current_color = 'rgb(125, 255, 0)';
+            $scope.new_thing = function () {
+                $scope.thing = {
+                    name: 'new thing',
+                    type: '',
+                    game: GAME_ID,
+                    anchor: 'C',
+                    draw_steps: []
+                };
+            };
+            $scope.new_thing();
+
+            $scope.thing_canvas = new Thing_Canvas($scope);
+
+            $scope.$watch('current_color', function(cc){
+               $scope.thing_canvas.update_color(cc);
+            });
+
+            $scope.object_types = ['person', 'place', 'scenery'];
+
+            $scope.db_icon = function (item) {
+                var classes = [item];
+                if ($scope.draw_state == item) {
+                    classes.push('active');
+                }
+                return classes.join(' ');
+            };
+
+            $scope.draw_state = '';
+            $scope.add_sprite = function (sprite_type) {
+
+                if (this.draw_state == sprite_type ){ // toggle
+                    this.draw_state = '';
+                    $scope.thing_canvas.add_sprite(false);
+                    return;
+                }
+
+                $scope.draw_state = sprite_type;
+                $scope.thing_canvas.add_sprite(sprite_type);
+            };
+
+            $scope.$watch('current_color', function (c) {
+                console.log('current color changed to ', c);
+            })
         }
-        grid.graphics.es();
-    }
+    });
 
     // ----------------------- modal for editing thing ---------------------------
     // currently unused
@@ -48,78 +91,5 @@
     }
 
     angular.module('NERDS_app').controller('ThingEditorModal', ThingEditorModal);
-
-    // --------------------------- type graph ---------------------------------
-
-    app.factory('typeGraph', function () {
-
-        return function ($scope, GAME_ID, $modal) {
-            $scope.current_color = 'rgb(125, 255, 0)';
-
-            var scope_ele = $('#thing_editor');
-            var create_canvas = scope_ele.find('.thing_canvas')[0];
-
-            var stage = new createjs.Stage(create_canvas);
-            var click_shape = new createjs.Shape();
-            click_shape.graphics.f('rgb(245,255,255)').r(0, 0, STAGE_WIDTH, STAGE_HEIGHT).ef();
-            stage.addChild(click_shape);
-
-            click_shape.addEventListener('mousedown', function (ev) {
-                var sprite = _add_thing_part($scope.draw_state, $scope.thing, stage, $scope.current_color);
-                sprite.container.x = ev.stageX - (ev.stageX % GRID_SIZE);
-                sprite.container.y = ev.stageY - (ev.stageY % GRID_SIZE);
-                stage.update();
-            });
-
-            _make_grid(stage);
-
-            stage.update();
-
-            $scope.thing = {
-                name: 'new thing',
-                type: '',
-                anchor: 'C',
-                draw_steps: []
-            };
-
-            $scope.object_types = ['person', 'place', 'scenery'];
-
-            $scope.draw_state = '';
-
-            $scope.db_icon = function (item) {
-                var classes = [item];
-                if ($scope.draw_state == item) {
-                    classes.push('active');
-                }
-                return classes.join(' ');
-            };
-
-            $scope.thing_draw = function (sprite_type) {
-                $scope.draw_state = sprite_type;
-
-                _add_thing_part(sprite_type, $scope.thing, stage, $scope.current_color);
-            };
-
-            setTimeout(function () {
-                var field = $($('#thing_editor .ui .color input')[0]);
-                console.log('field:', field);
-
-                setInterval(function () {
-                    if (field.val() != $scope.current_color) {
-                        $scope.current_color = field.val();
-                        $scope.$apply();
-                    }
-                }, 1200);
-            }, 500);
-
-            $scope.$watch('current_color', function (c) {
-                console.log('current color changed to ', c);
-            })
-
-            return {
-                stage: stage
-            };
-        }
-    });
 
 })();
