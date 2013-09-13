@@ -3,23 +3,55 @@
 
     var STAGE_WIDTH = 400;
     var STAGE_HEIGHT = 400;
-    var GRID_SIZE = 25;
+    var GRID_SIZE = 10;
     var MAX_A = Math.max(STAGE_WIDTH, STAGE_HEIGHT);
-    var HANDLE_SIZE = 25;
+    var HANDLE_SIZE = 10;
     var ROT_BOX_SIZE = 10;
 
-    function _gdx(x, evt) {
-        var d = evt.stageX - x;
-        return d - (d % GRID_SIZE);
+    function Poly_Point(thing_canvas, event) {
+        this.thing_canvas = thing_canvas;
+        this.$scope = thing_canvas.$scope;
+        this.sprite = new createjs.Shape();
+        this.set_point_position(event);
+        this.sprite.graphics.f('rgb(255,255,255)').r(-5, -5, 10, 10).ef()
+            .ss(1).s('rgb(204,0,0').r(-5, -5, 10, 10).es();
+
+        thing_canvas.poly_point_container.addChild(this.sprite);
+
+        this.sprite.addEventListener('mousedown', _.bind(this.on_mousedown, this));
+        thing_canvas.us();
     }
 
-    function _gdy(y, evt) {
-        var d = evt.stageY - y;
-        return d - (d % GRID_SIZE);
-    }
+    Poly_Point.prototype = {
 
-    window._gdx = _gdx;
-    window._gdy = _gdy;
+        on_mousemove: function (event) {
+            this.set_point_position(event);
+            this.refresh();
+        },
+
+        refresh: function () {
+            this.thing_canvas.redraw_polygon();
+        },
+
+        set_point_position: function (event) {
+            this.x = event.stageX - (event.stageX % GRID_SIZE);
+            this.y = event.stageY - (event.stageY % GRID_SIZE);
+            this.sprite.x = this.x;
+            this.sprite.y = this.y;
+        },
+
+        on_mousedown: function (event) {
+            switch (this.$scope.poly_button_state) {
+                case 'remove':
+                    this.thing_canvas.remove_poly_point(this);
+                    break;
+
+                case 'move':
+                    event.addEventListener('mousemove', _.bind(this.on_mousemove, this));
+                    break;
+            }
+        }
+    }
 
     /* ------------- Thing_Canvas class ----------------------- */
 
@@ -31,12 +63,10 @@
         this.$scope = $scope;
 
         this._make_click_shape();
-
         this._make_grid_shape();
-
         this._make_draw_container();
-
         this._make_box_container();
+        this._make_poly_container();
         this._make_boxes();
 
         this.us();
@@ -131,6 +161,10 @@
         show_boxes: function (target) {
             if (target) {
                 this.target = target;
+
+            }
+            if (target && target.type == 'polygon'){
+                target = false;
             }
 
             if (target === false) {
@@ -193,14 +227,105 @@
                 return;
             }
             if (!type) return;
-            console.log('making new sprite of  type ... ', type);
             this.sprite_type = type;
-            return this.current_sprite = new Thing_Sprite(type, this);
+            console.log('making new sprite of  type ... ', type);
+            if (type == 'polygon') {
+                this._init_polygon();
+            }
+            this.current_sprite = new Thing_Sprite(type, this);
+        },
+
+        _init_polygon: function () {
+            this.poly_container.visible = true;
+            this.$scope.poly_button_state = 'add';
+            this.us();
+        },
+
+        remove_poly_point: function (point) {
+            this._poly_points = _.reject(this._poly_points, function (pp) {
+                return pp === point;
+            });
+
+            this.poly_point_container.removeAllChildren();
+            this.poly_point_container.addChild.apply(this.poly_point_container, _.pluck(this._poly_points, 'sprite'));
+
+            this.redraw_polygon();
+        },
+
+        remove_sprite: function () {
+            if (this.current_sprite) {
+                this.current_sprite.remove();
+                this.current_sprite = null;
+                this.show_boxes(false);
+            }
+        },
+
+        move_sprite: function (dir) {
+            if (this.current_sprite) {
+                var sprites = this.thing.sprites;
+                var current = this.current_sprite;
+                var sprite_place = _.indexOf(sprites, current);
+                if (sprite_place == -1) return;
+
+                if (dir == 'up' && sprite_place == 0) return;
+                if (dir == 'down' && sprite_place == sprites.length - 1) return;
+
+                var swap_index = (dir == 'up') ? sprite_place - 1 : sprite_place + 1;
+
+                var swap = sprites[swap_index];
+                sprites[swap_index] = current;
+                sprites[sprite_place] = swap;
+
+                this.draw_container.removeAllChildren();
+                this.draw_container.addChild.apply(this.draw_container,
+                    _.pluck(sprites, 'container'));
+                this.us();
+            }
         },
 
         _make_draw_container: function () {
             this.draw_container = new createjs.Container();
             this.stage.addChild(this.draw_container);
+        },
+
+        redraw_polygon: function (dx, dy) {
+            if (!dx) dx = 0;
+            if (!dy) dy = 0;
+            this.current_sprite.update_points(this._poly_points, dx, dy);
+            this.current_sprite.redraw_shape();
+        },
+
+        close_poly: function(){
+            this.poly_container.visible = false;
+            this._poly_points = [];
+            this.poly_point_container.removeAllChildren();
+            this.current_sprite = null;
+            this.us();
+        },
+
+        _make_poly_container: function () {
+            this.poly_container = new createjs.Container();
+            this.poly_catcher = new createjs.Shape();
+            this.poly_catcher.addEventListener('mousedown', _.bind(this._poly_mousedown, this));
+
+            this.poly_container.addChild(this.poly_catcher);
+            this.poly_preview = new createjs.Shape();
+            this.poly_container.addChild(this.poly_preview);
+
+            this.poly_point_container = new createjs.Container();
+            this.poly_container.addChild(this.poly_point_container);
+            this.poly_catcher.graphics.f('rgba(255,255,204,0.1)').r(0, 0, STAGE_WIDTH, STAGE_HEIGHT).ef();
+            this._poly_points = [];
+            this.poly_container.visible = false;
+            this.stage.addChild(this.poly_container);
+        },
+
+        _poly_mousedown: function (event) {
+            if (this.$scope.poly_button_state == 'add') {
+                var poly_point = new Poly_Point(this, event);
+                this._poly_points.push(poly_point);
+                this.redraw_polygon();
+            }
         },
 
         _make_box_container: function () {
@@ -217,7 +342,7 @@
             for (var a = 0; a < MAX_A; a += GRID_SIZE) {
                 g.mt(0, a).lt(STAGE_HEIGHT, a).mt(a, 0).lt(a, STAGE_WIDTH);
             }
-            g.es();
+            this.grid_shape.graphics.es();
         },
 
         /**
@@ -253,4 +378,5 @@
     Thing_Canvas.GRID_SIZE = GRID_SIZE;
     Thing_Canvas.HANDLE_SIZE = HANDLE_SIZE;
 
-})(window);
+})
+    (window);

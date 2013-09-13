@@ -73,6 +73,13 @@
         },
 
         {
+            "url": "/js/admin/nerds/create_game/anchor_form_element.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
             "url": "/js/admin/nerds/create_game/games_create_controller.js",
             "context": "foot",
             "defer": "defer",

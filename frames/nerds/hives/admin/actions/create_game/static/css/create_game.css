@@ -1,8 +1,13 @@
 #thing_editor .ui {
-    width: 440px;
+    width: 500px;
     padding: 0px;
     margin: 0px;
     float: left;
+}
+
+#thing_editor .btn-toolbar-header {
+    margin-top: 10px;
+    margin-bottom: 3px;
 }
 
 #thing_editor .thing_canvas {
@@ -83,6 +88,9 @@
 }
 #thing_editor .ui .draw_buttons  button.polygon:hover {
     background-position: -180px -60px;
+}
+#thing_editor .ui .draw_buttons  button.polygon.active {
+    background-position: -180px -120px;
 }
 
 #thing_editor .ui .color {

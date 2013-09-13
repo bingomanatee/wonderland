@@ -35,7 +35,7 @@
                     type: '',
                     game: GAME_ID,
                     anchor: 'C',
-                    draw_steps: []
+                    sprites: []
                 };
             };
             $scope.new_thing();
@@ -49,6 +49,7 @@
             $scope.object_types = ['person', 'place', 'scenery'];
 
             $scope.db_icon = function (item) {
+             //   console.log('item: ', item, 'draw_state: ', $scope.draw_state);
                 var classes = [item];
                 if ($scope.draw_state == item) {
                     classes.push('active');
@@ -69,9 +70,31 @@
                 $scope.thing_canvas.add_sprite(sprite_type);
             };
 
+            $scope.remove_sprite = function(){
+                $scope.thing_canvas.remove_sprite();
+            };
+
+            $scope.move_sprite = function(dir){
+                $scope.thing_canvas.move_sprite(dir);
+            };
+
             $scope.$watch('current_color', function (c) {
                 console.log('current color changed to ', c);
-            })
+            });
+
+            $scope.set_poly_state = function(state){
+                $scope.poly_button_state = state;
+            };
+
+            $scope.close_poly = function(){
+              $scope.thing_canvas.close_poly();
+            };
+
+            $scope.poly_button_state_class = function(state){
+                var classes = ['btn'];
+                if ($scope.poly_button_state == state) classes.push('btn-primary');
+                return classes.join(' ');
+            };
         }
     });
 

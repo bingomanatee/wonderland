@@ -25,7 +25,7 @@
         this.color = this.thing_canvas.$scope.current_color;
         this.redraw_shape();
 
-        this.thing_canvas.$scope.thing.draw_steps.push(this);
+        this.thing_canvas.thing.sprites.push(this);
 
         this.shape.addEventListener('mousedown', _.bind(this._on_mousedown, this));
         this.thing_canvas.show_boxes(this);
@@ -37,6 +37,15 @@
         set_color: function (color) {
             this.color = color;
             this.redraw_shape();
+        },
+
+        remove: function(){
+          this.thing_canvas.thing.sprites = _.reject (this.thing_canvas.thing.sprites, function(ele){
+              return ele === this;
+          }, this);
+
+            this.thing_canvas.draw_container.removeChild(this.container);
+            this.update();
         },
 
         edge: function (which) {
@@ -62,6 +71,15 @@
             }
         },
 
+        update_points: function(points, dx, dy){
+          this._points = points.map(function(point){
+             var pxy = _.pick(point, 'x', 'y');
+              pxy.x += dx;
+              pxy.y += dy;
+              return pxy;
+          });
+        },
+
         redraw_shape: function () {
             if (!this.shape) {
                 this.shape = new createjs.Shape();
@@ -84,6 +102,19 @@
 
                 case 'triangle':
                     this._draw_triangle();
+                    break;
+
+                case 'polygon':
+                    this.container.x = this.container.y = 0;
+                    this.shape.graphics.f(this.color);
+                    _.each(  this._points, function(point, index){
+                        if (index == 0){
+                            this.shape.graphics.mt(point.x, point.y);
+                        } else {
+                            this.shape.graphics.lt(point.x, point.y);
+                        }
+                    }, this);
+                    this.shape.graphics.ef();
                     break;
             }
 
@@ -154,133 +185,9 @@
 
             }
         },
-        /*
-         _make_rot_box: function () {
-
-         this._rotate_box = new createjs.Shape();
-         this._rotate_box.addEventListener('mousedown', _.bind(this._rotate, this));
-
-         this.container.addChild(this._rotate_box);
-         var g = this._rotate_box.graphics;
-         g.f('rgb(255,255,255)').dc(RBR, RBR, RBR).ef();
-         g.ss(1, 'round').s('rgb(204,0,0)');
-         var deg = 360;
-         g.mt.apply(g, _deg_point(deg));
-         while (deg >= 135) {
-         g.lt.apply(g, _deg_point(deg));
-         deg -= 10;
-         }
-         g.es();
-
-         g.f('rgb(204,0,0)').mt(RBR, RBR).lt(ROT_BOX_SIZE, RBR).lt(ROT_BOX_SIZE * 0.75, ROT_BOX_SIZE).ef();
-         },
-
-         _make_br_box: function () {
-         this._br_handle = new createjs.Shape();
-         this._br_handle.graphics.f('rgba(0,0,0, 0.75').r(0, 0, HANDLE_SIZE, HANDLE_SIZE);
-         this.container.addChild(this._br_handle);
-
-         this._br_handle.addEventListener('mousedown', _.bind(this._on_br_mousedown, this));
-         },
-
-         _make_x_box: function () {
-         this._x_box = new createjs.Shape();
-         this._x_box.graphics.f('rgb(255,0,0)').r(0, 0, HANDLE_SIZE, HANDLE_SIZE).ef();
-         this._x_box.graphics.s('rgb(255,255,255)').ss(2, 'round').mt(2, 2).lt(HANDLE_SIZE - 2, HANDLE_SIZE - 2).es();
-         this.container.addChild(this._x_box);
-         },
-
-         _add_boxes: function () {
-         this._make_br_box();
-         this._make_rot_box();
-         this._make_x_box();
-         this.show_boxes(false);
-
-         this._boxes = [
-         this._br_handle,
-         this._x_box,
-         this._rotate_box];
-
-         this._update_handles();
-         },
-
-         _rotate: function () {
-         this.rotation += 90;
-         var w = this.width;
-         this.width = this.height;
-         this.height = w;
-
-         switch (this.type) {
-         case 'rectangle':
-
-         break;
-
-         case 'circle':
-         break;
-
-         case 'triangle':
-         //@todo: deal with triangle rotation;
-         break;
-         }
-         this.redraw_shape();
-         this._start_br_fade();
-         },
-
-         _on_br_mousedown: function (event) {
-         this._br_drag = event;
-         this._start_width = this.width;
-         this._start_height = this.height;
-
-         if (this._sbfto) {
-         clearTimeout(this._sbfto);
-         }
-         this.show_boxes(true);
-
-         event.addEventListener('mousemove', _.bind(this._on_br_mousemove, this));
-
-         event.addEventListener('mouseup', _.bind(this._start_br_fade, this));
-         },
-
-         _on_br_mousemove: function (event) {
-         var dw = event.stageX - this._br_drag.stageX;
-         dw -= dw % Thing_Canvas.GRID_SIZE;
-         this.width = this._start_width + dw;
-         var dh = event.stageY - this._br_drag.stageY;
-         dh -= dh % Thing_Canvas.GRID_SIZE;
-         this.height = this._start_height + dh;
-
-         this.redraw_shape();
-         },
-
-         show_boxes: function (show) {
-         show = !!show;
-         _.each(this._boxes, function (box) {
-         box.visible = show;
-         });
-         this.thing_canvas.stage.update();
-         },
-
-         _start_br_fade: function () {
-         if (this._sbfto) {
-         clearTimeout(this._sbfto);
-         }
-         var self = this;
-         this.show_boxes(true);
-         this.thing_canvas.stage.update();
-         this._sbfto = setTimeout(function () {
-         self.show_boxes(false);
-         self.stage.update();
-         }, FADE_TIME);
-         },
-
-         _update_handles: function () {
-         this._br_handle.x = this.shape.x + this.width;
-         this._br_handle.y = this.shape.y + this.height;
-         this._rotate_box.x = this.shape.x + this.center_x() - ROT_BOX_SIZE / 2;
-         this._rotate_box.y = this.shape.y + this.center_y() - ROT_BOX_SIZE / 2;
-         }, */
 
         _on_mousemove: function (event) {
+
             this.thing_canvas.show_boxes(this);
 
             //  console.log('moving', event);
@@ -291,9 +198,11 @@
             dy -= dy % Thing_Canvas.GRID_SIZE;
 
             //  console.log('moving', event);
-            this.container.x = this._startX + dx;
-            this.container.y = this._startY + dy;
-            this.update();
+            if (this.type == 'polygon'){
+                this.container.x = this._startX + dx;
+                this.container.y = this._startY + dy;
+                this.update();
+            }
         },
 
         update: function () {
@@ -313,7 +222,10 @@
             event.addEventListener('mousemove', _.bind(this._on_mousemove, this));
             event.addEventListener('mouseup', function () {
                 delete self._drag;
-                //  self.thing_canvas.show_boxes(false);
+                if (self.type == 'polygon'){
+                    self.update_points(self._points, self.container.x, self.container.y);
+                    self.container.x = self.container.y = 0;
+                }
             })
         },
         /*
