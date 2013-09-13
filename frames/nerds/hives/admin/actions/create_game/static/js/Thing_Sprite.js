@@ -35,7 +35,7 @@
         this.height = h;
 
         this.thing_canvas.draw_container.addChild(this.container);
-        this.thing_canvas.thing.sprites.push(this);
+        this.thing_canvas.thing().sprites.push(this);
 
         this.redraw_shape();
 
@@ -52,7 +52,7 @@
         },
 
         remove: function () {
-            this.thing_canvas.thing.sprites = _.reject(this.thing_canvas.thing.sprites, function (ele) {
+            this.thing_canvas.thing().sprites = _.reject(this.thing_canvas.thing().sprites, function (ele) {
                 return ele === this;
             }, this);
 

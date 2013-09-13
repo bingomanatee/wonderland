@@ -6,7 +6,8 @@
     "static": {
         "js": "/js/admin/nerds/create_game",
         "css": "/css/admin/nerds/create_game",
-        "img": "/img/admin/nerds/create_game"
+        "img": "/img/admin/nerds/create_game",
+        "templates": "/templates/admin/nerds/create_game"
     },
 
     "javascript": [
@@ -21,7 +22,7 @@
             "name": "easel"
         },
         {
-            "url": "/js/nerds/vendor/angular/angular.min.js",
+            "url": "/js/nerds/vendor/angular/angular.js",
             "context": "foot",
             "name": "angular"
         },
@@ -73,7 +74,14 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_game/anchor_form_element.js",
+            "url": "/js/admin/nerds/create_game/directives/anchor_form_element.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
+            "url": "/js/admin/nerds/create_game/directives/thing_editor.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
@@ -106,13 +114,6 @@
             "defer": "defer",
             "name": "Thing_Sprite",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/thing_editor.js",
-            "context": "foot",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "Thing_Sprite", "Thing_Canvas"]
         }
     ]
 }

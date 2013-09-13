@@ -59,7 +59,7 @@
         var scope_ele = $('#thing_editor');
         var create_canvas = scope_ele.find('.thing_canvas')[0];
         this.stage = new createjs.Stage(create_canvas);
-        this.thing = $scope.thing;
+
         this.$scope = $scope;
 
         this._make_grid_shape();
@@ -80,6 +80,10 @@
                 this.current_sprite.set_color(c);
                 this.us();
             }
+        },
+
+        thing: function () {
+            return this.$scope.thing;
         },
 
         _make_boxes: function () {
@@ -261,7 +265,7 @@
 
         move_sprite: function (dir) {
             if (this.current_sprite) {
-                var sprites = this.thing.sprites;
+                var sprites = this.thing().sprites;
                 var current = this.current_sprite;
                 var sprite_place = _.indexOf(sprites, current);
                 if (sprite_place == -1) return;
@@ -300,6 +304,14 @@
             this.poly_point_container.removeAllChildren();
             this.current_sprite = null;
             this.us();
+        },
+
+        reset: function () {
+            this._poly_points = [];
+            this.current_sprite = null;
+            this.draw_container.removeAllChildren();
+            this.us();
+            this.show_boxes(false);
         },
 
         _make_poly_container: function () {

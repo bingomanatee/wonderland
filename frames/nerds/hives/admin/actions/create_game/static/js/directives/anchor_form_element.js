@@ -9,14 +9,7 @@
         // Useful for bootstrap and global configuration
 
         return {
-            template: ' <div class="controls"><table>' +
-                '<tr><td><label class="radio"><input type="radio" name="anchor" ng-model="thing.anchor" value="TL"/>TL</label></td>' +
-                '<td><label class="radio"><input type="radio" name="anchor"  ng-model="thing.anchor" value="T"/>Top</label></td>' +
-                '<td><label class="radio"><input type="radio"  name="anchor" ng-model="thing.anchor" value="TR"/>TR</label></td></tr><tr><td><label class="radio"><input type="radio" name="anchor"  ng-model="thing.anchor" value="L"/>Left</label></td>' +
-                '<td><label class="radio"><input type="radio" name="anchor" checked="checked" ng-model="thing.anchor" value="C"/>(center)</label></td>' +
-                '<td><label class="radio"><input type="radio" name="anchor"  ng-model="thing.anchor" value="R"/>Right</label></td></tr><tr><td><label class="radio"><input type="radio"  name="anchor" ng-model="thing.anchor" value="BL"/>BL</label></td>' +
-                '<td><label class="radio"><input type="radio" name="anchor"  ng-model="thing.anchor" value="B"/>Bottom</label></td>' +
-                '<td><label class="radio"><input type="radio" name="anchor"  ng-model="thing.anchor" value="BR"/>BR</label></td></tr></table></div>',
+            templateUrl: '/templates/admin/nerds/create_game/anchor_form_element.html',
             compile: function CompilingFunction($templateElement, $templateAttributes) {
 
                 // === CompilingFunction === //

@@ -36,89 +36,12 @@
             <div ng-grid="placeGridOptions" style="width: 100%; height:  30em"></div>
         </div>
 
-        <div class="tab-pane" id="thing_editor">
-            <form name="thing_editor_form">
-                <h2>Thing Editor</h2>
+        <div class="tab-pane" id="thing_editor" thing-editor>
 
-                <div class="ui">
-                    <canvas class="thing_canvas" width="400" height="400">
-
-                    </canvas>
-                    <div class="draw_buttons">
-                        <button ng-class="db_icon('rectangle')" ng-click="add_sprite('rectangle')"></button>
-                        <button ng-class="db_icon('circle')" ng-click="add_sprite('circle')"></button>
-                        <button ng-class="db_icon('triangle')" ng-click="add_sprite('triangle')"></button>
-                        <button ng-class="db_icon('polygon')" ng-click="add_sprite('polygon')"></button>
-                        <colorpicker input-name="current_color" input-class="color-text" color-format="rgb"
-                                     ng-model="current_color"></colorpicker>
-                    </div>
-                    <div>
-                        <div class="btn-toolbar-header"><b>Selection</b></div>
-                        <div class="btn-toolbar">
-                            <div class="btn-group">
-                                <button class="btn" ng-click="remove_sprite()">Delete</button>
-                                <button class="btn" ng-click="move_sprite('up')">Back</button>
-                                <button class="btn" ng-click="move_sprite('down')">Forward</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div ng-show="draw_state == 'polygon'">
-                        <div class="btn-toolbar-header"><b>Point Editing</b></div>
-                        <div class="btn-toolbar">
-                            <div class="btn-group">
-                                <button ng-click="set_poly_state('add')" ng-class="poly_button_state_class('add')">Add
-                                </button>
-                                <button ng-click="set_poly_state('remove')" ng-class="poly_button_state_class('remove')">Remove
-                                </button>
-                                <button ng-click="set_poly_state('move')" ng-class="poly_button_state_class('move')">Move
-                                </button>
-                                <button ng-click="close_poly()" class="btn">Close</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="details form-horizontal">
-                    <div class="control-group">
-                        <label class="control-label" for="inputThingName">Name</label>
-
-                        <div class="controls">
-                            <input type="text" id="inputThingName" required placeholder="Name" ng-model="thing.name">
-                        </div>
-
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label" for="inputThingType">Type</label>
-
-                        <div class="controls">
-                            <select ng-model="thing.thing_type" id="inputThingType" required>
-                                <option ng-repeat="type in object_types">{{ type }}</option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="control-group">
-                        <label class="control-label">
-                            Anchor
-                        </label>
-
-                        <div data-anchor-form-element></div>
-                    </div>
-
-                    <div class="control-group">
-                        <div class="controls">
-                            <button ng-show="thing.sprites.length && thing_editor_form.$valid" type="submit"
-                                    ng-click="save_thing(true)" class="btn btn-primary">Save
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
         </div>
 
         <div class="tab-pane" id="thing_list">
-
+            <div ng-grid="thingGridOptions" style="width: 100%; height:  30em"></div>
         </div>
     </div>
 
