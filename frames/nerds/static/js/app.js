@@ -21,10 +21,10 @@
 
     angular.module('thingsService', ['ngResource']).factory('Things',
         function ($resource) {
-            return $resource('/nerds/rest/types/:_id', {_id: '@_id'}, {
+            return $resource('/nerds/rest/things/:_id', {_id: '@_id'}, {
                 get: {method: 'GET'},
                 query: {method: 'GET', isArray: true},
-                put: {method: 'POST'},
+                add: {method: 'POST'},
                 update: {method: 'PUT'}
             });
         });

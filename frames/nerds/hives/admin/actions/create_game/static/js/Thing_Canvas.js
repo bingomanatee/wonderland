@@ -34,8 +34,8 @@
         },
 
         set_point_position: function (event) {
-            this.x = event.stageX - (event.stageX % GRID_SIZE);
-            this.y = event.stageY - (event.stageY % GRID_SIZE);
+            this.x = gd(event.stageX);
+            this.y = gd(event.stageY);
             this.sprite.x = this.x;
             this.sprite.y = this.y;
         },
@@ -62,8 +62,8 @@
         this.thing = $scope.thing;
         this.$scope = $scope;
 
-        this._make_click_shape();
         this._make_grid_shape();
+        this._make_click_shape();
         this._make_draw_container();
         this._make_box_container();
         this._make_poly_container();
@@ -129,12 +129,10 @@
                         event.addEventListener('mousemove', function (evt) {
 
                             _.each(self._box_hs[dim.h], function (shape) {
-                                shape.x = evt.stageX;
-                                shape.x -= shape.x % GRID_SIZE;
+                                shape.x = gd(evt.stageX);
                             });
                             _.each(self._box_vs[dim.v], function (shape) {
-                                shape.y = evt.stageY;
-                                shape.y -= shape.y % GRID_SIZE;
+                                shape.y = gd(evt.stageY);
                             });
 
                             if (shape.__target) {
@@ -163,7 +161,7 @@
                 this.target = target;
 
             }
-            if (target && target.type == 'polygon'){
+            if (target && target.type == 'polygon') {
                 target = false;
             }
 
@@ -218,12 +216,13 @@
             this.stage.update();
         },
 
-        add_sprite: function (type) {
+        add_sprite: function (type, x, y, w, h) {
             console.log('adding type ... ', type);
             if (type === false) {
                 console.log('... toggling off ');
                 this.show_boxes(false);
                 this.sprite_type = '';
+                this.current_sprite = null;
                 return;
             }
             if (!type) return;
@@ -232,7 +231,7 @@
             if (type == 'polygon') {
                 this._init_polygon();
             }
-            this.current_sprite = new Thing_Sprite(type, this);
+            return this.current_sprite = new Thing_Sprite(type, this, x, y, w, h);
         },
 
         _init_polygon: function () {
@@ -295,7 +294,7 @@
             this.current_sprite.redraw_shape();
         },
 
-        close_poly: function(){
+        close_poly: function () {
             this.poly_container.visible = false;
             this._poly_points = [];
             this.poly_point_container.removeAllChildren();
@@ -354,20 +353,30 @@
         _make_click_shape: function () {
 
             this.click_shape = new createjs.Shape();
-            this.click_shape.graphics.f('rgb(245,255,255)').r(0, 0, STAGE_WIDTH, STAGE_HEIGHT).ef();
+            this.click_shape.graphics.f('rgba(245,255,255, 0.01)').r(0, 0, STAGE_WIDTH, STAGE_HEIGHT).ef();
             this.stage.addChild(this.click_shape);
 
             this.click_shape.addEventListener('mousedown', _.bind(this.on_mousedown, this));
         },
 
         on_mousedown: function (ev) {
+            console.log('click shape mousdeown ', ev);
+            var current_sprite = this.current_sprite;
             if (this.sprite_type) {
-                var sprite = this.add_sprite(this.sprite_type);
-                sprite.container.x = ev.stageX - (ev.stageX % GRID_SIZE);
-                sprite.container.y = ev.stageY - (ev.stageY % GRID_SIZE);
+                var x = gd(ev.stageX);
+                var y = gd(ev.stageY);
+                var sprite;
+                if (current_sprite && current_sprite.width && current_sprite.height) {
+                    sprite = this.add_sprite(this.sprite_type, x, y, current_sprite.width, current_sprite.height);
+                } else {
+                    sprite = this.add_sprite(this.sprite_type, x, y);
+                }
+
+                sprite.container.x = x;
+                sprite.container.y = y;
                 this.move_boxes_around_sprite(sprite);
             }
-            this.stage.update();
+            this.us();
         }
     });
 
@@ -377,6 +386,10 @@
     Thing_Canvas.STAGE_HEIGHT = STAGE_HEIGHT;
     Thing_Canvas.GRID_SIZE = GRID_SIZE;
     Thing_Canvas.HANDLE_SIZE = HANDLE_SIZE;
+
+    var gd = Thing_Canvas.gd = function (n) {
+        return n - (n % GRID_SIZE);
+    }
 
 })
     (window);

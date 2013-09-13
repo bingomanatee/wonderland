@@ -91,7 +91,7 @@
                         <label class="control-label" for="inputThingType">Type</label>
 
                         <div class="controls">
-                            <select ng-model="thing.type" id="inputThingType" required>
+                            <select ng-model="thing.thing_type" id="inputThingType" required>
                                 <option ng-repeat="type in object_types">{{ type }}</option>
                             </select>
                         </div>
@@ -109,7 +109,7 @@
                     <div class="control-group">
                         <div class="controls">
                             <button ng-show="thing.sprites.length && thing_editor_form.$valid" type="submit"
-                                    ng-click="save_thing()" class="btn btn-primary">Save
+                                    ng-click="save_thing(true)" class="btn btn-primary">Save
                             </button>
                         </div>
                     </div>
@@ -186,8 +186,8 @@
         </div>
 
         <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            <button class="btn btn-primary" ng-click="save()" ng-show="pipForm.$valid">Save</button>
+            <button class="btn btn-warning" ng-click="save_thing_edit()">Cancel</button>
+            <button class="btn btn-primary" ng-click="save_thing_edit(true)" ng-show="pipForm.$valid">Save</button>
         </div>
     </script>
 </div>

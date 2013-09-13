@@ -9,27 +9,39 @@
         return [x, y];
     }
 
-    function Thing_Sprite(type, thing_canvas) {
+    function Thing_Sprite(type, thing_canvas, x, y, w, h) {
         this.thing_canvas = thing_canvas;
-        this.container = new createjs.Container();
-        this.container.x = Thing_Canvas.STAGE_WIDTH / 2;
-        this.container.x -= this.container.x % Thing_Canvas.GRID_SIZE;
-        this.container.y = Thing_Canvas.STAGE_HEIGHT / 2;
-        this.container.y -= this.container.x % Thing_Canvas.GRID_SIZE;
-
-        this.thing_canvas.draw_container.addChild(this.container);
-
         this.rotation = 0;
         this.type = type;
-        this.width = this.height = Thing_Canvas.GRID_SIZE * 2;
+        this.container = new createjs.Container();
         this.color = this.thing_canvas.$scope.current_color;
-        this.redraw_shape();
 
+        if ((typeof x == 'undefined') || (arguments.length < 3)){
+            x = Thing_Canvas.STAGE_WIDTH / 2;
+            x -= x % Thing_Canvas.GRID_SIZE;
+
+            y = Thing_Canvas.STAGE_HEIGHT / 2;
+            y -= y %  Thing_Canvas.GRID_SIZE
+        }
+
+        this.container.x = x;
+        this.container.y = y;
+
+        if ((typeof w == 'undefined') || arguments.length < 5 || (w < Thing_Canvas.GRID_SIZE) || (h < Thing_Canvas.GRID_SIZE)){
+            w = h = Thing_Canvas.GRID_SIZE * 4;
+        }
+
+        this.width = w;
+        this.height = h;
+
+        this.thing_canvas.draw_container.addChild(this.container);
         this.thing_canvas.thing.sprites.push(this);
+
+        this.redraw_shape();
 
         this.shape.addEventListener('mousedown', _.bind(this._on_mousedown, this));
         this.thing_canvas.show_boxes(this);
-        this.update();
+        this.us();
     }
 
     Thing_Sprite.prototype = {
@@ -39,13 +51,13 @@
             this.redraw_shape();
         },
 
-        remove: function(){
-          this.thing_canvas.thing.sprites = _.reject (this.thing_canvas.thing.sprites, function(ele){
-              return ele === this;
-          }, this);
+        remove: function () {
+            this.thing_canvas.thing.sprites = _.reject(this.thing_canvas.thing.sprites, function (ele) {
+                return ele === this;
+            }, this);
 
             this.thing_canvas.draw_container.removeChild(this.container);
-            this.update();
+            this.us();
         },
 
         edge: function (which) {
@@ -71,13 +83,13 @@
             }
         },
 
-        update_points: function(points, dx, dy){
-          this._points = points.map(function(point){
-             var pxy = _.pick(point, 'x', 'y');
-              pxy.x += dx;
-              pxy.y += dy;
-              return pxy;
-          });
+        update_points: function (points, dx, dy) {
+            this._points = points.map(function (point) {
+                var pxy = _.pick(point, 'x', 'y');
+                pxy.x += dx;
+                pxy.y += dy;
+                return pxy;
+            });
         },
 
         redraw_shape: function () {
@@ -107,8 +119,8 @@
                 case 'polygon':
                     this.container.x = this.container.y = 0;
                     this.shape.graphics.f(this.color);
-                    _.each(  this._points, function(point, index){
-                        if (index == 0){
+                    _.each(this._points, function (point, index) {
+                        if (index == 0) {
                             this.shape.graphics.mt(point.x, point.y);
                         } else {
                             this.shape.graphics.lt(point.x, point.y);
@@ -118,7 +130,7 @@
                     break;
             }
 
-            this.update();
+            this.us();
         },
 
         set_width: function (width) {
@@ -131,6 +143,14 @@
             return this;
         },
 
+        get_width: function(){
+            return this.width;
+        },
+
+        get_height: function(){
+          return this.height;
+        },
+
         set_x: function (x) {
             this.container.x = x;
             return this;
@@ -141,6 +161,13 @@
             return this;
         },
 
+        get_x: function(){
+            return this.container.x;
+        },
+
+        get_y: function(){
+            return this.container.y;
+        },
         center_x: function () {
             return (this.width ) / 2;
         },
@@ -197,22 +224,19 @@
             var dy = event.stageY - this._drag.stageY;
             dy -= dy % Thing_Canvas.GRID_SIZE;
 
-            //  console.log('moving', event);
-            if (this.type == 'polygon'){
-                this.container.x = this._startX + dx;
-                this.container.y = this._startY + dy;
-                this.update();
-            }
+            this.container.x = this._startX + dx;
+            this.container.y = this._startY + dy;
+            this.us();
         },
 
-        update: function () {
+        us: function () {
             this.thing_canvas.us();
         },
 
         _on_mousedown: function (event) {
 
             this._drag = event;
-            // console.log('target: ', event);
+            console.log('target: ', event);
             this._startX = this.container.x;
             this._startY = this.container.y;
             this.thing_canvas.show_boxes(this);
@@ -222,32 +246,30 @@
             event.addEventListener('mousemove', _.bind(this._on_mousemove, this));
             event.addEventListener('mouseup', function () {
                 delete self._drag;
-                if (self.type == 'polygon'){
+                if (self.type == 'polygon') {
                     self.update_points(self._points, self.container.x, self.container.y);
                     self.container.x = self.container.y = 0;
                 }
             })
         },
-        /*
-         _on_br_mousemove: function (event) {
 
-         if (this._sbfto) {
-         clearTimeout(this._sbfto);
-         this.show_boxes(false);
-         }
+        export: function () {
+            var out = {
+                color: this.color,
+                x: this.get_x(),
+                y: this.get_y(),
+                width: this.get_width(),
+                height: this.get_height(),
+                sprite_type: this.type,
+                rotation: this.rotation
+            };
 
-         console.log('moving', event);
-         var dx = event.stageX - this._drag.stageX;
-         dx -= dx % Thing_Canvas.GRID_SIZE;
+            if (this.type == 'polygon'){
+                out.points = this._points;
+            }
 
-         var dy = event.stageY - this._drag.stageY;
-         dy -= dy % Thing_Canvas.GRID_SIZE;
-
-         console.log('moving', event);
-         this.container.x = this._startX + dx;
-         this.container.y = this._startY + dy;
-         this.thing_canvas.stage.update();
-         }*/
+            return out;
+        }
     };
 
     window.Thing_Sprite = Thing_Sprite;

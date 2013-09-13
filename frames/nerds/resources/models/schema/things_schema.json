@@ -1,0 +1,24 @@
+{
+    "name": "string",
+    "game": "objectId",
+    "thing_type": "string",
+    "anchor": "string",
+    "sprites": [
+        {
+            "sprite_type": "string",
+            "color": "string",
+            "rotation": "string",
+            "width": "number",
+            "height": "number",
+            "x": "number",
+            "y": "number",
+            "points": [
+                {
+                    "x": "number",
+                    "y": "number"
+                }
+            ]
+        }
+
+    ]
+}
