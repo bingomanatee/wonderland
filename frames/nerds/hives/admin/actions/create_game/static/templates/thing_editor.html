@@ -10,18 +10,11 @@
             <button ng-class="db_icon('circle')" ng-click="add_sprite('circle')"></button>
             <button ng-class="db_icon('triangle')" ng-click="add_sprite('triangle')"></button>
             <button ng-class="db_icon('polygon')" ng-click="add_sprite('polygon')"></button>
+            <button class="remove" ng-click="remove_sprite()"></button>
+            <button class="move_up" ng-click="move_sprite('up')"></button>
+            <button class="move_down" ng-click="move_sprite('down')"></button>
             <colorpicker input-name="current_color" input-class="color-text" color-format="rgb"
                          ng-model="current_color"></colorpicker>
-        </div>
-        <div>
-            <div class="btn-toolbar-header"><b>Selection</b></div>
-            <div class="btn-toolbar">
-                <div class="btn-group">
-                    <button class="btn" ng-click="remove_sprite()">Delete</button>
-                    <button class="btn" ng-click="move_sprite('up')">Back</button>
-                    <button class="btn" ng-click="move_sprite('down')">Forward</button>
-                </div>
-            </div>
         </div>
         <div ng-show="draw_state == 'polygon'">
             <div class="btn-toolbar-header"><b>Point Editing</b></div>
