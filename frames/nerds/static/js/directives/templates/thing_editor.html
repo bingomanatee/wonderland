@@ -14,8 +14,10 @@
             <button class="move_up" ng-click="move_sprite('up')"></button>
             <button class="move_down" ng-click="move_sprite('down')"></button>
             <button title="clone" class="clone" ng-click="clone_sprite()"></button>
-            <colorpicker input-name="current_color" input-class="color-text" color-format="rgb"
-                         ng-model="current_color"></colorpicker>
+        </div>
+        <div class="current_color form-inine">
+            <input type="text" class="input" ng_model="current_color"/>
+            <button class="btn" ng-click="choose_color()">Choose</button>
         </div>
         <div class="draw_buttons" ng-show="thing_canvas.current_sprite">
             <b>Selected {{ thing_canvas.current_sprite.type }}:</b>

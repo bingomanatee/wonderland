@@ -12,18 +12,6 @@
 
                     console.log('link attributes: ', $linkAttributes);
 
-                    var field;
-
-                    if (!$scope.cc_interval) {
-                        $scope.cc_interval = setInterval(function () {
-                            if (!field) return  field = $($('#thing_editor .ui .color input')[0]);
-                            if (field.val() != $scope.current_color) {
-                                $scope.current_color = field.val();
-                                $scope.$apply();
-                            }
-                        }, 500);
-                    }
-
                     $scope.current_color = 'rgb(125, 255, 0)';
                     $scope.new_thing = function () {
                         if ($scope.thing_canvas){
@@ -76,7 +64,7 @@
                         $scope.thing_canvas.add_sprite(sprite_type);
                     };
 
-                    _.each(['remove_sprite', 'move_sprite', 'clone_sprite', 'close_poly', 'max_width', 'max_height'],
+                    _.each(['remove_sprite', 'move_sprite', 'clone_sprite', 'close_poly', 'max_width', 'max_height', 'choose_color'],
                         function(method){
                            $scope[method] = function(){
                                var args = _.toArray(arguments);

@@ -10,18 +10,6 @@
 
                 return function LinkingFunction($scope, $linkElement, $linkAttributes) {
 
-                    var field;
-
-                    if (!$scope.cc_interval) {
-                        $scope.cc_interval = setInterval(function () {
-                            if (!field) return  field = $($('#thing_editor .ui .color input')[0]);
-                            if (field.val() != $scope.current_color) {
-                                $scope.current_color = field.val();
-                                $scope.$apply();
-                            }
-                        }, 500);
-                    }
-
                     $scope.current_color = 'rgb(125, 255, 0)';
                     $scope.new_thing = function () {
                         if ($scope.thing_canvas){

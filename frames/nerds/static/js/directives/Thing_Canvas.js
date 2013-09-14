@@ -9,6 +9,128 @@
     var HANDLE_SIZE = 10;
     var ROT_BOX_SIZE = 10;
 
+    var CP_X = GRID_SIZE * 8;
+    var CP_Y = GRID_SIZE * 8;
+    var CP_WIDTH = DRAW_AREA - CP_X * 2;
+    var CP_HEIGHT = DRAW_AREA - CP_Y * 2;
+    var HUES = 18;
+    var SWATCH_HEIGHT = 24;
+    var SHADES = 8;
+    var VALUES = 8;
+
+    var _hsl_template = _.template('hsl(<%= Math.max(0, Math.min(360, Math.round(h))) %>, <%= Math.max(0, Math.min(100, Math.round(s))) %>%, <%= Math.max(0, Math.min(100, Math.round(v))) %>%)');
+    /* ***************** Color Palette ******************* */
+
+    function Color_Palette(thing_canvas) {
+        this.thing_canvas = thing_canvas;
+        this.init_cp_layer();
+        this.thing_canvas.stage.addChild(this.palette);
+        this.show(false);
+    }
+
+    Color_Palette.prototype = {
+
+        ld: function (hue) {
+            var self = this;
+
+            return function (event) {
+                self.lighten.removeAllChildren();
+                self.darken.removeAllChildren();
+                var w = CP_WIDTH / VALUES;
+                _.each(_.range(50, 100, 50 / VALUES), function (value, i) {
+                    var x = w * i;
+                    _.each([100, 50, 25, 10], function (sat, i) {
+                        var swatch = self.make_swatch(hue, sat, value, x, SWATCH_HEIGHT * i, w, SWATCH_HEIGHT);
+                        swatch.addEventListener('mousedown', self.color_choice(hue, 100, value));
+                        self.lighten.addChild(swatch);
+                    });
+
+
+                    _.each([100, 50, 25, 10], function (sat, i) {
+                        swatch = self.make_swatch(hue, sat, 100 - value, x, -SWATCH_HEIGHT * i, w, SWATCH_HEIGHT);
+                        swatch.addEventListener('mousedown', self.color_choice(hue, 100, 100 - value));
+                        self.darken.addChild(swatch);
+                    });
+                });
+                self.us();
+            }
+        },
+
+        color_choice: function (hue, sat, value) {
+
+            return _.bind( function (event) {
+                console.log('chosen hsv ', hue, sat, value);
+                this.show(false);
+                this.thing_canvas.$scope.current_color = (this._color_string(hue, sat, value));
+                this.thing_canvas.$scope.$apply();
+            }, this);
+
+        },
+
+        us: function () {
+            this.thing_canvas.us();
+        },
+
+        init_cp_layer: function () {
+            this.palette = new createjs.Container();
+            this.palette.x = CP_X;
+            this.palette.y = CP_Y;
+
+            this.lighten = new createjs.Container();
+            this.darken = new createjs.Container();
+            this.darken.y = CP_HEIGHT - SWATCH_HEIGHT;
+            this.palette.addChild(this.darken, this.lighten);
+
+            var back = new createjs.Shape();
+            back.graphics.f('rgba(200,200,200, 0.25)').r(0, 0, CP_WIDTH, CP_HEIGHT).ef().s('rgba(100,100,100,0.25)').ss(1).r(0, 0, CP_WIDTH, CP_HEIGHT).es();
+
+            this.palette.addChild(back);
+            var hue_width = CP_WIDTH / HUES;
+            var y = (CP_HEIGHT ) / 2- SWATCH_HEIGHT;
+
+            _.each(_.range(0, 360, 360 / HUES), function (hue, i) {
+                var x = i * hue_width;
+                var swatch = this.make_swatch(hue, 100, 50, x, y, hue_width, SWATCH_HEIGHT);
+                this.palette.addChild(swatch);
+
+                swatch.addEventListener('mousedown', this.ld(hue));
+            }, this);
+
+            y += SWATCH_HEIGHT;
+            var grey_width = CP_WIDTH / (SHADES + 1);
+            _.each(_.range(0, 101, 100 / SHADES), function (lightness, i) {
+                var x = i * grey_width;
+                var swatch = this.make_swatch(0, 0, lightness, x, y, grey_width, SWATCH_HEIGHT);
+                swatch.addEventListener('mousedown', this.color_choice(0, 0, lightness));
+                this.palette.addChild(swatch);
+            }, this);
+
+
+        },
+
+        make_swatch: function (hue, sat, value, x, y, w, h) {
+
+            var swatch = new createjs.Shape();
+            swatch.x = x;
+            swatch.y = y;
+            swatch.graphics.f(this._color_string(hue, sat, value)).r(0, 0, w, h).ef();
+
+            return swatch;
+        },
+
+        _color_string: function(h, s, v){
+          var data = {h: h, s: s, v: v};
+            return _hsl_template(data);
+        },
+
+        show: function (hide) {
+            this.palette.visible = hide === false ? false : true;
+            this.thing_canvas.us();
+        }
+    };
+
+    /* ***************** Poly Point *********************** */
+
     function Poly_Point(thing_canvas, event) {
         this.thing_canvas = thing_canvas;
         this.$scope = thing_canvas.$scope;
@@ -71,6 +193,7 @@
         this._make_box_container();
         this._make_poly_container();
         this._make_boxes();
+        this._init_color_palette();
 
         this.us();
 
@@ -80,8 +203,12 @@
         thing: function () {
             return this.$scope.thing;
         },
-        
+
         /** initialization **************************** */
+
+        _init_color_palette: function () {
+            this.cp = new Color_Palette(this);
+        },
 
         _init_polygon: function () {
             this.poly_container.visible = true;
@@ -96,14 +223,14 @@
             var g = this.grid_shape.graphics;
             g.s('rgb(225,225,225)');
 
-            for (var x = 0; x <= DRAW_AREA; x += GRID_SIZE){
+            for (var x = 0; x <= DRAW_AREA; x += GRID_SIZE) {
                 g.mt(x, 0).lt(x, DRAW_AREA);
                 g.mt(0, x).lt(DRAW_AREA, x);
             }
 
             this.grid_shape.graphics.es();
         },
-        
+
         _make_poly_container: function () {
             this.poly_container = new createjs.Container();
             this.poly_catcher = new createjs.Shape();
@@ -152,14 +279,18 @@
 
         /* *********** USER ACTION *************** */
 
-        max_width: function(){
+        choose_color: function(){
+            this.cp.show();
+        },
+
+        max_width: function () {
             if (this.current_sprite) {
                 this.current_sprite.max_width();
                 this.move_boxes_around_sprite();
             }
         },
-        
-        max_height: function(){
+
+        max_height: function () {
             if (this.current_sprite) {
                 this.current_sprite.max_height();
                 this.move_boxes_around_sprite();
@@ -234,14 +365,14 @@
             }
             this.us();
         },
-        
+
         redraw_polygon: function (dx, dy) {
             if (!dx) dx = 0;
             if (!dy) dy = 0;
             this.current_sprite.update_points(this._poly_points, dx, dy);
             this.current_sprite.redraw_shape();
         },
-        
+
         update_color: function (c) {
             if (c && this.current_sprite) {
                 this.current_sprite.set_color(c);
@@ -249,9 +380,9 @@
             }
         },
 
-        clone_sprite: function(){
-            if (this.current_sprite){
-               this.show_boxes( this.current_sprite = this.current_sprite.clone());
+        clone_sprite: function () {
+            if (this.current_sprite) {
+                this.show_boxes(this.current_sprite = this.current_sprite.clone());
             }
         },
 
