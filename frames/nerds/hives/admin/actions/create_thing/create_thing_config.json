@@ -1,13 +1,13 @@
 {
     "routes": {
-        "get": "/admin/nerds/create_game/:_id"
+        "get": [ "/admin/nerds/things/:_id", "/admin/nerds/things"]
     },
 
     "static": {
-        "js": "/js/admin/nerds/create_game",
+        "js": "/js/admin/nerds/things",
         "css": "/css/admin/nerds/create_game",
-        "img": "/img/admin/nerds/create_game",
-        "templates": "/templates/admin/nerds/create_game"
+        "img": "/img/admin/nerds/things",
+        "templates": "/templates/admin/nerds/things"
     },
 
     "javascript": [
@@ -74,42 +74,36 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_game/directives/anchor_form_element.js",
+            "url": "/js/nerds/directives/anchor_form_element.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/directives/thing_editor.js",
+            "url": "/js/nerds/directives/thing_editor.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/thing_create_controller.js",
+            "url": "/js/admin/nerds/things/thing_create_controller.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/place_graph.js",
-            "context": "foot",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/Thing_Sprite.js",
+            "url": "/js/nerds/directives/Thing_Sprite.js",
             "context": "foot",
             "defer": "defer",
             "name": "Thing_Sprite",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
+
         {
-            "url": "/js/admin/nerds/create_game/Thing_Canvas.js",
+            "url": "/js/nerds/directives/Thing_Canvas.js",
             "context": "foot",
             "defer": "defer",
             "name": "Thing_Sprite",

@@ -1,4 +1,4 @@
-<form name="thing_editor_form">
+<form name="thing_editor_form" id="things">
     <h2>Thing Editor</h2>
 
     <div class="ui">
@@ -6,15 +6,21 @@
 
         </canvas>
         <div class="draw_buttons">
-            <button ng-class="db_icon('rectangle')" ng-click="add_sprite('rectangle')"></button>
+            <button title="add rectangle" ng-class="db_icon('rectangle')" ng-click="add_sprite('rectangle')"></button>
             <button ng-class="db_icon('circle')" ng-click="add_sprite('circle')"></button>
             <button ng-class="db_icon('triangle')" ng-click="add_sprite('triangle')"></button>
             <button ng-class="db_icon('polygon')" ng-click="add_sprite('polygon')"></button>
             <button class="remove" ng-click="remove_sprite()"></button>
             <button class="move_up" ng-click="move_sprite('up')"></button>
             <button class="move_down" ng-click="move_sprite('down')"></button>
+            <button title="clone" class="clone" ng-click="clone_sprite()"></button>
             <colorpicker input-name="current_color" input-class="color-text" color-format="rgb"
                          ng-model="current_color"></colorpicker>
+        </div>
+        <div class="draw_buttons" ng-show="thing_canvas.current_sprite">
+            <b>Selected {{ thing_canvas.current_sprite.type }}:</b>
+            <button class="max_width" ng-click="max_width()"></button>
+            <button class="max_height" ng-click="max_height()"></button>
         </div>
         <div ng-show="draw_state == 'polygon'">
             <div class="btn-toolbar-header"><b>Point Editing</b></div>
@@ -53,6 +59,15 @@
         </div>
 
         <div class="control-group">
+            <label class="control-label" for="inputThingGlobal">Global</label>
+
+            <div class="controls">
+                <label class="checkbox"><input type="checkbox" id="inputThingGlobal" ng-disabled="!thing.game"
+                                               ng-model="thing.global"/> global thing</label>
+            </div>
+        </div>
+
+        <div class="control-group">
             <label class="control-label">
                 Anchor
             </label>
@@ -66,19 +81,7 @@
                         ng-click="save_thing(true)" class="btn btn-primary">Save
                 </button>
             </div>
-            <div ng-hide="thing" class="alert">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                Add a thing
-            </div>
-            <div ng-hide="thing.sprites.length" class="alert">
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-                Add a sprite
-            </div>
-            <div ng-hide="thing_editor_form.$valid" class="alert alert-danger">
-                The form is not valid
-                <button type="button" class="close" data-dismiss="alert">&times;</button>
-            </div>
+            <p>Sprites: {{ thing.sprites.length }}</p>
         </div>
-        <p>Sprites: {{ thing.sprites.length }}</p>
     </div>
 </form>

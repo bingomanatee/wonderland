@@ -3,7 +3,9 @@
     "layout_name": "nerds",
 
     "static": {
-        "js": "/js/nerds"
+        "js": "/js/nerds",
+        "img": "/img/nerds",
+        "css": "/css/nerds"
     },
 
     "member_actions": [
@@ -15,7 +17,7 @@
 
     "member_roles": [
         {
-            "name":    "nerdmaster",
+            "name": "nerdmaster",
             "actions": [
                 "create nerds game",
                 "view nerds rules"

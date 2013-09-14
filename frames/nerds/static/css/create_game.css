@@ -1,0 +1,103 @@
+#things .ui {
+  width: 500px;
+  padding: 0px;
+  margin: 0px;
+  float: left; }
+  #things .ui td {
+    text-align: center;
+    vertical-align: middle;
+    padding: 0;
+    margin: 0; }
+  #things .ui table, #things .ui tr {
+    margin: 0;
+    padding: 0;
+    border: none; }
+  #things .ui .draw_buttons button {
+    width: 30px;
+    height: 30px;
+    background-image: url(/img/nerds/draw_icons.png);
+    background-position: left top;
+    background-repeat: no-repeat;
+    -webkit-appearance: none;
+    border: none;
+    background-color: transparent; }
+  #things .ui .draw_buttons button.rectangle {
+    background-position: left top; }
+    #things .ui .draw_buttons button.rectangle:hover {
+      background-position: left -60px; }
+    #things .ui .draw_buttons button.rectangle.active {
+      background-position: left -120px; }
+  #things .ui .draw_buttons button.circle {
+    background-position: -60px top; }
+    #things .ui .draw_buttons button.circle:hover {
+      background-position: -60px -60px; }
+    #things .ui .draw_buttons button.circle.active {
+      background-position: -60px -120px; }
+  #things .ui .draw_buttons button.triangle {
+    background-position: -120px top; }
+    #things .ui .draw_buttons button.triangle:hover {
+      background-position: -120px -60px; }
+    #things .ui .draw_buttons button.triangle.active {
+      background-position: -120px -120px; }
+  #things .ui .draw_buttons button.polygon {
+    background-position: -180px top; }
+    #things .ui .draw_buttons button.polygon:hover {
+      background-position: -180px -60px; }
+    #things .ui .draw_buttons button.polygon.active {
+      background-position: -180px -120px; }
+  #things .ui .draw_buttons button.remove {
+    background-position: -240px top; }
+    #things .ui .draw_buttons button.remove:hover {
+      background-position: -240px -60px; }
+    #things .ui .draw_buttons button.remove.active {
+      background-position: -240px -120px; }
+  #things .ui .draw_buttons button.move_up {
+    background-position: -300px top; }
+    #things .ui .draw_buttons button.move_up:hover {
+      background-position: -300px -60px; }
+    #things .ui .draw_buttons button.move_up.active {
+      background-position: -300px -120px; }
+  #things .ui .draw_buttons button.move_down {
+    background-position: -360px top; }
+    #things .ui .draw_buttons button.move_down:hover {
+      background-position: -360px -60px; }
+    #things .ui .draw_buttons button.move_down.active {
+      background-position: -360px -120px; }
+  #things .ui .draw_buttons button.clone {
+    background-position: -420px top; }
+    #things .ui .draw_buttons button.clone:hover {
+      background-position: -420px -60px; }
+    #things .ui .draw_buttons button.clone.active {
+      background-position: -420px -120px; }
+  #things .ui .draw_buttons button.max_width {
+    background-position: -480px top; }
+    #things .ui .draw_buttons button.max_width:hover {
+      background-position: -480px -60px; }
+    #things .ui .draw_buttons button.max_width.active {
+      background-position: -480px -120px; }
+  #things .ui .draw_buttons button.max_height {
+    background-position: -540px top; }
+    #things .ui .draw_buttons button.max_height:hover {
+      background-position: -540px -60px; }
+    #things .ui .draw_buttons button.max_height.active {
+      background-position: -540px -120px; }
+  #things .ui .color {
+    width: 9em; }
+  #things .ui .color input {
+    width: 8.5em; }
+#things .btn-toolbar-header {
+  margin-top: 10px;
+  margin-bottom: 3px; }
+#things .thing_canvas {
+  width: 400px;
+  height: 400px;
+  border: 1px solid black;
+  background-color: white; }
+#things .details {
+  float: left;
+  width: 300px;
+  margin-right: 1em; }
+#things .details .control-label {
+  width: 80px; }
+#things .details.form-horizontal .controls {
+  margin-left: 90px; }

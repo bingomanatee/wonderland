@@ -11,20 +11,23 @@ var Q = require('q');
 module.exports = {
     on_get_input: function (context, done) {
 
-        Q.when(this.model('nerds_things'), function (things_model) {
+        function _on_things(err, things) {
+            context.things = things ? things.map(function (thing) {
+                return thing.toJSON();
+            }) : null;
+            done(err);
+        }
 
+        Q.when(this.model('nerds_things'), function (things_model) {
             if (context._id) {
                 things_model.get(context._id, function (err, thing) {
                     context.thing = thing.toJSON();
                     done();
                 });
+            } else if (context.global) {
+                things_model.find({global: true}, _on_things);
             } else {
-                things_model.all(function (err, things) {
-                    context.things = things.map(function (thing) {
-                        return thing.toJSON();
-                    });
-                    done();
-                })
+                things_model.all(_on_things)
             }
         });
 
@@ -48,15 +51,20 @@ module.exports = {
 
     on_post_input: function (context, done) {
         Q.when(this.model('nerds_things'), function (things_model) {
+            console.log('things model found');
+            try {
 
-            var thing = _.pick(context, 'name', 'thing_type', 'game', 'anchor', 'sprites');
-            console.log('making thing %s', util.inspect(thing));
+                var thing = things_model.pick(context);
+                console.log('making thing %s', util.inspect(thing));
 
-            things_model.put( thing, function (err, thing) {
-                context.thing = thing.toJSON();
-                console.log('created thing %s', util.inspect(context.thing));
-                done();
-            });
+                things_model.put(thing, function (err, thing) {
+                    context.thing = thing.toJSON();
+                    console.log('created thing %s', util.inspect(context.thing));
+                    done();
+                });
+            } catch (err) {
+                done(err);
+            }
 
         });
     },
@@ -79,10 +87,10 @@ module.exports = {
     on_put_input: function (context, done) {
         Q.when(this.model('nerds_things'), function (things_model) {
 
-            var thing = _.pick(context,'name', 'thing_type', 'game', 'anchor', 'sprites');
+            var thing = things_model.pick(context);
             console.log('making thing %s', util.inspect(thing));
 
-            things_model.revise( thing, function (err, thing) {
+            things_model.revise(thing, function (err, thing) {
                 context.thing = thing.toJSON();
                 console.log('created thing %s', util.inspect(context.thing));
                 done();

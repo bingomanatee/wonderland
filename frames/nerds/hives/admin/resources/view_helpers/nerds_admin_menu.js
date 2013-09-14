@@ -40,7 +40,8 @@ module.exports = function (apiary, cb) {
                 title: 'Nerdministration',
                 items: [
                     {name: 'games', title: 'Games', link: '/admin/nerds/games', weight: -100},
-                    {name: 'skills', title: 'Skills', link: '/admin/nerds/skills', weight: 0}
+                    {name: 'skills', title: 'Skills', link: '/admin/nerds/skills', weight: 0},
+                    {name: 'things', title: 'Things', link: '/admin/nerds/things', weight: 0}
                 ]
             })
 

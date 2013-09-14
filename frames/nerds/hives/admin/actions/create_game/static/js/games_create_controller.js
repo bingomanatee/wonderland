@@ -36,7 +36,8 @@
             columnDefs: [
                 {field: 'name', displayName: 'Name', width: '****'},
                 {field: 'thing_type', displayName: 'Type', width: '**'},
-                {field: 'anchor', displayName: 'A', width: '*'}
+                {field: 'anchor', displayName: 'A', width: '*'},
+                {field: 'global', displayName: 'Global', width: '*'}
             ]
         };
 

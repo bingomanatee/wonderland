@@ -9,12 +9,12 @@
         return [x, y];
     }
 
-    function Thing_Sprite(type, thing_canvas, x, y, w, h) {
+    function Thing_Sprite(type, thing_canvas, x, y, w, h, color) {
         this.thing_canvas = thing_canvas;
         this.rotation = 0;
         this.type = type;
         this.container = new createjs.Container();
-        this.color = this.thing_canvas.$scope.current_color;
+        this.color = color || this.thing_canvas.$scope.current_color;
 
         if ((typeof x == 'undefined') || (arguments.length < 3)){
             x = Thing_Canvas.STAGE_WIDTH / 2;
@@ -45,6 +45,22 @@
     }
 
     Thing_Sprite.prototype = {
+
+        clone: function(){
+            return new Thing_Sprite(this.type, this.thing_canvas, this.get_x(), this.get_y(), this.get_width(), this.get_height(), this.color);
+        },
+
+        max_width: function(){
+            this.set_x(0);
+            this.set_width(Thing_Canvas.DRAW_WIDTH);
+            this.redraw_shape();
+        },
+
+        max_height: function(){
+            this.set_y(0);
+            this.set_height(Thing_Canvas.DRAW_HEIGHT);
+            this.redraw_shape();
+        },
 
         set_color: function (color) {
             this.color = color;
@@ -131,49 +147,6 @@
             }
 
             this.us();
-        },
-
-        set_width: function (width) {
-            this.width = width;
-            return this;
-        },
-
-        set_height: function (height) {
-            this.height = height;
-            return this;
-        },
-
-        get_width: function(){
-            return this.width;
-        },
-
-        get_height: function(){
-          return this.height;
-        },
-
-        set_x: function (x) {
-            this.container.x = x;
-            return this;
-        },
-
-        set_y: function (y) {
-            this.container.y = y;
-            return this;
-        },
-
-        get_x: function(){
-            return this.container.x;
-        },
-
-        get_y: function(){
-            return this.container.y;
-        },
-        center_x: function () {
-            return (this.width ) / 2;
-        },
-
-        center_y: function () {
-            return (this.height ) / 2;
         },
 
         _draw_triangle: function () {
@@ -269,6 +242,51 @@
             }
 
             return out;
+        },
+
+        /* ************ PROPERTIES *********** */
+
+        set_width: function (width) {
+            this.width = width;
+            return this;
+        },
+
+        set_height: function (height) {
+            this.height = height;
+            return this;
+        },
+
+        get_width: function(){
+            return this.width;
+        },
+
+        get_height: function(){
+            return this.height;
+        },
+
+        set_x: function (x) {
+            this.container.x = x;
+            return this;
+        },
+
+        set_y: function (y) {
+            this.container.y = y;
+            return this;
+        },
+
+        get_x: function(){
+            return this.container.x;
+        },
+
+        get_y: function(){
+            return this.container.y;
+        },
+        center_x: function () {
+            return (this.width ) / 2;
+        },
+
+        center_y: function () {
+            return (this.height ) / 2;
         }
     };
 

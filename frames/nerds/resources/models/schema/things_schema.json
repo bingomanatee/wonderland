@@ -2,6 +2,7 @@
     "name": "string",
     "game": "objectId",
     "thing_type": "string",
+    "global": {"type": "boolean", "default": false},
     "anchor": "string",
     "sprites": [
         {
