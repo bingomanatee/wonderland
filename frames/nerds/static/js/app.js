@@ -9,6 +9,15 @@
             });
         });
 
+    angular.module('mapsService', ['ngResource']).factory('Maps',
+        function ($resource) {
+            return $resource('/nerds/rest/maps/:_id', {_id: '@_id'}, {
+                get: {method: 'GET'},
+                query: {method: 'GET', isArray: true},
+                update: {method: 'PUT'}
+            });
+        });
+
     angular.module('placesService', ['ngResource']).factory('Places',
         function ($resource) {
             return $resource('/nerds/rest/places/:_id', {_id: '@_id'}, {
@@ -37,8 +46,7 @@
             });
         });
     var NERDS_app = angular.module('NERDS_app', [
-        'gamesService', 'skillsService', 'placesService', 'thingsService',
-        'colorpicker.module',
+        'gamesService', 'skillsService', 'placesService', 'thingsService', 'mapsService',
         'ngGrid', 'ui.bootstrap', 'ui.bootstrap.modal']);
 
 })();

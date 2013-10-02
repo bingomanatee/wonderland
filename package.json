@@ -27,7 +27,8 @@
     "gate": "~0.3.0",
     "underscore": "~1.5.1",
     "async": "~0.2.9",
-    "hive-menu": "0.0.1"
+    "hive-menu": "0.0.1",
+    "hive-model-mongoose": "0.0.2"
   },
   "devDependencies": {
     "tap": "~0.4.4",

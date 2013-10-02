@@ -1,0 +1,7 @@
+{
+    "static": {
+        "js": "/js/art",
+        "css": "/css/art",
+        "img": "/img/art"
+    }
+}

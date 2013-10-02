@@ -1,0 +1,9 @@
+.drawing_frame {
+    color: black;
+    margin: 1em;
+    background-color: white;
+}
+
+.drawing_frame canvas {
+    margin: 40px; border: 1px solid grey;
+}

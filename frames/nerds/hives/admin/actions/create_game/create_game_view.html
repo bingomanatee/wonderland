@@ -1,7 +1,5 @@
 <link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
-<link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_game/create_game.css"/>
-<link rel="stylesheet" type="text/css"
-      href="/js/nerds/vendor/angular/angular-bootstrap-colorpicker/css/colorpicker.css"/>
+<link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_game/games_create.css"/>
 
 <script language="javascript">
     window.game_id = '<%= game_id %>';
@@ -9,39 +7,20 @@
 <div id="game_creation" ng-app="NERDS_app" ng-controller="GameCreationCtrl">
     <h1>Game World Editor: {{ game.name }}</h1>
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#places_graph" data-toggle="tab">Places Graph</a></li>
-        <li><a href="#places_list" data-toggle="tab">Places List</a></li>
-        <li><a href="#thing_editor" data-toggle="tab">Thing Editor</a></li>
-        <li><a href="#thing_list" data-toggle="tab">Thing List</a></li>
+        <li class="active"><a href="#map" data-toggle="tab">Map</a></li>
+        <li><a href="#plot" data-toggle="tab">Plot</a></li>
     </ul>
 
     <div class="tab-content">
-        <div class="tab-pane active" id="places_graph">
-            <h2>Places</h2>
+        <div class="tab-pane active" id="map">
+            <h2>Map</h2>
 
-            <div>
-                <canvas id="create_canvas" width="800" height="640">
+            <div map_editor="<%= game_id %>">
 
-                </canvas>
-
-                <p>What you are looking at is a blank slate of "places" that can be explored in your game world.
-                    No assumption of scale/size is made here, or of equalilty of relative size or connectivity.
-                    This is a "blank slate" around which you can create your game flow. </p>
             </div>
         </div>
 
-        <div class="tab-pane" id="places_list">
-            <h2>Places List</h2>
-
-            <div ng-grid="placeGridOptions" style="width: 100%; height:  30em"></div>
-        </div>
-
-        <div class="tab-pane" id="thing_editor" thing-editor>
-
-        </div>
-
-        <div class="tab-pane" id="thing_list">
-            <div ng-grid="thingGridOptions" style="width: 100%; height:  30em"></div>
+        <div class="tab-pane" id="plot">
         </div>
     </div>
 

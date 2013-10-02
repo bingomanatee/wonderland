@@ -5,7 +5,7 @@
     // ----------------------- root controller ---------------------------
 
     function GameCreationCtrl($scope, $filter, $compile, $modal,
-                              Games, Places, Things, placeGraph,
+                              Games, Places, Things,
                               $window) {
 
         var GAME_ID = $window.game_id;
@@ -41,15 +41,13 @@
             ]
         };
 
-        var pg = placeGraph($scope, GAME_ID, $modal);
-
         $scope.create = function (type) {
         };
 
     }
 
     GameCreationCtrl.$inject = ['$scope', '$filter', '$compile', '$modal',
-        'Games', 'Places', 'Things', 'placeGraph',
+        'Games', 'Places', 'Things',
         '$window'];
 
 

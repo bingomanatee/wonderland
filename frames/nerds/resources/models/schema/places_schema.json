@@ -1,6 +1,6 @@
 {
     "name": "string",
-    "type": "string",
+    "place_type": "string",
     "center": {
         "row": "number",
         "col": "number"

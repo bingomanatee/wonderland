@@ -1,0 +1,36 @@
+{
+    "name": {
+        "type": "string",
+        "default": "world"
+    },
+    "center": {
+        "row": "number",
+        "column": "number"
+    },
+    "game": "objectId",
+    "description": "string",
+    "active": {
+        "type": "boolean",
+        "default": true
+    },
+    "hex_size": "number",
+    "map_size": "number",
+    "hexes": [
+        {
+            "row": "number",
+            "column": "number",
+            "x": "number",
+            "y": "number",
+            "points": [
+                {
+                    "x": "number",
+                    "y": "number"
+                }
+            ],
+            "terrain": {
+                "type": "string",
+                "default": "unknown"
+            }
+        }
+    ]
+}

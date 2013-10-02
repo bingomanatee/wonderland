@@ -1,0 +1,241 @@
+$icon_width: -60px;
+$icon_button_width: 30px;
+$button_bg: rgb(225, 225, 225);
+.paint-editor {
+  color: black;
+  .tabs {
+    margin: 5px;
+    margin-bottom: 0;
+    .tab {
+      display: inline-block;
+      min-width: 12em;
+      padding: 6px;
+      font-weight: bold;
+      font-family: "Helvetica Neue", Helvetica sans-serif;
+      font-size: 80%;
+      border: 1px solid black;
+      border-bottom: none;
+      margin-right: 1em;
+      background-color: rgb(225,225,225);
+      color: rgb(150,150,150);
+    }
+    .tab.active{
+      color: black;
+      background-color: white;
+    }
+  }
+
+  .tab-panel {
+    background-color: white;
+    margin: 5px;
+    margin-top: 0;
+    border: 1px solid black;
+    padding: 10px;
+  }
+
+  .manifest {
+    table {
+      border: 1px solid rgb(150,150,150);
+      min-width: 50em;
+      tr {
+        td, th {
+          text-align: left;
+          font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+          font-size: 90%;
+          padding: 0.25em;
+          border: none;
+          margin: 0;
+          .swatch {
+           display: inline-block;
+            width: 1.5em;
+            margin: 3px;
+            height: 0.75em;
+          }
+        }
+        td {
+          border-top: 1px solid rgb(150, 150, 150);
+        }
+      }
+    }
+  }
+
+  .controls {
+    height: $icon_button_width * 1.5;
+    display: block;
+    .draw_buttons {
+      width: 370px;
+      display: inline-block;
+      margin-top: 0;
+      vertical-align: top;
+      button {
+        width: $icon_button_width;
+        height: $icon_button_width;
+        background-image: url(/img/draw_icons.png);
+        background-position: left top;
+        background-repeat: no-repeat;
+        -webkit-appearance: none;
+        border: none;
+        background-color: transparent;
+        top: 2px;
+        display: inline-block;
+        margin: 0px;
+      }
+      button.done_poly {
+        width: $icon_button_width * 2.5;
+        height: $icon_button_width * 0.8;
+        background-image: none;
+        background-color: $button_bg;
+        border: 1px solid darken($button_bg, 25%);
+        padding: 2px;
+        display: inline-block;
+        vertical-align: top;
+        // strange requirement to fix chrome misaslignment
+      }
+      button.rectangle {
+        background-position: left top;
+        &:hover {
+          background-position: left $icon_width;
+        }
+        &.active {
+          background-position: left $icon_width * 2;
+        }
+      }
+
+      button.circle {
+        background-position: $icon_width top;
+        &:hover {
+          background-position: $icon_width $icon_width;
+        }
+        &.active {
+          background-position: $icon_width  $icon_width * 2;
+        }
+      }
+
+      button.triangle {
+        background-position: $icon_width * 2 top;
+        &:hover {
+          background-position: $icon_width * 2 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 2 $icon_width * 2
+        }
+      }
+
+      button.polygon {
+        background-position: $icon_width * 3 top;
+        &:hover {
+          background-position: $icon_width * 3 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 3  $icon_width * 2;
+        }
+      }
+      button.remove {
+        background-position: $icon_width * 4 top;
+        &:hover {
+          background-position: $icon_width * 4 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 4 $icon_width * 2;
+        }
+      }
+      button.move_up {
+        background-position: $icon_width * 5 top;
+        &:hover {
+          background-position: $icon_width * 5 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 5 $icon_width * 2;
+        }
+      }
+      button.move_down {
+        background-position: $icon_width * 6 top;
+        &:hover {
+          background-position: $icon_width * 6 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 6 $icon_width * 2;
+        }
+      }
+      button.clone {
+        background-position: $icon_width * 7 top;
+        &:hover {
+          background-position: $icon_width * 7 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 7 $icon_width * 2;
+        }
+      }
+      button.max_width {
+        background-position: $icon_width * 8 top;
+        &:hover {
+          background-position: $icon_width * 8 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 8 $icon_width * 2;
+        }
+      }
+      button.max_height {
+        background-position: $icon_width * 9 top;
+        &:hover {
+          background-position: $icon_width * 9 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 9 $icon_width * 2;
+        }
+      }
+      button.rotate {
+        background-position: $icon_width * 10 top;
+        &:hover {
+          background-position: $icon_width * 10 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 10 $icon_width * 2;
+        }
+      }
+      button.add_poly_point {
+        background-position: $icon_width * 11 top;
+        &:hover {
+          background-position: $icon_width * 11 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 11 $icon_width * 2;
+        }
+      }
+      button.delete_poly_point {
+        background-position: $icon_width * 12 top;
+        &:hover {
+          background-position: $icon_width * 12 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 12 $icon_width * 2;
+        }
+      }
+      button.move_poly_point {
+        background-position: $icon_width * 13 top;
+        &:hover {
+          background-position: $icon_width * 13 $icon_width;
+        }
+        &.active {
+          background-position: $icon_width * 13 $icon_width * 2;
+        }
+      }
+    }
+
+    .color {
+      vertical-align: top;
+      width: 300px;
+      display: inline-block;
+      label {
+        display: inline-block;
+      }
+      input[type="text"] {
+        vartical-align: top;
+        width: 130px;
+
+        margin: 0;
+      }
+    }
+  }
+
+}

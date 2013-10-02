@@ -1,0 +1,256 @@
+/* Welcome to Compass.
+ * In this file you should write your main styles. (or centralize your imports)
+ * Import this file using the following HTML or equivalent:
+ * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/* ************ NAVIGATION ********************* */
+.navbar-inverse .navbar-inner {
+    border: none;
+    background-color: transparent;
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, rgba(255, 255, 255, 0.5)), color-stop(100%, rgba(255, 255, 255, 0.125)));
+    background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.125));
+    background: -moz-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.125));
+    background: -o-linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.125));
+    background: linear-gradient(top, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.125));
+}
+.navbar-inverse .brand, .navbar-inverse .navbar-inverse .nav > li > a {
+    font-family: 'Roboto Condensed', Helvetica Neue, Arial, sans-serif;
+    weight: 700;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+.breadcrumb {
+    background-color: transparent;
+    font-size: 90%;
+    margin-left: 0;
+    margin-bottom: 0.2em;
+    padding: 0;
+    text-shadow: none;
+}
+
+.breadcrumb li {
+    color: rgb(200,200,200);
+    font-family: 'Roboto Condensed', Helvetica Neue, Arial, sans-serif;
+    text-rendering: optimizelegibility;
+    text-shadow: none;
+}
+
+.breadcrumb a, .breadcrumb a:link, .breadcrumb a:visited {
+    font-family: 'Roboto Condensed', Helvetica Neue, Arial, sans-serif;
+    text-rendering: optimizelegibility;
+    color: red;
+    text-shadow: none;
+}
+
+.navbar-inner {
+    border-color: rgba(200, 200, 200, 0.5);
+    background: white;
+    /* Old browsers */
+    /*  background: rgb(242,242,242);
+      */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    /*
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIxJSIgc3RvcC1jb2xvcj0iI2YyZjJmMiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI3JSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijc1JSIgc3RvcC1jb2xvcj0iI2UwZTBlMCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9Ijg5JSIgc3RvcC1jb2xvcj0iI2QzZDNkMyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMGUwZTAiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  rgba(242,242,242,1) 1%, rgba(255,255,255,1) 27%, rgba(224,224,224,1) 75%, rgba(211,211,211,1) 89%, rgba(224,224,224,1) 100%); */
+    /* FF3.6+ */
+    /*
+background: -webkit-gradient(linear, left top, left bottom, color-stop(1%,rgba(242,242,242,1)), color-stop(27%,rgba(255,255,255,1)), color-stop(75%,rgba(224,224,224,1)), color-stop(89%,rgba(211,211,211,1)), color-stop(100%,rgba(224,224,224,1))); */
+    /* Chrome,Safari4+ */
+    /*
+background: -webkit-linear-gradient(top,  rgba(242,242,242,1) 1%,rgba(255,255,255,1) 27%,rgba(224,224,224,1) 75%,rgba(211,211,211,1) 89%,rgba(224,224,224,1) 100%); */
+    /* Chrome10+,Safari5.1+ */
+    /*
+background: -o-linear-gradient(top,  rgba(242,242,242,1) 1%,rgba(255,255,255,1) 27%,rgba(224,224,224,1) 75%,rgba(211,211,211,1) 89%,rgba(224,224,224,1) 100%); */
+    /* Opera 11.10+ */
+    /*
+background: -ms-linear-gradient(top,  rgba(242,242,242,1) 1%,rgba(255,255,255,1) 27%,rgba(224,224,224,1) 75%,rgba(211,211,211,1) 89%,rgba(224,224,224,1) 100%); */
+    /* IE10+ */
+    /*
+background: linear-gradient(to bottom,  rgba(242,242,242,1) 1%,rgba(255,255,255,1) 27%,rgba(224,224,224,1) 75%,rgba(211,211,211,1) 89%,rgba(224,224,224,1) 100%); */
+    /* W3C */
+    /*
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#e0e0e0',GradientType=0 ); */
+    /* IE6-8 */
+    /*
+
+-webkit-box-shadow: none;
+box-shadow: none
+-moz-box-shadow: none;*/
+}
+
+/* ***************** core styles ***************** */
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background: black;
+    color: white;
+}
+
+.modal {
+    color: black;
+}
+
+.well.sidebar-nav {
+    padding: 9px 0;
+    background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(70%, #323232), color-stop(100%, #646464));
+    background: -webkit-linear-gradient(#323232 70%, #646464);
+    background: -moz-linear-gradient(#323232 70%, #646464);
+    background: -o-linear-gradient(#323232 70%, #646464);
+    background: linear-gradient(#323232 70%, #646464);
+    border: none;
+}
+.well.sidebar-nav a, .well.sidebar-nav a:link, .well.sidebar-nav a:visited {
+    color: #f0f0ff;
+    text-shadow: none;
+}
+
+a, a:link, a:visited {
+    color: #cc99ff;
+}
+
+.nav > li > a:hover,
+.nav > li > a:focus {
+    background-color: black;
+    color: white;
+}
+
+a:hover {
+    color: #ff6600;
+    text-decoration: underline;
+}
+
+article a {
+    text-decoration: underline;
+    color: #ff0066;
+}
+
+article a:hover {
+    color: #990033;
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZjZTYyMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjU3JSIgc3RvcC1jb2xvcj0iI2ZjZTYyMCIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2ZjZTYyMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(top, rgba(252, 230, 32, 0) 0%, rgba(252, 230, 32, 0.5) 57%, rgba(252, 230, 32, 0) 100%);
+    /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(252, 230, 32, 0)), color-stop(57%, rgba(252, 230, 32, 0.5)), color-stop(100%, rgba(252, 230, 32, 0)));
+    /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, rgba(252, 230, 32, 0) 0%, rgba(252, 230, 32, 0.5) 57%, rgba(252, 230, 32, 0) 100%);
+    /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, rgba(252, 230, 32, 0) 0%, rgba(252, 230, 32, 0.5) 57%, rgba(252, 230, 32, 0) 100%);
+    /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, rgba(252, 230, 32, 0) 0%, rgba(252, 230, 32, 0.5) 57%, rgba(252, 230, 32, 0) 100%);
+    /* IE10+ */
+    background: linear-gradient(to bottom, rgba(252, 230, 32, 0) 0%, rgba(252, 230, 32, 0.5) 57%, rgba(252, 230, 32, 0) 100%);
+    /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00fce620', endColorstr='#00fce620',GradientType=0 );
+    /* IE6-8 */
+}
+
+h1, h2, h3, h4 {
+    font-family: 'Roboto Condensed', Helvetica Neue, Arial, sans-serif;
+    font-size: 180%;
+    font-weight: 400;
+    margin-top: 0.5em;
+    padding: 0px;
+    line-height: 120%;
+    color: red;
+}
+
+h1 a, h2 a, h3 a, h4 a,
+h1 a:visited, h2 a:visited, h3 a:visited, h4 a:visited,
+h1 a:link, h2 a:link, h3 a:link, h4 a:link {
+    color: inherit;
+    text-decoration: underline;
+}
+
+h1 {
+    margin-top: 0.5em;
+    font-size: 240%;
+    font-weight: 700;
+}
+
+h2 {
+    color: red;
+}
+
+h3 {
+    color: black;
+}
+
+h4 {
+    color: black;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 100%;
+    margin-top: 1em;
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    font-weight: 700;
+}
+
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
+    color: #cc0066;
+    text-decoration: underline;
+}
+
+/* ********* TABLE ********** */
+.table-bordered, .table td, .table th, .table-bordered td, .table-bordered th {
+    border-color: rgba(0, 0, 0, 0.5);
+}
+
+/* *********** SOURCE **************** */
+pre, pre.sh_sourceCode {
+    background-color: white !important;
+    border: none;
+    -webkit-box-shadow: inset 0px 0px 16px 8px #ffebf0;
+    box-shadow: inset 0px 0px 16px 8px #ffebf0;
+    padding: 1.5em 2em;
+    font-weight: normal !important;
+    font-family: "Courier New", monospace !important;
+}
+
+pre.sh_sourceCode, pre.sh_sourceCode *, pre.sh_sourceCode .sh_keyword {
+    font-size: 100% !important;
+    font-family: "Courier New", monospace !important;
+    font-weight: normal !important;
+}
+
+pre.sh_sourceCode .sh_string {
+    color: #006633 !important;
+}
+
+/* ********* MEDIA OVERRIDES *********** */
+@media (max-width: 979px) {
+    .navbar-inverse .navbar-inner {
+        background-color: #969696;
+        background-image: none;
+    }
+
+    .navbar-inverse .nav {
+        background-color: rgba(0, 0, 0, 0.25);
+        -webkit-border-radius: 8px;
+        border-radius: 8px;
+    }
+
+    .navbar-inverse .nav-collapse .nav > li > a,
+    .navbar-inverse .nav-collapse .dropdown-menu a {
+        color: white;
+        font-family: "Helvetica Neue", Helvetica, sans-serif;
+    }
+
+    .navbar-inverse .brand, .navbar-inverse .nav > li > a {
+        background-color: transparent !important;
+    }
+
+    h1, h2, h3, h4 {
+        font-family: Helvetica Neue, Arial, sans-serif !important;
+        font-size: 120%;
+        font-weight: 400;
+        margin-top: 0.5em;
+    }
+}
+@media (max-width: 980px) {
+    /* Enable use of floated navbar text */
+    .navbar-text.pull-right {
+        float: none;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}

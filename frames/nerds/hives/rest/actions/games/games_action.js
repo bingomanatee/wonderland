@@ -31,8 +31,7 @@ module.exports = {
     },
 
     on_get_output: function (context, done) {
-        context.$out = context._id ? context.game : context.games;
-        context.$send(done);
+        context.$send(context._id ? context.game : context.games, done);
     },
 
     /* --------------- VALIDATE ------------------- */

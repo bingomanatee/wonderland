@@ -1,0 +1,26 @@
+<link rel="stylesheet" type="text/css" href="/css/art/view/view.css"/>
+
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><div class="divider">~</div></li>
+    <li><a href="/art">Art</a></li>
+    <li><div class="divider">~</div></li>
+    <li><%= drawing.name %></li>
+</ul>
+
+<h1><%= drawing.name %> (<%= drawing._id %>)</h1>
+<script language="javascript">
+    var drawing_id = "<%= drawing._id %>"
+</script>
+<div class="drawing_frame">
+    <canvas id="drawing" width="720" height="520"></canvas>
+</div>
+
+<p><%= drawing.description %></p>
+
+<% if (can_edit) {%>
+<p>
+    <button class="btn btn-primary" onClick="document.location='/art/edit/<%= drawing._id %>'">Edit Drawing</button>
+    <button class="btn btn-danger" onClick="document.location='/art/delete/<%= drawing._id %>'">Delete Drawing</button>
+</p>
+<% } %>

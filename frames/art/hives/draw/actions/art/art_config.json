@@ -1,0 +1,74 @@
+{
+    "routes": {
+        "get": "/art"
+    },
+
+    "layout_name": "art",
+
+    "static": {
+        "js": "/js/art",
+        "css": "/css/art"
+    },
+
+    "javascript": [
+        {
+            "url": "/js/art/vendor/easel/easeljs-0.6.1.min.js",
+            "context": "foot",
+            "name": "easel",
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/angular.min.js",
+            "context": "foot",
+            "name": "angular",
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/angular-resource.min.js",
+            "context": "foot",
+            "name": "angular-resource",
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/ui-bootstrap-tpls-0.6.0.js",
+            "context": "foot",
+            "name": "angular_bootstrap",
+            "defer": true,
+            "requires": ["angular"]
+        },
+        {
+            "url": "/js/art/drawings_service.js",
+            "context": "foot",
+            "name": "drawings",
+            "requires" : ["angular", "angular-resource"],
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/underscore-min.js",
+            "context": "foot",
+            "name": "underscore",
+            "defer": true
+        },
+        {
+            "url": "/js/art/art_app.js",
+            "context": "foot",
+            "name": "art_app",
+            "requires": ["easel", "angular"],
+            "defer": true
+        },
+        {
+            "url": "/js/art/directives/thumb.js",
+            "context": "foot",
+            "name": "thumb_directive",
+            "requires": ["easel", "angular", "art_app"],
+            "defer": true
+        },
+        {
+            "url": "/js/art/art_controller.js",
+            "context": "foot",
+            "name": "show_drawing",
+            "requires": ["art_app", "easel", "angular"],
+            "defer": true
+        }
+    ]
+}

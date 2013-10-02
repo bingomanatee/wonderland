@@ -1,0 +1,6 @@
+{
+    "routes": {
+        "get": "/admin/nerds/hexes"
+    }
+
+}

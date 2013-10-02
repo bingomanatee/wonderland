@@ -2,7 +2,7 @@
 
     var app = angular.module('NERDS_app');
 
-    app.directive('thingEditor', function InjectingFunction(Things) {
+    app.directive('thingEditor', function InjectingFunction(Things, Thing_Canvas) {
 
         return {
             templateUrl: '/js/nerds/directives/templates/thing_editor.html',
@@ -74,6 +74,7 @@
 
                     $scope.$watch('current_color', function (c) {
                         console.log('current color changed to ', c);
+                        $scope.thing_canvas.set_color(c);
                     });
 
                     $scope.set_poly_state = function (state) {
@@ -82,22 +83,38 @@
 
                     $scope.save_thing = function (save) {
                         if (save) {
-                            if (!$scope.thing.sprites.length){
+                            if (!$scope.thing_canvas.sprites.length){
                                 alert('please add sprites to your thing');
                                 return;
                             }
                             try {
+                                var thing = _.clone($scope.thing);
 
-                                $scope.thing.sprites = _.map($scope.thing.sprites, function (sprite) {
+                               thing.sprites = _.map($scope.thing_canvas.sprites, function (sprite) {
                                     return sprite.export();
                                 });
 
-                                Things.add($scope.thing);
+                               if (thing._id){
+                                   Thing.update(thing);
+                               } else {
+                                   Things.add(thing);
+                               }
                             } catch (err) {
                                 console.log('error saving sprite:', err);
                             }
 
-                            $scope.things = Things.query({game: window.GAME_ID});
+                            if ($scope.global){
+                                $scope.things = Things.query({global: true});
+                            } else if ($scope.game){
+                                var id = $scope.game;
+                                if (!id) throw new Error('no game or global flag in scope');
+                                if (id._id){
+                                    id = id._id;
+                                }
+
+                                $scope.things = Things.query({game: id})
+                            }
+
                         }
 
                         $scope.new_thing();

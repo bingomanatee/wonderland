@@ -1,0 +1,79 @@
+{
+    "routes": {
+        "get": ["/art/draw", "/art/edit/:_id"]
+    },
+    "layout_name": "art",
+    "static": {
+        "js": "/js/art/draw",
+        "css": "/css/art/draw"
+    },
+    "javascript": [
+        {
+            "url": "/js/art/vendor/underscore-min.js",
+            "context": "foot",
+            "name": "underscore",
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/angular.min.js",
+            "context": "foot",
+            "name": "angular",
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/angular-resource.min.js",
+            "context": "foot",
+            "name": "angular-resource",
+            "requires": ["angular"],
+            "defer": true
+        },
+        {
+            "url": "/js/art/vendor/angular/ui-bootstrap-tpls-0.6.0.js",
+            "context": "foot",
+            "name": "angular_bootstrap",
+            "defer": true,
+            "requires": ["angular"]
+        },
+        {
+            "url": "/js/art/vendor/easel/easeljs-0.6.1.min.js",
+            "context": "foot",
+            "name": "easel",
+            "defer": true
+        },
+        {
+            "url": "/js/art/Paint.js",
+            "context": "foot",
+            "requires": ["angular", "easel"],
+            "name": "paint",
+            "defer": true
+        },
+        {
+            "url": "/js/art/draw/app.js",
+            "context": "foot",
+            "requires": ["angular", "angular-resource", "easel"],
+            "name": "paint app",
+            "defer": true
+        },
+        {
+            "url": "/js/art/draw/Export_Drawing.js",
+            "context": "foot",
+            "requires": ["angular", "easel"],
+            "name": "export_drawing",
+            "defer": true
+        },
+        {
+            "url": "/js/art/draw/Import_Drawing.js",
+            "context": "foot",
+            "requires": ["angular", "easel"],
+            "name": "import_drawing",
+            "defer": true
+        },
+        {
+            "url": "/js/art/draw/controller.js",
+            "context": "foot",
+            "requires": ["angular", "easel", "angular_bootstrap", "export_drawing", "import_drawing"],
+            "name": "paint",
+            "defer": true
+        }
+    ]
+}

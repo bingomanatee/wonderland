@@ -1,0 +1,21 @@
+<link rel="stylesheet" type="text/css" href="/css/art/art.css"/>
+<script language="javascript">
+    window.member = <%- member ? JSON.stringify(member) : 'false' %>;
+</script>
+<ul class="breadcrumb">
+    <li><a href="/">Home</a></li>
+    <li><div class="divider">~</div></li>
+    <li>Art</li>
+</ul>
+
+<div ng-app="ArtApp">
+    <div ng-controller="ArtCtrl">
+        <h1>Drawings</h1>
+        <div class="drawing_item" ng-repeat="drawing in drawings">
+            <div class="thumb" thumb>
+            </div>
+        </div>
+        <p ng-show="member"><button class="btn btn-primary btn-large" ng-click="new_drawing()">Create a Drawing!</button> Its free and fun. </p>
+        <p ng-hide="member">Log in to create drawings!</p>
+    </div>
+</div>

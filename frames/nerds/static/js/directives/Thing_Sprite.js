@@ -35,7 +35,7 @@
         this.height = h;
 
         this.thing_canvas.draw_container.addChild(this.container);
-        this.thing_canvas.thing().sprites.push(this);
+        this.thing_canvas.sprites.push(this);
 
         this.redraw_shape();
 

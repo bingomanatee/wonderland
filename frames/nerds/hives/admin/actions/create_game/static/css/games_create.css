@@ -1,0 +1,9 @@
+canvas#map {
+    border: 1px solid rgb(204, 153, 102);
+}
+
+#map_controls {
+    float: right;
+    width: 300px;
+    margin-right: 2em;
+}

@@ -1,0 +1,11 @@
+.drawing_item {
+  font-size: 66%;
+    display: inline-block;
+    width: 200px;
+}
+
+.drawing_item canvas {
+  width: 144px;
+  height: 104px;
+  background-color: white;
+  border: 1px solid red; }

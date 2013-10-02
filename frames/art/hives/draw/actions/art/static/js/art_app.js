@@ -1,0 +1,1 @@
+angular.module("ArtApp", ['drawingsService', 'ui.bootstrap', 'ui.bootstrap.modal']);

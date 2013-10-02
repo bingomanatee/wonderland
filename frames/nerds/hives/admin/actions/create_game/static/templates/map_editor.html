@@ -1,0 +1,34 @@
+<canvas id="map" width=600 height=400></canvas>
+<form id="map_controls">
+    <div class="control-group">
+        <labael class="control-label" for="map_width">Map Width</labael>
+        <div class="controls">
+            <select name="map_width" ng-model="map_width"
+                    ng-options="size.value as size.label for size in map_sizes"></select>
+        </div>
+    </div>
+    <div class="control-group">
+        <labael class="control-label" for="hex_size">Hex Size</labael>
+        <div class="controls">
+            <select name="hex_size" ng-model="hex_scale"
+                    ng-options="size.value as size.label for size in hex_scale_menu()"></select>
+        </div>
+    </div>
+
+    <p>changing either Map Width or Hex Size will erase your map. Set these values before painting.</p>
+    <div class="control-group">
+        <label class="control-label">Terrain</label>
+
+        <div class="controls">
+            <select name="terrain" ng-model="terrain" ng-options="terrain for terrain in terrains"></select>
+        </div>
+    </div>
+
+    <div class="control-group">
+        <label class="control-label">Paint Size</label>
+
+        <div class="controls">
+            <input type="range" name="paint_size" ng-model="paint_size" min="1" step="1" max="5"/> {{ paint_size}}
+        </div>
+    </div>
+</form>

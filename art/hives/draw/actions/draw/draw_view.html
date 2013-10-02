@@ -1,0 +1,97 @@
+<link rel="stylesheet" type="text/css" href="/css/art/draw/paint.css"/>
+
+<script language="javascript">
+    window.member = <%- member ? JSON.stringify(member) : 'false' %>;
+    window.drawing_id = "<%= drawing ? drawing._id : '' %>";
+</script>
+
+<% if (drawing){ %>
+<h1>Edit drawing &quot;<%= drawing.name %>&quot; (<%= drawing._id %>)</h1>
+<% } else { %>
+<h1>Create a drawing!</h1>
+<% } %>
+
+<div ng-app="PaintApp">
+    <div ng-controller="PaintCtrl">
+        <div paint-editor width="800" height="600" margin="40" grid="20" class="paint-editor">
+            ... loading easel paint
+        </div>
+        <button class="btn btn-danger" ng-show="drawing_id" ng-click="delete_drawing()">Delete Drawing</button>
+
+        <script type="text/ng-template" id="noMemberWarning.html">
+            <div class="modal-header">
+                <h3>Drawing cannot be saved</h3>
+            </div>
+
+            <div class="modal-body">
+                <p>You have not signed in. Because of this, your drawing cannot be saved. You are free to
+                    draw for the fun of it but if you plan on saving your drawing, you'll want to log in
+                    with the left nav's member menu before beginning your drawing.</p>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-primary" ng-click="warning_read()">
+                    I understand
+                </button>
+            </div>
+        </script>
+
+        <script type="text/ng-template" id="drawingSaveDialog.html">
+            <div class="modal-header">
+                <h3>Save Drawing</h3>
+            </div>
+
+            <div class="modal-body">
+                <div class="form-horizontal" ng-form="drawingSaveForm">
+                    <div class="control-group">
+                        <label class="control-label" for="inputName">Name</label>
+
+                        <div class="controls">
+                            <input type="text" id="inputName" class="input-xlarge" name="name" required
+                                   ng-model="drawing_metadata.name"
+                                   placeholder="Name"/>
+
+                            <div class="text-error"
+                                 data-ng-show="drawingSaveForm.name.$error.required && drawingSaveForm.name.$dirty">Name
+                                is required
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label" for="descriptionInput">Description</label>
+
+                        <div class="controls">
+                            <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
+                                      placeholder="description"
+                                      ng-model="drawing_metadata.description">
+                            </textarea>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Exposure</label>
+
+                        <div class="controls">
+                            <label class="radio">
+                                <input type="radio" name="public" ng-model="drawing_metadata.public" value="1"/>
+                                Public -- anyone can see</label>
+                            <label class="radio">
+                                <input type="radio" name="public" ng-model="drawing_metadata.public" value="0"/>
+                                Private - your eyes only</label>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-warning" ng-click="save_drawing_dlog()">Cancel</button>
+                <button class="btn btn-primary" ng-click="save_drawing_dlog(true)" ng-show="drawingSaveForm.$valid">
+                    Save
+                </button>
+            </div>
+        </script>
+    </div>
+</div>

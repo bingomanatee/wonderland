@@ -103,11 +103,19 @@
         },
 
         {
+            "url": "/js/nerds/Color_Palette.js",
+            "context": "foot",
+            "defer": "defer",
+            "name": "Color_Palette",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
             "url": "/js/nerds/directives/Thing_Canvas.js",
             "context": "foot",
             "defer": "defer",
             "name": "Thing_Sprite",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
+            "requires": ["nerds_app", "angular", "underscore", "easel", "Color_Palette"]
         }
     ]
 }

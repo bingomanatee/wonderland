@@ -52,20 +52,6 @@
         },
 
         {
-            "url": "/js/nerds/vendor/angular/angular-bootstrap-colorpicker/lib/bootstrap-colorpicker.js",
-            "name": "angular-colorpicker",
-            "context": ["foot"],
-            "requires": ["angular"]
-        },
-
-        {
-            "url": "/js/nerds/vendor/angular/angular-bootstrap-colorpicker/js/bootstrap-colorpicker-module.js",
-            "name": "angular-colorpicker",
-            "context": ["foot"],
-            "requires": ["angular", "colorpicker"]
-        },
-
-        {
             "url": "/js/nerds/app.js",
             "context": "foot",
             "name": "nerds_app",
@@ -74,46 +60,26 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_game/directives/anchor_form_element.js",
+            "url": "/js/admin/nerds/create_game/factories/hex_extent.js",
             "context": "foot",
+            "name": "extent",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/directives/thing_editor.js",
+            "url": "/js/admin/nerds/create_game/directives/map_editor.js",
             "context": "foot",
+            "name": "map_editor",
             "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/thing_create_controller.js",
+            "url": "/js/admin/nerds/create_game/games_create_controller.js",
             "context": "foot",
             "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/place_graph.js",
-            "context": "foot",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/Thing_Sprite.js",
-            "context": "foot",
-            "defer": "defer",
-            "name": "Thing_Sprite",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-        {
-            "url": "/js/admin/nerds/create_game/Thing_Canvas.js",
-            "context": "foot",
-            "defer": "defer",
-            "name": "Thing_Sprite",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
+            "requires": ["nerds_app", "angular", "underscore", "easel", "map_editor"]
         }
     ]
 }

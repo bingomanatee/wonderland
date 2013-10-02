@@ -1,0 +1,36 @@
+{
+    "routes": {
+        "get": "/art/draw/:_id"
+    },
+
+    "layout_name": "art",
+
+    "static": {
+        "js": "/js/art/view",
+        "css": "/css/art/view"
+    },
+
+    "javascript": [
+        {
+            "url": "/js/art/vendor/easel/easeljs-0.6.1.min.js",
+            "context": "foot",
+            "name": "easel",
+            "defer": true
+        },
+
+        {
+            "url": "/js/art/vendor/underscore-min.js",
+            "context": "foot",
+            "name": "underscore",
+            "defer": true
+        },
+
+        {
+            "url": "/js/art/view/show_drawing.js",
+            "context": "foot",
+            "name": "show_drawing",
+            "requires": ["easel"],
+            "defer": true
+        }
+    ]
+}

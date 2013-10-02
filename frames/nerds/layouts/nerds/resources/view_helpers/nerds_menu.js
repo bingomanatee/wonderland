@@ -11,6 +11,7 @@ var hm = require('hive-menu');
  *
  * ************************************ */
 
+console.log('nm1: ', __filename);
 /* ******* CLOSURE ********* */
 
 var _sidebar;
@@ -19,51 +20,42 @@ var _sidebar;
 
 module.exports = function (apiary, cb) {
 
-	fs.readFile(path.resolve(__dirname, 'sidebar_template.html'), 'utf8', function(err, txt){
+    fs.readFile(path.resolve(__dirname, 'sidebar_template.html'), 'utf8', function (err, txt) {
 
-		_sidebar = ejs.compile(txt);
+        _sidebar = ejs.compile(txt);
 
-		var helper = {
+        var helper = {
 
-			name: 'nerds_layout_menu',
+            name: 'nerds_layout_menu',
 
-			test: function (ctx, output) {
-			//	console.log('testing %s for layout_name hive_blog', util.inspect(output));
-				return output.layout_name == 'nerds';
-			},
+            test: function (ctx, output) {
+                //	console.log('testing %s for layout_name hive_blog', util.inspect(output));
+                return true; // output.layout_name == 'nerds';
+            },
 
-			weight: -50,
+            weight: -50,
 
-			respond: function (ctx, output, done) {
-				if (!output.helpers){
-					output.helpers = {};
-				}
+            respond: function (ctx, output, done) {
+                if (!output.helpers) {
+                    output.helpers = {};
+                }
 
-				var site_menu = new hm.Menu({
-					name: 'site',
-					title: 'Site',
-					items: [
-						{name: 'home', title: 'Home', link: '/', weight: -1000000},
-                        {name: 'games', title: 'NERDS Games', link: '/nerds/games'}
-					]
-				})
+                var nerds_menu = new hm.Menu({
+                    name: 'nerds',
+                    title: 'Nerds',
+                    items: [
+                        {name: 'games', title: 'NERDS', link: '/nerds/games'}
+                    ]
+                });
 
-				var menu = new hm.Menu({name: 'sidebar', title: '', items: [
-					site_menu
-				]});
+                output.helpers.sidebar_menu_data.add(nerds_menu);
 
-				output.helpers.sidebar_menu_data = menu;
+                done();
+            }
+        };
 
-				output.helpers.sidebar_menu = function(){
-					return _sidebar(output.helpers.sidebar_menu_data.toJSON());
-				};
+        cb(null, helper);
 
-				done();
-			}
-		};
-
-		cb(null, helper);
-
-	})
+    })
 
 };

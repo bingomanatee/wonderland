@@ -8,7 +8,7 @@ $(function () {
 
         $.ajax('/admin/nerds/games/add', {method: 'put', data: form_data }).done(function (result, result_type) {
             console.log('result:', result);
-            document.location = '/nerds/games/list'
+          //  document.location = '/nerds/games'
         });
         return false;
     })

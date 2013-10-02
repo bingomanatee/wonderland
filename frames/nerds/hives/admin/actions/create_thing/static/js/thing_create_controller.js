@@ -8,6 +8,9 @@
 
         $scope.things = Things.query({global: true});
 
+        $scope.global = true;
+        $scope.game = null;
+
         $scope.active_things = [];
 
         $scope.thingGridOptions = {

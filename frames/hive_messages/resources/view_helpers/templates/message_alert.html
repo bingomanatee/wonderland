@@ -1,0 +1,12 @@
+<% _.each(keys, function(alerts, key){
+console.log('alerts: ', alerts);
+%>
+<div class="alert alert-<%= key %>">
+    <button type="button" class="close" data-dismiss="<%= key %>">&times;</button>
+    <ul>
+        <li>
+            <%- alerts %>
+        </li>
+    </ul>
+</div>
+<% }) %>

@@ -25,7 +25,7 @@ module.exports = {
                     done();
                 });
             } else if (context.global) {
-                things_model.find({global: true}, _on_things);
+                things_model.find({global: true}, '-sprites', _on_things);
             } else {
                 things_model.all(_on_things)
             }

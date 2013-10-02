@@ -79,11 +79,11 @@
 
         <div class="control-group">
             <div class="controls">
-                <button ng-show="thing.sprites.length && thing_editor_form.$valid" type="submit"
+                <button ng-show="thing_editor_form.$valid" type="submit"
                         ng-click="save_thing(true)" class="btn btn-primary">Save
                 </button>
             </div>
-            <p>Sprites: {{ thing.sprites.length }}</p>
+            <p>Sprites: {{ thing_canvas.sprites.length }}</p>
         </div>
     </div>
 </form>

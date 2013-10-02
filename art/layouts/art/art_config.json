@@ -1,0 +1,12 @@
+{
+	"name":   "art",
+	"static": {
+		"/img": "/img/art",
+		"/css": "/css/art",
+		"/js":  "/js/art"
+	},
+	"javascript": [
+		{"url": "/js/art/vendor/jquery-1.10.1.min.js", "context": "foot" },
+		{"url": "/js/art/vendor/bootstrap.js", "context": "foot" }
+	]
+}
