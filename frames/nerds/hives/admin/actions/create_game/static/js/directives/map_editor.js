@@ -102,7 +102,7 @@
         return {
             templateUrl: '/templates/admin/nerds/create_game/map_editor.html',
 
-            controller: function ($scope) {
+            controller: function ($scope, $modal) {
 
                 // scale in meters
                 $scope.map_sizes = [
@@ -144,7 +144,8 @@
                     'road',
                     'swamp',
                     'lake',
-                    'ocean'
+                    'ocean',
+                    'other...'
                 ];
 
                 $scope.colors = {
@@ -156,15 +157,19 @@
                     ocean: 'blue',
                     lake: 'rgb(153, 153, 255)',
                     swamp: 'rgb(204,153, 102)'
-                }
+                };
+
                 $scope.terrain_color = function (terrain) {
                     return $scope.colors[terrain];
-                }
+                };
 
                 $scope.terrain = 'grassland';
 
                 function _change_terrain(terrain) {
                     console.log('terrain changed to', terrain);
+                    if (terrain == 'other...') {
+                        $scope.create_terrain();
+                    }
                 }
 
                 $scope.$watch('terrain', _change_terrain);

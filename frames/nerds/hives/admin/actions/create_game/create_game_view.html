@@ -24,18 +24,19 @@
         </div>
     </div>
 
-    <script type="text/ng-template" id="modalTileEditor.html">
+    <script type="text/ng-template" id="createTerrain.html">
         <div class="modal-header">
-            <h3>Create/edit place for game &quot;{{ game.name }}&quot;</h3>
+            <h3>Create terrain type</h3>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body create-terrain">
+            <p> for use in game &quot;{{ game_name }}&quot;</p>
             <div class="form-horizontal" ng-form="pipForm">
                 <div class="control-group">
                     <label class="control-label" for="inputName">Name</label>
 
                     <div class="controls">
-                        <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="pip.name"
+                        <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="name"
                                placeholder="Name"/>
 
                         <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name
@@ -46,30 +47,32 @@
                 </div>
 
                 <div class="control-group">
-                    <label class="control-label">Type</label>
+                    <label class="control-label">Color</label>
 
                     <div class="controls">
-                        <select name="type" ng-model="pip.type" class="input-xlarge">
-                            <option ng-repeat="type in types" ng-value="type">{{ type }}</option>
-                        </select>
-                        <br/>
-                        <label for="otherTypeInput">Other:</label>
-                        <input name="other_type" id="otherTypeInput" type="text" ng-model="pip.type"
-                               ng-value="type" placeholder="other type"/>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Size</label>
-
-                    <div class="controls">
-                        <select name="type" required ng-model="pip.size" class="input-xlarge">
-                            <option ng-repeat="size in sizes" ng-value="size.value">{{ size.label }}</option>
-                        </select>
-                        <br/>
-                        <label for="otherSizeInput">Other:</label>
-                        <input name="other_type" id="otherSizeInput" type="text" ng-model="pip.sizeOther"
-                               ng-value="type" placeholder="other type"/> km
+                        <div>
+                         <b>Red</b> <br />
+                          <span class="range-number"> 0 </span>  <input name="red" type="range" ng-model="red" min="0" max="255" step="1"/>
+                                <span class="range-number">255</span>
+                           <span class="rgb-value">
+                               {{ red }}
+                           </span>
+                        </div>
+                        <div>
+                       <b>Green</b>  <br />
+                              <span class="range-number">  0 </span> <input name="green" type="range" ng-model="green" min="0" max="255" step="1"/>       <span class="range-number">255</span>
+                                                     <span class="rgb-value">
+   {{ green }}
+                           </span>
+                        </div>
+                        <div>
+                        <b>Blue</b>  <br />
+                            <span class="range-number">    0 </span><input name="blue" type="range" ng-model="blue" min="0" max="255" step="1"/>       <span class="range-number">255</span>
+                                                <span class="rgb-value">
+       {{ blue }}
+                           </span>
+                        </div>
+                        <div class="color-swatch" id="terrain-color-swatch"></div>
                     </div>
                 </div>
 
@@ -79,7 +82,7 @@
                     <div class="controls">
                         <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
                                   placeholder="description"
-                                  ng-model="pip.description">
+                                  ng-model="description">
                         </textarea>
                     </div>
                 </div>
@@ -88,8 +91,8 @@
         </div>
 
         <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="save_thing_edit()">Cancel</button>
-            <button class="btn btn-primary" ng-click="save_thing_edit(true)" ng-show="pipForm.$valid">Save</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" ng-click="save()" ng-show="pipForm.$valid">Save</button>
         </div>
     </script>
 </div>
