@@ -2,7 +2,8 @@
 
     var app = angular.module('NERDS_app');
 
-    app.directive('mapEditor', function InjectingFunction($http, TerrainTypes, map_editor_draw_map, hex_size, easel_import) {
+    app.directive('mapEditor', function InjectingFunction($http, TerrainTypes,
+     map_editor_draw_map, hex_size, easel_import, map_editor_road, map_editor_city) {
 
         function _init_scope_canvas($scope, $linkElement) {
 
@@ -168,98 +169,9 @@
                     $scope.stage.update();
                 }
 
-                function _hex_event_city(hex) {
+                map_editor_city($scope);
 
-                    function CreateCityCtrl($scope, $modalInstance, game_name, hex) {
-
-                        $scope.game_name = game_name;
-
-                        $scope.save = function () {
-                            $modalInstance.close($scope.new_city);
-                        };
-                        $scope.cancel = _.bind($modalInstance.dismiss, $modalInstance);
-                    }
-
-                    $scope.new_city = {name: '', description: ''};
-
-                    var modalInstance = $modal.open({
-                            templateUrl: 'create_city.html',
-                            controller: CreateCityCtrl,
-                            scope: $scope,
-                            resolve: {
-                                hex: function () {
-                                    return hex;
-                                },
-                                game_name: function () {
-                                    return $scope.game.name ? $scope.game.name : 'Untitled"'
-                                }
-                            }
-                        }
-                    );
-
-                    modalInstance.result.then(function (city) {
-                        if (city) {
-                            console.log('new city:', city);
-                            hex.set_city(city);
-                        }
-                    }, function () {
-                        console.log('City Modal dismissed at: ' + new Date());
-                    });
-                }
-
-                $scope.road_points = [];
-
-                function _draw_new_road() {
-                    $scope.new_road_container.removeAllChildren();
-
-                    var road_shape = new createjs.Shape();
-                    $scope.new_road_container.addChild(road_shape);
-
-                    if ($scope.road_points.length > 0){
-
-                        var road_button = $scope.buttons.road;
-                        road_button.getChildByName('save').visible = true;
-                        road_button.getChildByName('cancel').visible = true;
-                    }
-
-                    if ($scope.road_points.length > 1) {
-                        road_shape.graphics.ss(2).s('red', 0, 1).mt($scope.road_points[0].shape.x, $scope.road_points[0].shape.y);
-                        $scope.road_points.slice(1).forEach(function (p) {
-
-                            road_shape.graphics.lt(p.shape.x, p.shape.y);
-
-                        })
-                    }
-
-                    $scope.stage.update();
-
-                }
-
-                $scope.save_road = function () {
-                    console.log('adding road');
-                }
-
-                $scope.cancel_road = function () {
-                    console.log('cancelling road');
-                    $scope.road_points = [];
-                    $scope.buttons.road.getChildByName('save').visible = false;
-                    $scope.buttons.road.getChildByName('cancel').visible = false;
-                    $scope.new_road_container.removeAllChildren();
-                    $scope.stage.update();
-                }
-
-                function _hex_event_road(hex) {
-                    if (_.contains($scope.road_points, hex)) {
-                        $scope.road_points = _.reject($scope.road_points, function (p) {
-                            return p === hex;
-                        })
-                    } else {
-                        $scope.road_points.push(hex);
-                    }
-
-                    _draw_new_road();
-
-                }
+                map_editor_road($scope);
 
                 $scope.$watch('map_edit_mode', function () {
                     $scope.update_draw_buttons();
@@ -305,11 +217,11 @@
                                 break;
 
                             case 'city':
-                                _hex_event_city(hex);
+                                $scope.hex_event_city(hex);
                                 break
 
                             case 'road':
-                                _hex_event_road(hex);
+                                $scope.hex_event_road(hex);
                                 break;
 
                         }

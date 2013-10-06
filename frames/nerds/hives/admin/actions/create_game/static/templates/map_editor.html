@@ -47,16 +47,70 @@
                 </div>
                 <div class="tab-pane" id="city-tab">
                     <p>Click a hex to add a city to it.</p>
+                    <div class="city-grid" ng-grid="city_grid_options"></div>
                 </div>
                 <div class="tab-pane" id="road-tab">
-                    <label class=""control-label">Road Type</label>
-                    <select name="road" ng-model="road_type" ng-options="road for road in road_types" ></select>
+                    <label class="" control-label">Road Type</label>
+                    <select name="road" ng-model="road_type" ng-options="road for road in road_types"></select>
+
+                    <div class="road-grid" ng-grid="road_grid_options"></div>
 
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+<script type="text/ng-template" id="create_road.html">
+    <div class="modal-header">
+        <h3>Create road</h3>
+    </div>
+
+    <div class="modal-body create-terrain">
+        <p> for use in game &quot;{{ game_name }}&quot;</p>
+
+        <div class="form-horizontal" ng-form="roadForm">
+            <div class="control-group">
+                <label class="control-label" for="inputName">Name</label>
+
+                <div class="controls">
+                    <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="new_road.name"
+                           placeholder="Name"/>
+
+                    <div class="text-error" data-ng-show="roadForm.name.$error.required && roadForm.name.$dirty">Name
+                        is required
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="descriptionInput">Description</label>
+
+                <div class="controls">
+                    <textarea id="descriptionInput" class="input-xlarge" name="description" rows="3"
+                              placeholder="description"
+                              ng-model="new_road.description">
+                    </textarea>
+                </div>
+            </div>
+
+            <div class="control-group">
+
+                <label class="control-label">Road Type</label>
+                <div class="controls">
+                    <select name="road" ng-model="new_road.road_type" ng-options="road for road in road_types"></select>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="save()" ng-show="roadForm.$valid">Save Road</button>
+    </div>
+</script>
 
 <script type="text/ng-template" id="create_city.html">
     <div class="modal-header">

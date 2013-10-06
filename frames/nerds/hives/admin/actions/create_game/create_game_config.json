@@ -85,6 +85,22 @@
         },
 
         {
+            "url": "/js/admin/nerds/create_game/factories/map_editor/road.js",
+            "context": "foot",
+            "name": "road",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/admin/nerds/create_game/factories/map_editor/city.js",
+            "context": "foot",
+            "name": "road",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
             "url": "/js/admin/nerds/create_game/factories/map_editor/draw_hexes.js",
             "context": "foot",
             "name": "map_editor",
