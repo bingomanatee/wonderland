@@ -46,7 +46,7 @@
                              dist = _dist(from_point.draw_x, from_point.draw_y, point.x, point.y);
                             console.log('dist', dist);
                             if (dist > MIN_DIST) {
-                                 scale = Math.min(from_point.hex.height(), dist/3);
+                                 scale = Math.min(from_point.hex.height()/2, dist/4);
                                 out.push(_midpoint(from_point.draw_x, from_point.draw_y, point.x, point.y, scale));
                                 too_long = true;
                             }
@@ -137,9 +137,11 @@
 
                         $scope.road_types = [
                             'path',
-                            'cobblestone road',
-                            'paved road',
+                            'cobblestone',
+                            'paved',
+                            'avenue',
                             'highway',
+                            'freeway',
                             'railroad',
                             'subway'
                         ];
@@ -191,26 +193,92 @@
 
             $scope.draw_roads = function () {
 
+                
+                function _stroke_road_points(points, shape){
+                    var p0 = points[0];
+                    shape.graphics.mt(p0.draw_x, p0.draw_y);
+
+                    points.slice(1).forEach(function (point, i) {
+                        var mp = points[i].midpoints; // i is the index of the PREVIOUS point, due to the slice.
+                        if (mp) {
+                            _.each(mp, function (m) {
+                                shape.graphics.lt(m.x, m.y);
+                            })
+                        } else {
+                            console.log('slice point ', i, ' -- no mids');
+                        }
+                        shape.graphics.lt(point.draw_x, point.draw_y);
+                    });
+                    shape.graphics.es();
+                }
+
                 $scope.road_container.removeAllChildren();
 
                 _.each($scope.roads, function (road) {
                     var road_shape = new createjs.Shape();
 
-                    var p0 = road.points[0];
-                    road_shape.graphics.s('rgb(204,0,204)').ss(2).mt(p0.draw_x, p0.draw_y);
+                    switch(road.road_type){
+                        case 'path':
+                            road_shape.graphics.s('rgb(204,153,153)').ss(1);
+                            _stroke_road_points(road.points, road_shape);
+                            break;
 
-                    road.points.slice(1).forEach(function (point, i) {
-                        var mp = road.points[i].midpoints; // i is the index of the PREVIOUS point, due to the slice.
-                        if (mp) {
-                            _.each(mp, function (m) {
-                                road_shape.graphics.lt(m.x, m.y);
-                            })
-                        } else {
-                            console.log('slice point ', i, ' -- no mids');
-                        }
-                        road_shape.graphics.lt(point.draw_x, point.draw_y);
-                    });
+                        case 'cobblestone':
+                            road_shape.graphics.s('rgb(204,204,204)').ss(2);
+                            _stroke_road_points(road.points, road_shape);
+                            break;
 
+                        case 'paved':
+                            road_shape.graphics.s('black').ss(2);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        case 'subway':
+                            road_shape.graphics.s('rgb(0,0,204)').ss(2);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        case 'avenue':
+                            road_shape.graphics.s('black').ss(4);
+                            _stroke_road_points(road.points, road_shape);
+                            road_shape.graphics.s('rgb(204,204,204)').ss(2);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        case 'highway':
+                            road_shape.graphics.s('black').ss(4);
+                            _stroke_road_points(road.points, road_shape);
+                            road_shape.graphics.s('yellow').ss(3);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        case 'freeway':
+                            road_shape.graphics.s('black').ss(5);
+                            _stroke_road_points(road.points, road_shape);
+                            road_shape.graphics.s('red').ss(4);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        case 'railroad':
+                            road_shape.graphics.s('black').ss(4);
+                            _stroke_road_points(road.points, road_shape);
+                            road_shape.graphics.s('rgb(51,255,0)').ss(3);
+                            _stroke_road_points(road.points, road_shape);
+
+                            break;
+
+                        default:
+                            road_shape.graphics.s('black').ss(3);
+                            _stroke_road_points(road.points, road_shape);
+                            road_shape.graphics.s('white').ss(2);
+                            _stroke_road_points(road.points, road_shape);
+
+                    }
                     $scope.road_container.addChild(road_shape);
 
                 });
