@@ -136,10 +136,26 @@
             </div>
 
             <div class="control-group">
+                <labael class="control-label" for="hex_size">City Size</labael>
+                <div class="controls">
+                    <select name="city_size" ng-model="new_city.size"
+                            ng-options="size.value as size.label for size in sizes"></select>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <labael class="control-label" for="hex_size">Type</labael>
+                <div class="controls">
+                    <select name="city_size" ng-model="new_city.type"
+                            ng-options="type for type in types"></select>
+                </div>
+            </div>
+
+            <div class="control-group">
                 <label class="control-label" for="descriptionInput">Description</label>
 
                 <div class="controls">
-                    <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
+                    <textarea id="descriptionInput" class="input-xlarge" name="description" rows="3"
                               placeholder="description"
                               ng-model="new_city.description">
                     </textarea>

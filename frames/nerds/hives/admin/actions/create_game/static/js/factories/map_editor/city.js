@@ -13,8 +13,10 @@
             $scope.cities = [];
             $scope.city_grid_options = { data: 'cities',
                 columnDefs: [
-                    { field: "name", displayName: 'Road', width: '***' },
-                    { field: "city_type", displayName: 'Type', width: "*" }]
+                    { field: "name", displayName: 'City', width: '***' },
+                    { field: "size", displayName: 'Size', width: "*" },
+                    {field: 'type', displayName: 'Type', width: '*'}
+                ]
 
             };
 
@@ -24,13 +26,62 @@
 
                     $scope.game_name = game_name;
 
+                    $scope.sizes = [
+                        {
+                            label: 'crossroads(up to 20)',
+                            value: 20
+                        },
+                        {
+                            label: 'hamlet(up to 100)',
+                            value: 100
+                        },
+                        {
+                            label: 'village(up to 1000)',
+                            value: 1000
+                        },
+                        {
+                            label: 'town(up to 10,000)',
+                            value: 10000
+                        },
+                        {
+                            label: 'small city(up to 100,000)',
+                            value: 100000
+                        },
+                        {
+                            label: 'city(up to 500,000)',
+                            value: 500000
+                        },
+                        {
+                            label: 'large city(up to 1,000,000)',
+                            value: 1000000
+                        },
+                        {
+                            label: 'metropolis(up to 5,000,000)',
+                            value: 5000000
+                        },
+                        {
+                            label: 'sprawl(c. 10,000,000)',
+                            value: 10000000
+                        }
+
+                    ]
+
+                    $scope.types = [
+                        'settlement',
+                        'fort',
+                        'ghost town/ruins',
+                        'caverns',
+                        'camp',
+                        'company town'
+                    ]
+
                     $scope.save = function () {
                         $modalInstance.close($scope.new_city);
                     };
                     $scope.cancel = _.bind($modalInstance.dismiss, $modalInstance);
                 }
 
-                $scope.new_city = {name: '', description: ''};
+                $scope.new_city = {name: '', description: '', size: 100000, type: 'settlement'};
 
                 var modalInstance = $modal.open({
                         templateUrl: 'create_city.html',

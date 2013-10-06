@@ -8,6 +8,72 @@
 
     app.factory('map_editor_road', function ($modal) {
 
+        function wander(value, scale) {
+            var rand = (Math.sin(Math.random() * 100)) / 2;
+            var offset = scale * rand;
+            console.log('wander: rand', rand, 'offset:', offset);
+            return value + offset;
+        }
+
+        var MIN_DIST = 5;
+
+        function _dist(x1, y1, x2, y2) {
+            var dx = x2 - x1;
+            var dy = y2 - y1;
+            return Math.sqrt(dx * dx + dy * dy);
+        }
+
+        function _midpoint(x1, y1, x2, y2, scale) {
+            return  {
+                x: wander((x1 + x2) / 2, scale),
+                y: wander((y1 + y2) / 2, scale)
+            };
+        }
+
+        function _point_go_to(from_point, to_point) {
+            if (to_point) {
+                from_point.midpoints = [];
+                var midpoint = _midpoint(from_point.draw_x, from_point.draw_y, to_point.draw_x, to_point.draw_y, from_point.hex.height());
+                from_point.midpoints.push(midpoint);
+
+                var too_long = false;
+
+                do {
+                    too_long = false;
+                    from_point.midpoints = _.reduce(from_point.midpoints, function (out, point, i) {
+                        var dist, scale;
+                        if (i == 0) {
+                             dist = _dist(from_point.draw_x, from_point.draw_y, point.x, point.y);
+                            console.log('dist', dist);
+                            if (dist > MIN_DIST) {
+                                 scale = Math.min(from_point.hex.height(), dist/3);
+                                out.push(_midpoint(from_point.draw_x, from_point.draw_y, point.x, point.y, scale));
+                                too_long = true;
+                            }
+                        }  else {
+                            var prev = from_point.midpoints[i - 1];
+                             dist = _dist(prev.x, prev.y, point.x, point.y);
+                            if (dist > MIN_DIST){
+                                 scale = Math.min(from_point.hex.height(), dist/3);
+                                out.push(_midpoint(prev.x, prev.y, point.x, point.y, scale));
+                                too_long = true;
+                            }
+                        }
+
+                        out.push(point);
+                        return out;
+                    }, []);
+                } while (too_long);
+            }
+        }
+
+        function _windy_road(road) {
+            _.each(road.points, function (point, i) {
+                _point_go_to(point, road.points[i + 1])
+            });
+            console.log('road points:', road.points);
+        }
+
         return  function ($scope) {
 
 
@@ -44,11 +110,20 @@
             }
             $scope.roads = [];
             $scope.add_road = function (road) {
-                road.points = $scope.road_points;
-                $scope.road_points = [];
+                road.points = $scope.road_points.map(function (hex) {
+
+                    return{
+                        hex: hex,
+                        draw_x: wander(hex.shape.x, hex.height()/4),
+                        draw_y: wander(hex.shape.y, hex.height()/4)
+                    }
+                });
+
+                _windy_road(road);
                 $scope.roads.push(road);
-                $scope.stage.update();
-            }
+                _clear_road();
+                $scope.draw_roads();
+            };
 
             $scope.save_road = function () {
                 console.log('adding road');
@@ -106,24 +181,57 @@
                 }
             }
 
-            $scope.cancel_road = function () {
-                console.log('cancelling road');
+            function _clear_road() {
                 $scope.road_points = [];
                 $scope.buttons.road.getChildByName('save').visible = false;
                 $scope.buttons.road.getChildByName('cancel').visible = false;
                 $scope.new_road_container.removeAllChildren();
                 $scope.stage.update();
+            }
+
+            $scope.draw_roads = function () {
+
+                $scope.road_container.removeAllChildren();
+
+                _.each($scope.roads, function (road) {
+                    var road_shape = new createjs.Shape();
+
+                    var p0 = road.points[0];
+                    road_shape.graphics.s('rgb(204,0,204)').ss(2).mt(p0.draw_x, p0.draw_y);
+
+                    road.points.slice(1).forEach(function (point, i) {
+                        var mp = road.points[i].midpoints; // i is the index of the PREVIOUS point, due to the slice.
+                        if (mp) {
+                            _.each(mp, function (m) {
+                                road_shape.graphics.lt(m.x, m.y);
+                            })
+                        } else {
+                            console.log('slice point ', i, ' -- no mids');
+                        }
+                        road_shape.graphics.lt(point.draw_x, point.draw_y);
+                    });
+
+                    $scope.road_container.addChild(road_shape);
+
+                });
+
+                $scope.stage.update();
+            };
+
+            $scope.cancel_road = function () {
+                _clear_road();
             };
 
             $scope.roads = [];
             $scope.road_grid_options = { data: 'roads',
                 columnDefs: [
-                    { field: "name", displayName: 'City', width: '***' },
-                    { field: "road_type", displayName: 'Type', width: "*" }]
+                    { field: "name", displayName: 'Road', width: '***' },
+                    { field: "road_type", displayName: 'Type', width: "*" }
+                ]
 
             };
 
-           $scope.hex_event_road = function (hex) {
+            $scope.hex_event_road = function (hex) {
                 if (_.contains($scope.road_points, hex)) {
                     $scope.road_points = _.reject($scope.road_points, function (p) {
                         return p === hex;
