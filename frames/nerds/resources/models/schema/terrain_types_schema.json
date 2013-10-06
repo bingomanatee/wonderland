@@ -1,0 +1,12 @@
+{
+    "color": {
+        "red": "string",
+        "green": "string",
+        "blue": "string"
+    },
+
+    "description": "string",
+    "name": "string",
+    "game": "objectId",
+    "global": {"type": "boolean", "default": false}
+}

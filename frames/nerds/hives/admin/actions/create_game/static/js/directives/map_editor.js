@@ -2,97 +2,37 @@
 
     var app = angular.module('NERDS_app');
 
-    app.directive('mapEditor', function InjectingFunction($http, hex_extent) {
+    app.directive('mapEditor', function InjectingFunction($http, TerrainTypes, map_editor_draw_map, hex_size, easel_import) {
 
-        function _draw_hexes(hexes, container, canvas) {
-            container.removeAllChildren();
+        function _init_scope_canvas($scope, $linkElement) {
 
-            var extent = hex_extent(hexes);
-            console.log('extent: ', extent);
+            console.log('making easel editor ele ', $linkElement, 'scope', $scope);
+            $scope.canvas = $linkElement.find('canvas')[0];
 
-            var width_ratio = canvas.width / extent.width;
-            var height_ratio = canvas.height / extent.height;
-            var ratio = Math.min(width_ratio, height_ratio);
+            $scope.stage = new createjs.Stage($scope.canvas);
 
-            if (width_ratio > height_ratio) {
-                container.x = (canvas.width - (extent.width * ratio)) / 2;
-            } else {
-                container.y = (canvas.height - (extent.height * ratio)) / 2;
-            }
+            $scope.map_container = new createjs.Container();
+            $scope.stage.addChild($scope.map_container);
 
-            _.each(hexes, function (hex) {
+            $scope.hex_grid = new createjs.Container();
+            $scope.city_container = new createjs.Container();
+            var cities = new createjs.Container();
+            cities.name = 'cities';
+            var city_labels = new createjs.Container();
+            city_labels.name = 'labels';
+            $scope.city_container.addChild(cities);
+            $scope.city_container.addChild(city_labels);
 
-                hex.shape = new createjs.Shape();
+            $scope.road_container = new createjs.Container();
+            $scope.new_road_container = new createjs.Container();
 
-                var last_point = _.last(hex.points);
+            $scope.map_container.addChild($scope.hex_grid);
+            $scope.map_container.addChild($scope.city_container);
+            $scope.map_container.addChild($scope.road_container);
+            $scope.map_container.addChild($scope.new_road_container);
 
-                function _x(x) {
-                    return (x - extent.min_x) * ratio;
-                }
-
-                function _y(y) {
-                    return (y - extent.min_y) * ratio;
-                }
-
-                hex._x = _x;
-                hex._y = _y;
-
-                hex.draw = function (color) {
-                    hex.shape.graphics.c();
-
-                    hex.shape.graphics.f(color ? color : 'white').mt(_x(last_point.x), _y(last_point.y));
-
-                    _.each(hex.points, function (point) {
-                        hex.shape.graphics.lt(_x(point.x), _y(point.y));
-                    });
-
-                    hex.shape.graphics.ef();
-
-                    hex.shape.graphics.s('black').mt(_x(last_point.x), _y(last_point.y));
-
-                    _.each(hex.points, function (point) {
-                        hex.shape.graphics.lt(_x(point.x), _y(point.y));
-                    })
-                    hex.shape.graphics.es();
-                };
-
-                hex.draw();
-
-                container.addChild(hex.shape);
-            })
-
-        };
-
-        function _add_hex_actions($scope, hexes) {
-
-            _.each(hexes, function (hex) {
-
-                hex.change_terrain = function () {
-                    hex.terrain = $scope.terrain;
-                    hex.draw($scope.terrain_color(hex.terrain));
-                };
-
-
-                hex.shape.addEventListener('click', function () {
-
-
-                    if ($scope.paint_size > 1) {
-                        _.each(_.filter(hexes, function (h) {
-
-                            return Math.max(Math.abs(h.row - hex.row), Math.abs(h.column - hex.column)) < $scope.paint_size;
-
-                        }), function (h) {
-                            h.change_terrain();
-                        });
-                    } else {
-                        hex.change_terrain();
-                    }
-
-                    $scope.stage.update();
-                })
-
-
-            });
+            $scope.toolbar = new createjs.Container();
+            $scope.stage.addChild($scope.toolbar);
         }
 
         // === InjectingFunction === //
@@ -136,34 +76,45 @@
 
                 $scope.paint_size = 1;
 
+                TerrainTypes.query(function (tt) {
+                    $scope.terrain_types = tt;
+                    $scope.terrains = _.pluck(tt, 'name').concat('other...');
+
+                    var _c = _.template('rgb(<%= color.red %>,<%= color.green %>,<%= color.blue %>)');
+
+                    tt.forEach(function (t) {
+                        $scope.colors[t.name] = _c(t);
+                    })
+                });
+
                 $scope.terrains = [
-                    'forest',
-                    'grassland',
-                    'desert',
-                    'mountain',
-                    'road',
-                    'swamp',
-                    'lake',
-                    'ocean',
-                    'other...'
                 ];
 
                 $scope.colors = {
-                    forest: 'rgb(0,204,0)',
-                    grassland: 'rgb(102,255,0)',
-                    desert: 'yellow',
-                    mountain: 'red',
-                    road: 'grey',
-                    ocean: 'blue',
-                    lake: 'rgb(153, 153, 255)',
-                    swamp: 'rgb(204,153, 102)'
                 };
+
+                $scope.road_type = 'path';
+
+                $scope.road_types = [
+                    'path',
+                    'cobblestone road',
+                    'paved road',
+                    'highway',
+                    'railroad',
+                    'subway'
+                ];
+
+                $scope.edit_tab = function (mode) {
+                    $scope.map_edit_mode = mode;
+                };
+
+                $scope.map_edit_mode = 'terrain';
 
                 $scope.terrain_color = function (terrain) {
                     return $scope.colors[terrain];
                 };
 
-                $scope.terrain = 'grassland';
+                $scope.terrain = 'plains';
 
                 function _change_terrain(terrain) {
                     console.log('terrain changed to', terrain);
@@ -183,7 +134,7 @@
                     return _.map($scope.hex_scales,
 
                         function (scale) {
-                            var size = _hex_size($scope.map_width) * scale;
+                            var size = hex_size($scope.map_width, $scope.hex_scale) * scale;
 
                             if (size > 10000) {
                                 var size_string = Math.round(size / 1000) + 'km';
@@ -196,36 +147,174 @@
                             }
                         }
                     );
-
                 };
 
-                function _hex_size(map_size) {
-                    if (!map_size) {
-                        map_size = $scope.map_width;
+                map_editor_draw_map($scope);
+
+                function _hex_event_terrain(hex) {
+
+                    if ($scope.paint_size > 1) {
+                        _.each(_.filter($scope.map_hexes, function (h) {
+
+                            return Math.max(Math.abs(h.row - hex.row), Math.abs(h.column - hex.column)) < $scope.paint_size;
+
+                        }), function (h) {
+                            h.change_terrain();
+                        });
+                    } else {
+                        hex.change_terrain();
                     }
 
-                    var hex_power = 0;
-                    while (Math.pow(10, hex_power) < map_size) ++hex_power;
-                    --hex_power;
-                    return Math.pow(10, hex_power) * $scope.hex_scale;
+                    $scope.stage.update();
                 }
 
-                function _redraw_map() {
-                    console.log('width changed to ', $scope.map_width);
-                    $http({method: 'GET', url: "/admin/nerds/hexes", params: { map_size: $scope.map_width, hex_size: _hex_size()}})
-                        .success(function (hexes) {
-                            hexes = _.flatten(hexes);
-                            _draw_hexes(hexes, $scope.hex_grid, $scope.canvas);
-                            _add_hex_actions($scope, hexes);
-                            $scope.hexes = hexes;
+                function _hex_event_city(hex) {
 
+                    function CreateCityCtrl($scope, $modalInstance, game_name, hex) {
 
-                            $scope.stage.update();
-                        });
+                        $scope.game_name = game_name;
+
+                        $scope.save = function () {
+                            $modalInstance.close($scope.new_city);
+                        };
+                        $scope.cancel = _.bind($modalInstance.dismiss, $modalInstance);
+                    }
+
+                    $scope.new_city = {name: '', description: ''};
+
+                    var modalInstance = $modal.open({
+                            templateUrl: 'create_city.html',
+                            controller: CreateCityCtrl,
+                            scope: $scope,
+                            resolve: {
+                                hex: function () {
+                                    return hex;
+                                },
+                                game_name: function () {
+                                    return $scope.game.name ? $scope.game.name : 'Untitled"'
+                                }
+                            }
+                        }
+                    );
+
+                    modalInstance.result.then(function (city) {
+                        if (city) {
+                            console.log('new city:', city);
+                            hex.set_city(city);
+                        }
+                    }, function () {
+                        console.log('City Modal dismissed at: ' + new Date());
+                    });
                 }
 
-                $scope.$watch('map_width', _redraw_map);
-                $scope.$watch('hex_scale', _redraw_map);
+                $scope.road_points = [];
+
+                function _draw_new_road() {
+                    $scope.new_road_container.removeAllChildren();
+
+                    var road_shape = new createjs.Shape();
+                    $scope.new_road_container.addChild(road_shape);
+
+                    if ($scope.road_points.length > 0){
+
+                        var road_button = $scope.buttons.road;
+                        road_button.getChildByName('save').visible = true;
+                        road_button.getChildByName('cancel').visible = true;
+                    }
+
+                    if ($scope.road_points.length > 1) {
+                        road_shape.graphics.ss(2).s('red', 0, 1).mt($scope.road_points[0].shape.x, $scope.road_points[0].shape.y);
+                        $scope.road_points.slice(1).forEach(function (p) {
+
+                            road_shape.graphics.lt(p.shape.x, p.shape.y);
+
+                        })
+                    }
+
+                    $scope.stage.update();
+
+                }
+
+                $scope.save_road = function () {
+                    console.log('adding road');
+                }
+
+                $scope.cancel_road = function () {
+                    console.log('cancelling road');
+                    $scope.road_points = [];
+                    $scope.buttons.road.getChildByName('save').visible = false;
+                    $scope.buttons.road.getChildByName('cancel').visible = false;
+                    $scope.new_road_container.removeAllChildren();
+                    $scope.stage.update();
+                }
+
+                function _hex_event_road(hex) {
+                    if (_.contains($scope.road_points, hex)) {
+                        $scope.road_points = _.reject($scope.road_points, function (p) {
+                            return p === hex;
+                        })
+                    } else {
+                        $scope.road_points.push(hex);
+                    }
+
+                    _draw_new_road();
+
+                }
+
+                $scope.$watch('map_edit_mode', function () {
+                    $scope.update_draw_buttons();
+                });
+
+                $scope.update_draw_buttons = function () {
+                    console.log('updating buttons with mode ', $scope.map_edit_mode);
+                    _.each($scope.buttons, function (button, name) {
+                        console.log(' ... for button ', name);
+                        button.getChildByName('back').visible = ($scope.map_edit_mode == name);
+                    });
+
+                    $scope.stage.update();
+                };
+
+                $scope.editor_tabs = [
+                    {
+                        header: 'Terrain', select: "edit_tab('terrain')", active: true, name: 'terrain'
+                    },
+                    {
+                        header: 'City', select: "edit_tab('city')", name: 'city'
+                    }
+                ];
+
+                $('#editor-tabs a').click(function (e) {
+                    e.preventDefault();
+
+                    console.log('e clicked', e);
+                    var m = /#(.*)-/.exec(e.target.href);
+                    $scope.$apply(function () {
+                        $scope.map_edit_mode = m[1];
+                    });
+
+                    $(this).tab('show');
+                });
+
+                $scope.hex_clicked = function (hex) {
+                    $scope.$apply(function () {
+
+                        switch ($scope.map_edit_mode) {
+                            case 'terrain':
+                                _hex_event_terrain(hex);
+                                break;
+
+                            case 'city':
+                                _hex_event_city(hex);
+                                break
+
+                            case 'road':
+                                _hex_event_road(hex);
+                                break;
+
+                        }
+                    });
+                };
             },
 
             compile: function CompilingFunction($templateElement, $templateAttributes) {
@@ -240,19 +329,99 @@
 
                 return function LinkingFunction($scope, $linkElement, $linkAttributes) {
 
-                    console.log('making easel editor ele ', $linkElement, 'scope', $scope);
-                    $scope.canvas = $linkElement.find('canvas')[0];
+                    _init_scope_canvas($scope, $linkElement);
 
-                    $scope.stage = new createjs.Stage($scope.canvas);
+                    $scope.buttons = {};
 
-                    $scope.hex_grid = new createjs.Container();
-                    $scope.stage.addChild($scope.hex_grid);
+                    function add_toolbar_button(shape, name, order) {
 
-                    var map_width = 0;
+                        var button = new createjs.Container();
+                        button.name = name;
+                        button.x = button.y = 10;
+                        button.y += order * 60;
+                        shape.scaleX = shape.scaleY = 0.1;
+                        shape.x = shape.y = 2;
+                        shape.name = 'inner_button';
+                        shape.addEventListener('click', function () {
+
+
+                            $scope.$apply(function () {
+                                $scope.map_edit_mode = name;
+                                $('#paintTabs a[href="#' + name + '-tab"]').tab('show');
+
+                            })
+
+                        });
+
+                        var button_back = new createjs.Shape();
+                        button_back.graphics.f('black').dc(28, 28, 28).ef();
+                        button_back.name = 'back';
+
+                        button.addChild(button_back);
+                        button.addChild(shape);
+
+                        $scope.toolbar.addChild(button);
+
+                        $scope.buttons[name] = button;
+
+                        $scope.update_draw_buttons();
+                        return button;
+                    }
+
+                    easel_import('5250487f508865db13000004', function (err, shape) {
+
+                        add_toolbar_button(shape, 'terrain', 0);
+
+                    });
+
+                    easel_import('52510ee1d03c2df321000004', function (err, shape) {
+
+                        add_toolbar_button(shape, 'city', 1);
+
+                    });
+
+                    function _sub_button(text, name) {
+                        var button = new createjs.Container();
+                        button.name = name;
+
+                        var button_back = new createjs.Shape();
+                        button_back.graphics.s('black').f('white').ss(1).dr(0, 0, 60, 22).ef().es();
+                        button_back.name = 'back';
+                        button.addChild(button_back);
+
+                        var text_shape = new createjs.Text(text, 'bold 10pt Arial', 'black');
+                        text_shape.textAlign = 'center';
+                        text_shape.x = 30;
+                        text_shape.y = 3;
+                        button.addChild(text_shape);
+                        text_shape.name = 'label';
+
+                        return button;
+                    }
+
+                    easel_import('525128c802d4aa8822000004', function (err, shape) {
+
+                        var road_button = add_toolbar_button(shape, 'road', 2);
+
+                        var save_button = _sub_button('Save', 'save');
+                        save_button.visible = false;
+                        road_button.addChild(save_button);
+                        save_button.getChildByName('back').addEventListener('click', $scope.save_road);
+
+                        var cancel_button = _sub_button('Cancel', 'cancel');
+                        cancel_button.y = 28;
+                        cancel_button.visible = false;
+                        road_button.addChild(cancel_button);
+                        cancel_button.getChildByName('back').addEventListener('click', $scope.cancel_road);
+
+                        $scope.stage.update();
+
+                    })
 
                 };
             }
         };
     })
 
-})(window)
+})
+    (window);

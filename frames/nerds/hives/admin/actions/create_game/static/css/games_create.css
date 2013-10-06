@@ -3,9 +3,7 @@ canvas#map {
 }
 
 #map_controls {
-    float: right;
-    width: 300px;
-    margin-right: 2em;
+    vertical-align: top;
 }
 
 .create-terrain input[type='number'] {
@@ -35,4 +33,10 @@ canvas#map {
     margin-left: 2em;
     font-weight: bold;
 
+}
+
+#map_controls fieldset {
+}
+
+.paint-tabs {
 }

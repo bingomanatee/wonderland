@@ -1,0 +1,8 @@
+{
+    "routes": {
+        "get": ["/nerds/rest/terrain_types/:_id","/nerds/rest/terrain_types"],
+        "post": "/nerds/rest/terrain_types",
+        "put": "/nerds/rest/terrain_types/:_id"
+    },
+    "handler_failsafe_time": 6000
+}

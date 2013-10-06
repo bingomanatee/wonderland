@@ -1,34 +1,102 @@
 <canvas id="map" width=600 height=400></canvas>
+
 <form id="map_controls">
-    <div class="control-group">
-        <labael class="control-label" for="map_width">Map Width</labael>
-        <div class="controls">
-            <select name="map_width" ng-model="map_width"
-                    ng-options="size.value as size.label for size in map_sizes"></select>
-        </div>
-    </div>
-    <div class="control-group">
-        <labael class="control-label" for="hex_size">Hex Size</labael>
-        <div class="controls">
-            <select name="hex_size" ng-model="hex_scale"
-                    ng-options="size.value as size.label for size in hex_scale_menu()"></select>
-        </div>
-    </div>
+    <div class="row-fluid">
+        <fieldset class="span4">
+            <legend>Map Size</legend>
+            <div class="control-group">
+                <labael class="control-label" for="map_width">Map Width</labael>
+                <div class="controls">
+                    <select name="map_width" ng-model="map_width"
+                            ng-options="size.value as size.label for size in map_sizes"></select>
+                </div>
+            </div>
+            <div class="control-group">
+                <labael class="control-label" for="hex_size">Hex Size</labael>
+                <div class="controls">
+                    <select name="hex_size" ng-model="hex_scale"
+                            ng-options="size.value as size.label for size in hex_scale_menu()"></select>
+                </div>
+            </div>
 
-    <p>changing either Map Width or Hex Size will erase your map. Set these values before painting.</p>
-    <div class="control-group">
-        <label class="control-label">Terrain</label>
+            <p>changing either Map Width or Hex Size will erase your map. Set these values before painting.</p>
+        </fieldset>
+        <div class="span8 paint-tabs" id="paintTabs">
 
-        <div class="controls">
-            <select name="terrain" ng-model="terrain" ng-options="terrain for terrain in terrains"></select>
-        </div>
-    </div>
+            <ul class="nav nav-tabs" id="editor-tabs">
+                <li class="active"><a href="#terrain-tab">Terrain</a></li>
+                <li><a href="#city-tab">City</a></li>
+                <li><a href="#road-tab">Road</a></li>
+            </ul>
 
-    <div class="control-group">
-        <label class="control-label">Paint Size</label>
+            <div class="tab-content">
+                <div class="tab-pane active" id="terrain-tab">
+                    <label class="control-label">Terrain Type</label>
+                    <select name="terrain" ng-model="terrain"
+                            ng-options="terrain for terrain in terrains"></select>
 
-        <div class="controls">
-            <input type="range" name="paint_size" ng-model="paint_size" min="1" step="1" max="5"/> {{ paint_size}}
+                    <p ng-show="terrain == 'road'">the road terrain type is for small scale street maps. for
+                        larger maps, use the "road" tab at right.</p>
+
+                    <label class="control-label">Paint Size</label>
+
+                    <div class="controls">
+                        <input type="range" name="paint_size" ng-model="paint_size" min="1" step="1" max="5"/>
+                        {{ paint_size }}
+                    </div>
+                </div>
+                <div class="tab-pane" id="city-tab">
+                    <p>Click a hex to add a city to it.</p>
+                </div>
+                <div class="tab-pane" id="road-tab">
+                    <label class=""control-label">Road Type</label>
+                    <select name="road" ng-model="road_type" ng-options="road for road in road_types" ></select>
+
+                </div>
+            </div>
         </div>
     </div>
 </form>
+
+<script type="text/ng-template" id="create_city.html">
+    <div class="modal-header">
+        <h3>Create city</h3>
+    </div>
+
+    <div class="modal-body create-terrain">
+        <p> for use in game &quot;{{ game_name }}&quot;</p>
+
+        <div class="form-horizontal" ng-form="cityForm">
+            <div class="control-group">
+                <label class="control-label" for="inputName">Name</label>
+
+                <div class="controls">
+                    <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="new_city.name"
+                           placeholder="Name"/>
+
+                    <div class="text-error" data-ng-show="cityForm.name.$error.required && cityForm.name.$dirty">Name
+                        is required
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="descriptionInput">Description</label>
+
+                <div class="controls">
+                    <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
+                              placeholder="description"
+                              ng-model="new_city.description">
+                    </textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="save()" ng-show="cityForm.$valid">Save</button>
+    </div>
+</script>
