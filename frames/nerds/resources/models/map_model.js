@@ -21,7 +21,7 @@ var maps_schema = require(path.resolve(__dirname, 'schema/maps_schema.json'));
 var deferred = Q.defer();
 var model;
 
-
+var FIELDS = ['name', 'game', 'description', 'active', 'hex_size', 'map_size', 'hexes', 'roads'];
 
 /* ********* EXPORTS ******** */
 
@@ -41,6 +41,15 @@ module.exports = function (apiary, cb) {
                         {
                             name: 'nerds_maps',
                             get_map: get_map,
+                            pick: function (obj) {
+                                //  console.log('getting statics from %s with %s', util.inspect(obj), util.inspect(FIELDS));
+                                var sub = _.pick(obj, FIELDS);
+                                if (obj.red && obj.green && obj.blue) {
+                                    sub.color = _.pick(obj, 'red', 'green', 'blue');
+                                }
+                                console.log('sub obj: %s', util.inspect(sub));
+                                return sub;
+                            }
                         },
 
                         {

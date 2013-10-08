@@ -1,97 +1,34 @@
-<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
-<link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_game/games_create.css"/>
-
 <script language="javascript">
-    window.game_id = '<%= game_id %>';
+    window.game_id = '<%= game._id %>'
 </script>
-<div id="game_creation" ng-app="NERDS_app" ng-controller="GameCreationCtrl">
-    <h1>Game World Editor: {{ game.name }}</h1>
-    <ul class="nav nav-tabs">
-        <li class="active"><a href="#map" data-toggle="tab">Map</a></li>
-        <li><a href="#plot" data-toggle="tab">Plot</a></li>
-    </ul>
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
 
-    <div class="tab-content">
-        <div class="tab-pane active" id="map">
+<div ng-app="NERDS_app" ng-controller="CreateGameCtrl">
+    <h1>Game &quot;<%= game.name %>&quot;</h1>
 
-            <div map_editor="<%= game_id %>">
+    <h2>Resource Administration</h2>
 
+    <div id="tabs">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#maps" data-toggle="tab">Maps</a></li>
+            <li><a href="#plots" data-toggle="tab">Plots</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="maps">
+
+                <h3>Maps</h3>
+
+                <div class="map-grids" ng-grid="map_grid_options" style="height: 300px">
+                </div>
+                <button class="btn btn-primary" ng-click="create_map()">
+                    <i class=" icon-plus icon-white"></i>
+                    Create Map
+                </button>
+            </div>
+            <div class="tab-pane" id="plots">
+                Plots
             </div>
         </div>
 
-        <div class="tab-pane" id="plot">
-        </div>
     </div>
-
-    <script type="text/ng-template" id="createTerrain.html">
-        <div class="modal-header">
-            <h3>Create terrain type</h3>
-        </div>
-
-        <div class="modal-body create-terrain">
-            <p> for use in game &quot;{{ game_name }}&quot;</p>
-            <div class="form-horizontal" ng-form="pipForm">
-                <div class="control-group">
-                    <label class="control-label" for="inputName">Name</label>
-
-                    <div class="controls">
-                        <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="name"
-                               placeholder="Name"/>
-
-                        <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name
-                            is required
-                        </div>
-
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label">Color</label>
-
-                    <div class="controls">
-                        <div>
-                         <b>Red</b> <br />
-                          <span class="range-number"> 0 </span>  <input name="red" type="range" ng-model="red" min="0" max="255" step="1"/>
-                                <span class="range-number">255</span>
-                           <span class="rgb-value">
-                               {{ red }}
-                           </span>
-                        </div>
-                        <div>
-                       <b>Green</b>  <br />
-                              <span class="range-number">  0 </span> <input name="green" type="range" ng-model="green" min="0" max="255" step="1"/>       <span class="range-number">255</span>
-                                                     <span class="rgb-value">
-   {{ green }}
-                           </span>
-                        </div>
-                        <div>
-                        <b>Blue</b>  <br />
-                            <span class="range-number">    0 </span><input name="blue" type="range" ng-model="blue" min="0" max="255" step="1"/>       <span class="range-number">255</span>
-                                                <span class="rgb-value">
-       {{ blue }}
-                           </span>
-                        </div>
-                        <div class="color-swatch" id="terrain-color-swatch"></div>
-                    </div>
-                </div>
-
-                <div class="control-group">
-                    <label class="control-label" for="descriptionInput">Description</label>
-
-                    <div class="controls">
-                        <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
-                                  placeholder="description"
-                                  ng-model="description">
-                        </textarea>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <div class="modal-footer">
-            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-            <button class="btn btn-primary" ng-click="save()" ng-show="pipForm.$valid">Save</button>
-        </div>
-    </script>
 </div>

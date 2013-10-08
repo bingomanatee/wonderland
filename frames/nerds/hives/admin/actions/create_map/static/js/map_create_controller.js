@@ -4,11 +4,11 @@
 
     // ----------------------- root controller ---------------------------
 
-    function GameCreationCtrl($scope, $filter, $compile, $modal, Games, Places, Things, $window) {
+    function MapCreateCtrl($scope, $modal, Games, game_info, $window) {
 
         var GAME_ID = $window.game_id;
 
-
+        console.log('game id:', GAME_ID);
         function CreateTerrainCtrl($scope, $modalInstance, game_name) {
 
             $scope.red = 128;
@@ -77,22 +77,14 @@
             });
         };
 
-        //angular.module('NERDS_app').controller('CreateTerrainCtrl', CreateTerrainCtrl);
-
-
-        $scope.games = Games.query();
         $scope.game = Games.get({_id: GAME_ID});
+        game_info($scope.game);
 
         $scope.create = function (type) {
         };
 
     }
 
-    GameCreationCtrl.$inject = ['$scope', '$filter', '$compile', '$modal',
-        'Games', 'Places', 'Things',
-        '$window'];
-
-
-    app.controller('GameCreationCtrl', GameCreationCtrl);
+    app.controller('MapCreateCtrl', MapCreateCtrl);
 
 })();

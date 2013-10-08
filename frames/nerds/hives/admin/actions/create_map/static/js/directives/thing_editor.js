@@ -5,7 +5,7 @@
     app.directive('thingEditor', function InjectingFunction(Things) {
 
         return {
-            templateUrl: '/templates/admin/nerds/create_game/thing_editor.html',
+            templateUrl: '/templates/admin/nerds/create_map/thing_editor.html',
             compile: function CompilingFunction($templateElement, $templateAttributes) {
 
                 return function LinkingFunction($scope, $linkElement, $linkAttributes) {

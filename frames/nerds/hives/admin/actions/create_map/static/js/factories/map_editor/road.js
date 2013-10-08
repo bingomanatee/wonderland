@@ -6,12 +6,12 @@
      * Draws the hexagon graphic buttons.
      */
 
-    app.factory('map_editor_road', function ($modal) {
+    app.factory('map_editor_road', function ($modal, easel_import, map_editor_road_types) {
 
         function wander(value, scale) {
             var rand = (Math.sin(Math.random() * 100)) / 2;
             var offset = scale * rand;
-            console.log('wander: rand', rand, 'offset:', offset);
+           // console.log('wander: rand', rand, 'offset:', offset);
             return value + offset;
         }
 
@@ -44,7 +44,7 @@
                         var dist, scale;
                         if (i == 0) {
                              dist = _dist(from_point.draw_x, from_point.draw_y, point.x, point.y);
-                            console.log('dist', dist);
+                          //  console.log('dist', dist);
                             if (dist > MIN_DIST) {
                                  scale = Math.min(from_point.hex.height()/2, dist/4);
                                 out.push(_midpoint(from_point.draw_x, from_point.draw_y, point.x, point.y, scale));
@@ -74,8 +74,33 @@
             console.log('road points:', road.points);
         }
 
+        function _pointToJSON(point){
+            return {
+                road_x: point.road_x,
+                road_y: point.road_y,
+                hex: {
+                column:    point.hex.column,
+                row: point.hex.row
+                },
+                midpoints: point.midpoints
+            };
+        }
+
+        function _roadToJSON(){
+            return {
+                name: this.name,
+                description: this.description,
+                points: this.points.map(_pointToJSON),
+                road_type: this.road_type
+            };
+
+        }
+
         return  function ($scope) {
 
+            $scope.road_type = 'path';
+
+            $scope.road_types = map_editor_road_types;
 
             $scope.road_points = [];
 
@@ -120,6 +145,8 @@
                 });
 
                 _windy_road(road);
+                road.toJSON = _.bind( _roadToJSON, road);
+
                 $scope.roads.push(road);
                 _clear_road();
                 $scope.draw_roads();
@@ -135,16 +162,7 @@
 
                         $scope.new_road = {name: '', description: '', road_type: road_type || 'path'};
 
-                        $scope.road_types = [
-                            'path',
-                            'cobblestone',
-                            'paved',
-                            'avenue',
-                            'highway',
-                            'freeway',
-                            'railroad',
-                            'subway'
-                        ];
+                        $scope.road_types = map_editor_road_types;
 
                         $scope.game_name = game_name;
 
@@ -310,7 +328,46 @@
 
                 $scope.draw_new_road();
 
+            };
+
+
+            function _sub_button(text, name) {
+                var button = new createjs.Container();
+                button.name = name;
+
+                var button_back = new createjs.Shape();
+                button_back.graphics.s('black').f('white').ss(1).dr(0, 0, 60, 22).ef().es();
+                button_back.name = 'back';
+                button.addChild(button_back);
+
+                var text_shape = new createjs.Text(text, 'bold 10pt Arial', 'black');
+                text_shape.textAlign = 'center';
+                text_shape.x = 30;
+                text_shape.y = 3;
+                button.addChild(text_shape);
+                text_shape.name = 'label';
+
+                return button;
             }
+
+            easel_import('525128c802d4aa8822000004', function (err, shape) {
+
+                var road_button = $scope.add_toolbar_button(shape, 'road', 2, 1);
+
+                var save_button = _sub_button('Save', 'save');
+                save_button.visible = false;
+                road_button.addChild(save_button);
+                save_button.getChildByName('back').addEventListener('click', $scope.save_road);
+
+                var cancel_button = _sub_button('Cancel', 'cancel');
+                cancel_button.y = 28;
+                cancel_button.visible = false;
+                road_button.addChild(cancel_button);
+                cancel_button.getChildByName('back').addEventListener('click', $scope.cancel_road);
+
+                $scope.stage.update();
+
+            })
         }
 
     });

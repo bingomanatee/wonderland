@@ -30,7 +30,6 @@ module.exports = {
         Q.when(this.model('nerds_games'), function (games_model) {
 
             games_model.get(context._id, function (err, game) {
-                console.log('err: %s, game: %s', err, game);
                 if (err) {
                     context.add(err.toString(), 'err');
                     return context.$go('/admin');

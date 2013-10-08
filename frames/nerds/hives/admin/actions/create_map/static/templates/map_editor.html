@@ -170,3 +170,45 @@
         <button class="btn btn-primary" ng-click="save()" ng-show="cityForm.$valid">Save</button>
     </div>
 </script>
+<script type="text/ng-template" id="create_map.html">
+    <div class="modal-header">
+        <h3>Save Map</h3>
+    </div>
+
+    <div class="modal-body create-terrain">
+        <p> for use in game &quot;{{ game_name }}&quot;</p>
+
+        <div class="form-horizontal" ng-form="mapForm">
+            <div class="control-group">
+                <label class="control-label" for="inputName">Name</label>
+
+                <div class="controls">
+                    <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="new_map.name"
+                           placeholder="Name"/>
+
+                    <div class="text-error" data-ng-show="mapForm.name.$error.required && mapForm.name.$dirty">Name
+                        is required
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label class="control-label" for="descriptionInput">Description</label>
+
+                <div class="controls">
+                    <textarea id="descriptionInput" class="input-xlarge" name="description" rows="3"
+                              placeholder="description"
+                              ng-model="new_map.description">
+                    </textarea>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <button class="btn btn-primary" ng-click="save()" ng-show="mapForm.$valid">Save</button>
+    </div>
+</script>

@@ -11,12 +11,6 @@
     },
 
     "javascript": [
-
-        {
-            "url": "/js/nerds/vendor/easel/easeljs-0.6.1.min.js",
-            "context": "foot",
-            "name": "easel"
-        },
         {
             "url": "/js/nerds/vendor/angular/angular.js",
             "context": "foot",
@@ -31,7 +25,7 @@
         },
 
         {
-            "url": "/js/nerds/vendor/angular/ng-grid.min.js",
+            "url": "/js/nerds/vendor/angular/ng-grid-2.0.7.min.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["angular"]
@@ -60,71 +54,25 @@
             "requires": ["angular", "angular-resource"]
         },
 
+
         {
-            "url": "/js/nerds/factories/easel_import.js",
+            "url": "/js/nerds/factories/grid_button.js",
             "context": "foot",
-            "name": "easel_import",
+            "name": "nerds_app",
             "defer": "defer",
-            "requires": ["angular", "angular-resource", "nerds_app"]
+            "requires": ["angular", "angular-resource"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/hex_extent.js",
+            "url": "/js/nerds/factories/game_info.js",
             "context": "foot",
-            "name": "extent",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/hex_size.js",
-            "context": "foot",
-            "name": "hex_size",
+            "name": "game_info",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
         },
 
         {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/road.js",
-            "context": "foot",
-            "name": "road",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/city.js",
-            "context": "foot",
-            "name": "road",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/draw_hexes.js",
-            "context": "foot",
-            "name": "map_editor",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/factories/map_editor/draw_map.js",
-            "context": "foot",
-            "name": "map_editor",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
-        },
-        {
-            "url": "/js/admin/nerds/create_game/directives/map_editor.js",
-            "context": "foot",
-            "name": "map_editor",
-            "defer": "defer",
-            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
-        },
-
-        {
-            "url": "/js/admin/nerds/create_game/games_create_controller.js",
+            "url": "/js/admin/nerds/create_game/game_create_controller.js",
             "context": "foot",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel", "map_editor"]

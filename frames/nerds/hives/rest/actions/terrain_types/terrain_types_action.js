@@ -21,7 +21,7 @@ module.exports = {
         }
 
         Q.when(this.model('nerds_terrain_types'), function (terrain_types_model) {
-            console.log('ttm: %s', util.inspect(terrain_types_model));
+          //  console.log('ttm: %s', util.inspect(terrain_types_model));
             if (!terrain_types_model){
                 return done('no terrain types model')
             }

@@ -14,6 +14,7 @@
             return $resource('/nerds/rest/maps/:_id', {_id: '@_id'}, {
                 get: {method: 'GET'},
                 query: {method: 'GET', isArray: true},
+                put: {method: 'POST'},
                 update: {method: 'PUT'}
             });
         });

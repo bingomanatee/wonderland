@@ -9,7 +9,7 @@
         // Useful for bootstrap and global configuration
 
         return {
-            templateUrl: '/templates/admin/nerds/create_game/anchor_form_element.html',
+            templateUrl: '/templates/admin/nerds/create_map/anchor_form_element.html',
             compile: function CompilingFunction($templateElement, $templateAttributes) {
 
                 // === CompilingFunction === //

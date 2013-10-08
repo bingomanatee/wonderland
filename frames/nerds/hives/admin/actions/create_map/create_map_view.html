@@ -1,0 +1,98 @@
+<ul class="breadcrumb">
+    <li><a href="/nerds/games">NERDS</a> <span class="divider">/</span></li>
+    <li><a href="/nerds/game/<%= game._id %>"><%= game.name %></a> <span class="divider">/</span></li>
+    <li><a href="/admin/nerds/create_game/<%= game._id %>">Administer</a> <span class="divider">/</span></li>
+<li>Create Map</li>
+</ul>
+
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
+<link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_map/map_create.css"/>
+
+<script language="javascript">
+    window.game_id = '<%= game._id %>';
+</script>
+<div id="game_creation" ng-app="NERDS_app" ng-controller="MapCreateCtrl">
+    <h1>Map Creator for game &quot;{{ game.name }} &quot;</h1>
+
+    <div map_editor="<%= game._id %>">
+
+    </div>
+
+    <script type="text/ng-template" id="createTerrain.html">
+        <div class="modal-header">
+            <h3>Create terrain type</h3>
+        </div>
+
+        <div class="modal-body create-terrain">
+            <p> for use in game &quot;{{ game_name }}&quot;</p>
+
+            <div class="form-horizontal" ng-form="pipForm">
+                <div class="control-group">
+                    <label class="control-label" for="inputName">Name</label>
+
+                    <div class="controls">
+                        <input type="text" id="inputName" class="input-xlarge" name="name" required ng-model="name"
+                               placeholder="Name"/>
+
+                        <div class="text-error" data-ng-show="pipForm.name.$error.required && pipForm.name.$dirty">Name
+                            is required
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label">Color</label>
+
+                    <div class="controls">
+                        <div>
+                            <b>Red</b> <br/>
+                            <span class="range-number"> 0 </span> <input name="red" type="range" ng-model="red" min="0"
+                                                                         max="255" step="1"/>
+                            <span class="range-number">255</span>
+                           <span class="rgb-value">
+                               {{ red }}
+                           </span>
+                        </div>
+                        <div>
+                            <b>Green</b> <br/>
+                            <span class="range-number">  0 </span> <input name="green" type="range" ng-model="green"
+                                                                          min="0" max="255" step="1"/> <span
+                                class="range-number">255</span>
+                                                     <span class="rgb-value">
+   {{ green }}
+                           </span>
+                        </div>
+                        <div>
+                            <b>Blue</b> <br/>
+                            <span class="range-number">    0 </span><input name="blue" type="range" ng-model="blue"
+                                                                           min="0" max="255" step="1"/> <span
+                                class="range-number">255</span>
+                                                <span class="rgb-value">
+       {{ blue }}
+                           </span>
+                        </div>
+                        <div class="color-swatch" id="terrain-color-swatch"></div>
+                    </div>
+                </div>
+
+                <div class="control-group">
+                    <label class="control-label" for="descriptionInput">Description</label>
+
+                    <div class="controls">
+                        <textarea id="descriptionInput" required class="input-xlarge" name="description" rows="3"
+                                  placeholder="description"
+                                  ng-model="description">
+                        </textarea>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+            <button class="btn btn-primary" ng-click="save()" ng-show="pipForm.$valid">Save</button>
+        </div>
+    </script>
+</div>

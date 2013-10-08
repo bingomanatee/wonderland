@@ -11,17 +11,24 @@ var Q = require('q');
 module.exports = {
     on_get_input: function (context, done) {
 
-        Q.when(this.model('nerds_maps'), function (places_model) {
+        Q.when(this.model('nerds_maps'), function (map_model) {
 
             if (context._id) {
-                places_model.get(context._id, function (err, place) {
-                    context.place = place.toJSON();
+                map_model.get(context._id, function (err, map) {
+                    context.map = map.toJSON();
                     done();
                 });
+            } else if (context.game){
+                map_model.find({game: context.game}, '-hexes -roads -cities', function(err, maps){
+                    context.maps = maps.map(function(map){
+                        return map.toJSON();
+                    });
+                    done();
+                })
             } else {
-                places_model.all(function (err, places) {
-                    context.places = places.map(function (place) {
-                        return place.toJSON();
+                map_model.all('-hexes -roads -cities', function (err, maps) {
+                    context.maps = maps.map(function (map) {
+                        return map.toJSON();
                     });
                     done();
                 })
@@ -31,7 +38,7 @@ module.exports = {
     },
 
     on_get_output: function (context, done) {
-        context.$out = context._id ? context.place : context.places;
+        context.$out = context._id ? context.map : context.maps;
         context.$send(done);
     },
 
@@ -47,14 +54,11 @@ module.exports = {
     },
 
     on_post_input: function (context, done) {
-        Q.when(this.model('nerds_places'), function (places_model) {
+        Q.when(this.model('nerds_maps'), function (map_model) {
+            var map = map_model.pick(context);
 
-            var place = _.pick(context, 'name', 'type', 'description', 'size', 'game');
-            console.log('making place %s', util.inspect(place));
-
-            places_model.put( place, function (err, place) {
-                context.place = place.toJSON();
-                console.log('created place %s', util.inspect(context.place));
+            map_model.put( map, function (err, map) {
+                context.map = map.toJSON();
                 done();
             });
 
@@ -62,7 +66,7 @@ module.exports = {
     },
 
     on_post_output: function (context, done) {
-        context.$send(context.place, done);
+        context.$send(context.map, done);
     },
 
     /* --------------- PUT ------------------- */
@@ -77,14 +81,12 @@ module.exports = {
     },
 
     on_put_input: function (context, done) {
-        Q.when(this.model('nerds_places'), function (places_model) {
+        Q.when(this.model('nerds_maps'), function (map_model) {
 
-            var place = _.pick(context, 'name', 'type', 'description', 'size', 'game');
-            console.log('making place %s', util.inspect(place));
-
-            places_model.revise( place, function (err, place) {
-                context.place = place.toJSON();
-                console.log('created place %s', util.inspect(context.place));
+            var map = map_model.pick(context);
+            map_model.revise( map, function (err, map) {
+                context.map = map.toJSON();
+                console.log('created map %s', util.inspect(context.map));
                 done();
             });
 
@@ -92,6 +94,6 @@ module.exports = {
     },
 
     on_put_output: function (context, done) {
-        context.$send(context.place, done);
+        context.$send(context.map, done);
     }
 };

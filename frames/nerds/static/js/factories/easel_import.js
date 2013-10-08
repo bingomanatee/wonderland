@@ -124,7 +124,7 @@
 
             $http({
                 method: 'GET',
-                url: '/art/rest/drawings/' + id
+                url: '/nerds/sprites/' + id
             }).success(function (data) {
                     callback(null, _render_drawing(data));
                 });

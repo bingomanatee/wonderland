@@ -32,5 +32,21 @@
                 "default": "unknown"
             }
         }
+    ],
+    "roads": [
+        {
+
+            "name": "string",
+            "description": "string",
+            "road_type": "string",
+            "points": [
+                {
+                    "x": "number",
+                    "y": "number"
+                }
+
+            ]
+        }
+
     ]
 }
