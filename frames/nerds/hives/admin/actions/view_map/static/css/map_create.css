@@ -1,0 +1,54 @@
+canvas#map {
+    border: 1px solid rgb(204, 153, 102);
+}
+
+#map_controls {
+    vertical-align: top;
+}
+
+.create-terrain input[type='number'] {
+    width: 4em;
+}
+
+.create-terrain .range-number {
+    width: 5em;
+    font-size: 80%;
+    font-weight: bold;
+}
+.create-terrain input[type='range'] {
+    width: 6em;
+}
+
+.create-terrain .color-swatch {
+    border: 1px solid black;
+    width: 14em;
+    margin: 4px;
+    height: 2em;
+    color: white;
+    font-size: 80%;
+}
+
+.create-terrain .rgb-value {
+    display: inline-block;
+    margin-left: 2em;
+    font-weight: bold;
+
+}
+
+#map_controls fieldset {
+}
+
+.paint-tabs {
+}
+
+#road-tab .road-grid {
+    border: 1px solid rgb(212,212,212);
+    width: 400px;
+    height: 300px;
+}
+
+#city-tab .city-grid {
+    border: 1px solid rgb(212,212,212);
+    width: 400px;
+    height: 300px;
+}

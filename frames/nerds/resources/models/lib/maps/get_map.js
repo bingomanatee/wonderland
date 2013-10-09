@@ -34,6 +34,8 @@ function _generate_hexes(map, params) {
 
 /** ********************
  * Purpose: retrieve or generate a map
+ * // DEPRECATED -- all this map data will be stored already as it is
+ * generated on the client side.
  * @return void
  */
 

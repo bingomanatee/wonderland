@@ -1,0 +1,161 @@
+{
+    "routes": {
+        "get": "/admin/nerds/map/:_id"
+    },
+
+    "static": {
+        "js": "/js/admin/nerds/map",
+        "css": "/css/admin/nerds/map",
+        "img": "/img/admin/nerds/map",
+        "templates": "/templates/admin/nerds/map"
+    },
+
+    "javascript": [
+
+        {
+            "url": "/js/nerds/vendor/easel/easeljs-0.6.1.min.js",
+            "context": "foot",
+            "name": "easel"
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/angular.js",
+            "context": "foot",
+            "defer": "defer",
+            "name": "angular"
+        },
+
+        {
+            "url": "/js/nerds/vendor/underscore-min.js",
+            "context": "foot",
+            "defer": "defer",
+            "name": "underscore"
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/ng-grid-2.0.7.min.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/ui-bootstrap-tpls-0.6.0.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/vendor/angular/angular-resource.min.js",
+            "name": "angular-resource",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["angular"]
+        },
+
+        {
+            "url": "/js/nerds/app.js",
+            "context": "foot",
+            "name": "nerds_app",
+            "defer": "defer",
+            "requires": ["angular", "angular-resource"]
+        },
+
+        {
+            "url": "/js/nerds/factories/easel_import.js",
+            "context": "foot",
+            "name": "easel_import",
+            "defer": "defer",
+            "requires": ["angular", "angular-resource", "nerds_app"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/hex_extent.js",
+            "context": "foot",
+            "name": "extent",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/hex_size.js",
+            "context": "foot",
+            "name": "hex_size",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/road.js",
+            "context": "foot",
+            "name": "road",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/road_types.js",
+            "context": "foot",
+            "name": "road",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/game_info.js",
+            "context": "foot",
+            "name": "game_info",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+
+        {
+            "url": "/js/nerds/factories/map_editor/terrain.js",
+            "context": "foot",
+            "name": "terrain",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/city.js",
+            "context": "foot",
+            "name": "road",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/draw_hexes.js",
+            "context": "foot",
+            "name": "map_editor",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/draw_map.js",
+            "context": "foot",
+            "name": "map_editor",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+        {
+            "url": "/js/admin/nerds/map/directives/map_viewer.js",
+            "context": "foot",
+            "name": "map_editor",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/admin/nerds/map/map_view_controller.js",
+            "context": "foot",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "map_editor"]
+        }
+    ]
+    
+}

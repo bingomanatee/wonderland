@@ -10,26 +10,23 @@ var Q = require('q');
 
 module.exports = {
     on_get_input: function (context, done) {
-
+        console.log('maps_action get input');
         Q.when(this.model('nerds_maps'), function (map_model) {
+            console.log('maps_action get model %s', util.inspect(map_model));
 
             if (context._id) {
                 map_model.get(context._id, function (err, map) {
-                    context.map = map.toJSON();
+                    context.map = map;
                     done();
                 });
-            } else if (context.game){
-                map_model.find({game: context.game}, '-hexes -roads -cities', function(err, maps){
-                    context.maps = maps.map(function(map){
-                        return map.toJSON();
-                    });
+            } else if (context.game) {
+                map_model.find({game: context.game}, '-hexes -roads -cities', function (err, maps) {
+                    context.maps = maps;
                     done();
                 })
             } else {
                 map_model.all('-hexes -roads -cities', function (err, maps) {
-                    context.maps = maps.map(function (map) {
-                        return map.toJSON();
-                    });
+                    context.maps = maps;
                     done();
                 })
             }
@@ -38,7 +35,10 @@ module.exports = {
     },
 
     on_get_output: function (context, done) {
-        context.$out = context._id ? context.map : context.maps;
+        context.$out = context._id ? context.map.toJSON() : context.maps.map(function (map) {
+            return map.toJSON();
+        });
+
         context.$send(done);
     },
 
@@ -57,7 +57,7 @@ module.exports = {
         Q.when(this.model('nerds_maps'), function (map_model) {
             var map = map_model.pick(context);
 
-            map_model.put( map, function (err, map) {
+            map_model.put(map, function (err, map) {
                 context.map = map.toJSON();
                 done();
             });
@@ -84,7 +84,7 @@ module.exports = {
         Q.when(this.model('nerds_maps'), function (map_model) {
 
             var map = map_model.pick(context);
-            map_model.revise( map, function (err, map) {
+            map_model.revise(map, function (err, map) {
                 context.map = map.toJSON();
                 console.log('created map %s', util.inspect(context.map));
                 done();

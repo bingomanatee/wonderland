@@ -1,0 +1,21 @@
+<ul class="breadcrumb">
+    <li><a href="/nerds/games">NERDS</a> <span class="divider">/</span></li>
+    <li><a href="/nerds/game/<%= game._id %>"><%= game.name %></a> <span class="divider">/</span></li>
+    <li><a href="/admin/nerds/create_game/<%= game._id %>">Administer</a> <span class="divider">/</span></li>
+<li>Create Map</li>
+</ul>
+
+<link rel="stylesheet" type="text/css" href="/js/nerds/vendor/angular/ng-grid.css"/>
+<link rel="stylesheet" type="text/css" href="/css/admin/nerds/create_map/map_create.css"/>
+
+<script language="javascript">
+    window.map_id = '<%= map._id %>';
+</script>
+<div id="game_creation" ng-app="NERDS_app" ng-controller="MapViewCtrl">
+    <h1>Map &quot;{{ map.name }}&quot; for game &quot;{{ game.name }} &quot;</h1>
+
+    <div map_editor="<%= game._id %>">
+
+    </div>
+
+</div>
