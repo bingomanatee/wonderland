@@ -12,7 +12,7 @@
             return {
                 name: this.name,
                 size: this.size,
-                type: this.type,
+                city_type: this.city_type,
                 description: this.description,
                 row: this.hex.row,
                 column: this.hex.column
@@ -24,7 +24,8 @@
                 row: this.row,
                 column: this.column,
                 points: this.points,
-                terrain: this.terrain || 'unknown'
+                terrain: this.terrain || 'unknown',
+                city: this.city ? this.city.toJSON() : false
             };
             _.extend(out, out.center);
 
@@ -51,6 +52,7 @@
                 })
 
                 hex.set_city = function (city) {
+                    city.city_type = city.type;
                     hex.city = city;
                     city.hex = hex;
                     hex.draw_city();

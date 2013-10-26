@@ -30,6 +30,14 @@
             "terrain": {
                 "type": "string",
                 "default": "unknown"
+            },
+            "city": {
+                "description": "string",
+                "name": "string",
+                "size": "number",
+                "city_type": "string",
+                "row": "number",
+                "column" : "number"
             }
         }
     ],

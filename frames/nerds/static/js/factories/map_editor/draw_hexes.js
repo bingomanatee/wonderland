@@ -61,6 +61,11 @@
             }, this);
 
             this.shape.graphics.es();
+
+
+            if (this.city){
+                this.draw_city();
+            }
         }
 
         function _draw_city(city_container, hex) {

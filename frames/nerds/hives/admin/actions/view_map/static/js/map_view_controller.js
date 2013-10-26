@@ -30,13 +30,15 @@
                     $scope.map = map;
 
                     var hexes = _.flatten(map.hexes);
-                    console.log('terrains: ', $scope.colors);
+
+                    console.log('cities', _.compact(_.pick(map.hexes, 'city')));
                     _.each(hexes, function (hex) {
                         if (hex.terrain && (!(hex.terrain == 'unknown'))) {
                             hex.terrain_color = $scope.terrain_color(hex.terrain);
                         }
                     })
                     map_editor_draw_hexes(hexes, $scope.hex_grid, $scope.city_container, $scope.map_container, canvas);
+                    console.log('cities:', $scope.cities);
                     $scope.stage.update();
                 });
             }
