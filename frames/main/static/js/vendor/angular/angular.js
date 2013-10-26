@@ -391,7 +391,13 @@ function isDate(value){
  * @returns {boolean} True if `value` is an `Array`.
  */
 function isArray(value) {
-  return toString.apply(value) == '[object Array]';
+
+    try  {
+        return toString.apply(value) == '[object Array]';
+    } catch (err) {
+        console.log('err: ', err);
+        return false;
+    }
 }
 
 

@@ -13,9 +13,5 @@
 </script>
 <div id="game_creation" ng-app="NERDS_app" ng-controller="MapViewCtrl">
     <h1>Map &quot;{{ map.name }}&quot; for game &quot;{{ game.name }} &quot;</h1>
-
-    <div map_editor="<%= game._id %>">
-
-    </div>
-
+    <canvas id="map" width=600 height=400></canvas>
 </div>

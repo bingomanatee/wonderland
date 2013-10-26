@@ -2,38 +2,9 @@
 
     var app = angular.module('NERDS_app');
 
-    app.directive('mapEditor', function InjectingFunction($http, $modal, TerrainTypes, Maps, map_editor_draw_map, hex_size, easel_import, map_editor_road, map_editor_terrain, map_editor_city, game_info) {
-
-        function _init_scope_canvas($scope, $linkElement) {
-
-            console.log('making easel editor ele ', $linkElement, 'scope', $scope);
-            $scope.canvas = $linkElement.find('canvas')[0];
-
-            $scope.stage = new createjs.Stage($scope.canvas);
-
-            $scope.map_container = new createjs.Container();
-            $scope.stage.addChild($scope.map_container);
-
-            $scope.hex_grid = new createjs.Container();
-            $scope.city_container = new createjs.Container();
-            var cities = new createjs.Container();
-            cities.name = 'cities';
-            var city_labels = new createjs.Container();
-            city_labels.name = 'labels';
-            $scope.city_container.addChild(cities);
-            $scope.city_container.addChild(city_labels);
-
-            $scope.road_container = new createjs.Container();
-            $scope.new_road_container = new createjs.Container();
-
-            $scope.map_container.addChild($scope.hex_grid);
-            $scope.map_container.addChild($scope.road_container);
-            $scope.map_container.addChild($scope.new_road_container);
-            $scope.map_container.addChild($scope.city_container);
-
-            $scope.toolbar = new createjs.Container();
-            $scope.stage.addChild($scope.toolbar);
-        }
+    app.directive('mapEditor', function InjectingFunction($http, $modal,
+        TerrainTypes, Maps, map_editor_draw_map, hex_size, easel_import,
+        map_editor_road, map_editor_terrain, map_editor_city, game_info, init_map_canvas) {
 
         // === InjectingFunction === //
         // Logic is executed 0 or 1 times per app (depending on if directive is used).
@@ -77,7 +48,6 @@
                     } else {
                         hex.change_terrain();
                     }
-
                     $scope.stage.update();
                 }
 
@@ -115,6 +85,7 @@
                                 break;
 
                         }
+                        $scope.drawing_started = true;
                     });
                 };
 
@@ -248,8 +219,7 @@
                 //   as children or future siblings to automatically run..
 
                 return function LinkingFunction($scope, $linkElement, $linkAttributes) {
-
-                    _init_scope_canvas($scope, $linkElement);
+                    init_map_canvas($scope,  $linkElement.find('canvas')[0]);
 
 
                 };

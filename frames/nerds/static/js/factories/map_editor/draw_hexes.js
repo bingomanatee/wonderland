@@ -2,6 +2,25 @@
 
     var app = angular.module('NERDS_app');
 
+    function _center(hex) {
+        var center = {
+            x: 0,
+            y: 0
+        };
+
+        var p = 0;
+        _.each(hex.points, function (pt) {
+            center.x += pt.x;
+            center.y += pt.y;
+            ++p;
+        });
+        if (p > 0) {
+            center.x /= p;
+            center.y /= p;
+        }
+        return center;
+    }
+
     /**
      * Hex coordinates are given in absolute x y points, in world units.
      * the overall container is offset to center it in the stage.
@@ -14,11 +33,17 @@
      */
 
     app.factory('map_editor_draw_hexes', function (hex_extent) {
+        var ca = false;
 
         function _draw_hex() {
-
+            var color = false;
             var last_point = _.last(this.points);
-            color = this.terrain_color;
+            if (this.terrain_color) {
+                color = this.terrain_color;
+            } else {
+                if (!ca) console.log('no color for hex ', this);
+                ca = true;
+            }
             this.shape.graphics.c();
 
             this.shape.graphics.f(color ? color : 'white').mt(this._x(last_point.x), this._y(last_point.y));
@@ -40,6 +65,7 @@
 
         function _draw_city(city_container, hex) {
 
+
             return function () {
                 if (!hex.city_shape) {
                     hex.city_shape = new createjs.Shape();
@@ -56,6 +82,7 @@
                 hex.city_shape.graphics.c().f('rgba(0,0,0,0.25').dc(0, 0, hex.height() / 3).ef();
             }
         }
+
 
         return  function (hexes, hex_container, city_container, map_container, canvas) {
             hex_container.removeAllChildren();
@@ -74,7 +101,10 @@
             }
 
             _.each(hexes, function (hex) {
-                //  console.log('drawing hex ', hex);
+                if (!hex) return;
+                if (!hex.center) {
+                    hex.center = _center(hex);
+                }
 
                 hex.shape = new createjs.Shape();
 
@@ -83,13 +113,14 @@
                     var min_y = _.min(ys);
                     var max_y = _.max(ys);
                     return hex._y(max_y) - hex._y(min_y);
-                }
+                };
 
                 hex._x = _x;
                 hex._y = _y;
 
                 hex.shape.x = _x(hex.center.x);
                 hex.shape.y = _y(hex.center.y);
+
 
                 function _x(x) {
                     return (x - extent.min_x) * ratio - hex.shape.x;
@@ -106,8 +137,9 @@
                 hex.draw();
 
                 hex_container.addChild(hex.shape);
-            })
+            });
 
+            console.log('done drawing hexes');
         };
     });
 

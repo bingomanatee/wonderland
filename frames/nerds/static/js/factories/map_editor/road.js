@@ -353,6 +353,7 @@
             easel_import('525128c802d4aa8822000004', function (err, shape) {
 
                 var road_button = $scope.add_toolbar_button(shape, 'road', 2, 1);
+                if (!road_button) return;
 
                 var save_button = _sub_button('Save', 'save');
                 save_button.visible = false;

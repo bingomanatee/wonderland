@@ -17,14 +17,12 @@
             "context": "foot",
             "name": "easel"
         },
-
         {
             "url": "/js/nerds/vendor/angular/angular.js",
             "context": "foot",
             "defer": "defer",
             "name": "angular"
         },
-
         {
             "url": "/js/nerds/vendor/underscore-min.js",
             "context": "foot",
@@ -82,6 +80,14 @@
             "url": "/js/nerds/factories/map_editor/hex_size.js",
             "context": "foot",
             "name": "hex_size",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/init_map_canvas.js",
+            "context": "foot",
+            "name": "init_map_canvas",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
         },

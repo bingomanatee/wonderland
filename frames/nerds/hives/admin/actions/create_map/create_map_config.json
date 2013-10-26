@@ -69,7 +69,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/hex_extent.js",
+            "url": "/js/nerds/factories/map_editor/hex_extent.js",
             "context": "foot",
             "name": "extent",
             "defer": "defer",
@@ -77,7 +77,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/hex_size.js",
+            "url": "/js/nerds/factories/map_editor/hex_size.js",
             "context": "foot",
             "name": "hex_size",
             "defer": "defer",
@@ -85,7 +85,15 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/road.js",
+            "url": "/js/nerds/factories/map_editor/init_map_canvas.js",
+            "context": "foot",
+            "name": "init_map_canvas",
+            "defer": "defer",
+            "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
+        },
+
+        {
+            "url": "/js/nerds/factories/map_editor/road.js",
             "context": "foot",
             "name": "road",
             "defer": "defer",
@@ -93,7 +101,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/road_types.js",
+            "url": "/js/nerds/factories/map_editor/road_types.js",
             "context": "foot",
             "name": "road",
             "defer": "defer",
@@ -110,7 +118,7 @@
 
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/terrain.js",
+            "url": "/js/nerds/factories/map_editor/terrain.js",
             "context": "foot",
             "name": "terrain",
             "defer": "defer",
@@ -118,7 +126,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/city.js",
+            "url": "/js/nerds/factories/map_editor/city.js",
             "context": "foot",
             "name": "road",
             "defer": "defer",
@@ -126,7 +134,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/draw_hexes.js",
+            "url": "/js/nerds/factories/map_editor/draw_hexes.js",
             "context": "foot",
             "name": "map_editor",
             "defer": "defer",
@@ -134,7 +142,7 @@
         },
 
         {
-            "url": "/js/admin/nerds/create_map/factories/map_editor/draw_map.js",
+            "url": "/js/nerds/factories/map_editor/draw_map.js",
             "context": "foot",
             "name": "map_editor",
             "defer": "defer",
