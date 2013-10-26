@@ -4,7 +4,7 @@
 
     // ----------------------- root controller ---------------------------
 
-    function MapViewCtrl($scope, $modal, Games, Maps, game_info, $window, init_map_canvas, map_editor_draw_hexes, map_editor_draw_map, map_editor_city, map_editor_terrain, map_editor_road) {
+    function MapViewCtrl($scope, $modal, Games, Maps, game_info, $window, init_map_canvas, map_editor_load_map, map_editor_city, map_editor_terrain, map_editor_road) {
 
         var MAP_ID = $window.map_id;
 
@@ -21,31 +21,14 @@
         map_editor_city($scope);
         map_editor_terrain($scope);
         map_editor_road($scope);
+        map_editor_load_map($scope);
 
         var _gotten = false;
         $scope.$watch('terrains', function (ts) {
             if (ts && ts.length && !_gotten) {
                 _gotten = true;
                 Maps.get({_id: MAP_ID}, function (map) {
-                    $scope.map = map;
-
-                    var hexes = _.flatten(map.hexes);
-
-                    console.log('cities', _.compact(_.pick(map.hexes, 'city')));
-                    _.each(hexes, function (hex) {
-                        if (hex.terrain && (!(hex.terrain == 'unknown'))) {
-                            hex.terrain_color = $scope.terrain_color(hex.terrain);
-                        }
-                    });
-
-                    map_editor_draw_hexes(hexes, $scope.hex_grid, $scope.city_container, $scope.map_container, canvas);
-
-                    _.each(map.roads, function(road){
-                        $scope.new_road(road)
-                    });
-                    $scope.draw_roads();
-                    
-                    $scope.stage.update();
+                    $scope.load_map(map);
                 });
             }
         })

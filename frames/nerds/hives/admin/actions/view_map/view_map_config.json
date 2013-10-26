@@ -142,16 +142,16 @@
         },
 
         {
-            "url": "/js/nerds/factories/map_editor/draw_map.js",
+            "url": "/js/nerds/factories/map_editor/load_map.js",
             "context": "foot",
-            "name": "map_editor",
+            "name": "load_map",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
         },
         {
             "url": "/js/admin/nerds/map/directives/map_viewer.js",
             "context": "foot",
-            "name": "map_editor",
+            "name": "map_viewer",
             "defer": "defer",
             "requires": ["nerds_app", "angular", "underscore", "easel", "easel_map_editor"]
         },
