@@ -37,7 +37,7 @@
                 "size": "number",
                 "city_type": "string",
                 "row": "number",
-                "column" : "number"
+                "column": "number"
             }
         }
     ],
@@ -49,8 +49,19 @@
             "road_type": "string",
             "points": [
                 {
-                    "x": "number",
-                    "y": "number"
+                    "road_x": "number",
+                    "road_y": "number",
+                    "hex": {
+                        "column": "number",
+                        "row": "number"
+                    },
+                    "midpoints": [
+                        {
+                            "x": "number",
+                            "y": "number"
+                        }
+                    ]
+
                 }
 
             ]

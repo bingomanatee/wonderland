@@ -17,7 +17,7 @@
         var canvas = $('#game_creation').find('#map')[0];
         $scope.canvas = canvas;
         init_map_canvas($scope, canvas);
-        map_editor_draw_map($scope);
+
         map_editor_city($scope);
         map_editor_terrain($scope);
         map_editor_road($scope);
@@ -36,9 +36,15 @@
                         if (hex.terrain && (!(hex.terrain == 'unknown'))) {
                             hex.terrain_color = $scope.terrain_color(hex.terrain);
                         }
-                    })
+                    });
+
                     map_editor_draw_hexes(hexes, $scope.hex_grid, $scope.city_container, $scope.map_container, canvas);
-                    console.log('cities:', $scope.cities);
+
+                    _.each(map.roads, function(road){
+                        $scope.new_road(road)
+                    });
+                    $scope.draw_roads();
+                    
                     $scope.stage.update();
                 });
             }

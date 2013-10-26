@@ -134,6 +134,14 @@
 
             }
             $scope.roads = [];
+
+            $scope.clear_road = _clear_road;
+            $scope.new_road = function(road){
+                road.toJSON = _.bind( _roadToJSON, road);
+
+                $scope.roads.push(road);
+            }
+
             $scope.add_road = function (road) {
                 road.points = $scope.road_points.map(function (hex) {
 
@@ -145,10 +153,8 @@
                 });
 
                 _windy_road(road);
-                road.toJSON = _.bind( _roadToJSON, road);
-
-                $scope.roads.push(road);
-                _clear_road();
+                $scope.clear_road();
+                $scope.new_road(road);
                 $scope.draw_roads();
             };
 

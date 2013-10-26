@@ -53,12 +53,12 @@
 
                 hex.set_city = function (city) {
                     city.city_type = city.type;
+                    city.toJSON = _.bind(_cityToJSON, city);
                     hex.city = city;
                     city.hex = hex;
                     hex.draw_city();
                     $scope.stage.update();
 
-                    city.toJSON = _.bind(_cityToJSON, city);
                 };
 
                 hex.toJSON = _.bind(_hexToJSON, hex);
@@ -93,9 +93,9 @@
                 );
             };
 
+            //@TODO: more presice control over when a blank hex grid is drawn
 
             function _redraw_map() {
-                console.log('width changed to ', $scope.map_width);
                 $http({method: 'GET', url: "/admin/nerds/hexes", params: { map_size: $scope.map_width, hex_size: hex_size($scope.map_width, $scope.hex_scale)}})
                     .success(function (hexes) {
                         hexes = _.flatten(hexes);
