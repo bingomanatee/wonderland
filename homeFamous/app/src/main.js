@@ -15,12 +15,13 @@ define(function (require, exports, module) {
     var ToggleButton = require('famous/widgets/ToggleButton');
     var NewStoryForm = require('story/NewStoryForm');
     var StoryListItem = require('story/StoryListItem');
-    var _ = require('lodash');
 
     // var ImageSurface = require('famous/surfaces/ImageSurface');
 
     var TOOLBAR_HEIGHT = 50;
     var FOOTER_HEIGHT = 30;
+
+    this.WL_DOMAIN = 'http://localhost:1337';
 
     var MARGIN = 50;
 
@@ -104,7 +105,7 @@ define(function (require, exports, module) {
 
     this.reloadStories = function() {
 
-        $.get('/stories').done(function (data) {
+        $.get(this.WL_DOMAIN + '/stories').done(function (data) {
             data = _.sortBy(data, function(item){
                 return item.id * -1;
             });
@@ -174,8 +175,10 @@ define(function (require, exports, module) {
 
         if (show) {
             nsfMod.setOpacity(1);
+            nsfMod.setTransform(Transform.identity);
         } else {
             nsfMod.setOpacity(0);
+            nsfMod.setTransform(Transform.translate(0, 0, 10));
         }
     }
 

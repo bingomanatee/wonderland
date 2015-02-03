@@ -86,7 +86,7 @@ define(function (require, exports, module) {
                 console.log("Saving story", title, desc);
 
                 $.ajax({
-                    url: 'http://localhost:1337/stories',
+                    url: context.WL_DOMAIN + '/stories',
                     dataType: 'json',
                     type: 'POST',
                     data: {
