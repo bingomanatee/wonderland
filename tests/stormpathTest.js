@@ -6,12 +6,12 @@ describe('Stormpath', function () {
   beforeEach(function (done) {
     StormpathService.clearApp();
     StormpathService.setTestMode(true);
-    util.log('clearing test account');
+ //   util.log('clearing test account');
     StormpathService.clearAllAccounts(function (err, deleted) {
       if (err) {
         util.log(util.format('error during account clearing: %s', err));
       } else {
-        util.log(util.format('deleted %d records.', deleted));
+    //    util.log(util.format('deleted %d records.', deleted));
         done();
       }
     });
@@ -176,7 +176,7 @@ describe('Stormpath', function () {
     });
 
     describe('performance', function () {
-      it.only('should create 30 records in a timely manner', function (done) {
+      it('should create 30 records in a timely manner', function (done) {
         var count = 30;
         var authTimes = [];
         var insertions = 0;
@@ -248,7 +248,7 @@ describe('Stormpath', function () {
           var avg = authTimes.reduce(function (sum, value) {
               return sum + value
             }, 0) / accountsData.length;
-          util.log('times: ' + util.inspect(authTimes));
+        //  util.log('times: ' + util.inspect(authTimes));
           util.log(util.format('min time: %d, max time: %d, average time: %d, successes: ',
             min, max, avg, successes));
           assert.equal(successes, count, 'all ' + count + ' records were authenticated');
@@ -257,7 +257,7 @@ describe('Stormpath', function () {
 
           var deletedCount = 0;
           accounts.forEach(function (account, i) {
-=            account.delete(function () {
+            account.delete(function () {
 
               if (++deletedCount >= accounts.length) {
                 done();

@@ -62,8 +62,8 @@ _.extend(StormpathServiceClass.prototype,
             return cb(new Error('non array items'));
           }
           delete result.items;
-          util.log(util.format('accounts: %s', util.inspect(result)));
-          util.log('deleting ' + accounts.length + ' records');
+    //      util.log(util.format('accounts: %s', util.inspect(result)));
+      //    util.log('deleting ' + accounts.length + ' records');
           if (accounts.length) {
             accounts.forEach(function (account) {
               if (account) {
@@ -75,7 +75,7 @@ _.extend(StormpathServiceClass.prototype,
                   }
                 });
               } else {
-                util.log('non-account in items');
+           //     util.log('non-account in items');
                 ++doneCount;
               }
             });
