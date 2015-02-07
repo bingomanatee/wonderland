@@ -1,0 +1,52 @@
+<div ng-controller="NewStoryCtrl">
+  <div class="button-row">
+    <button class="btn btn-primary" type="button"
+            ng-click="isCollapsed = !isCollapsed">
+      Create a new story!
+    </button>
+  </div>
+  <div collapse="isCollapsed">
+    <div class="well">
+
+      <h2>Create a new story</h2>
+
+      <p>Begin your own &quot;Choose your own adventure&quot; style story:</p>
+      <alert ng-repeat="alert in alerts" type="alert.type"
+             close="closeAlert($index)">{{alert.msg}}</alert>
+      <form id="newStoryForm">
+        <div ng-class="storyFormClass()" ng-show="showAlert">
+          <span></span>
+          <img class="icon"/>
+        </div>
+
+        <div class="form-group">
+          <label for="InputUsername">Title</label>
+          <input type="text" ng-model="title" class="form-control title" required="required"
+                 placeholder="Title of story">
+        </div>
+        <div class="form-group">
+          <label for="InputDesc">Description</label>
+    <textarea class="form-control description" ng-model="description"
+              placeholder="Summary of story" required="required" rows="6">
+    </textarea>
+        </div>
+        <div class="form-group button-row">
+          <div class="pull-right">
+
+            <button type="button" class="btn btn-default" ng-click="isCollapsed = false">Close
+            </button>
+            <button type="submit" class="btn btn-primary" ng-click="sendStory()">Create Story</button>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+<pre>
+  {{ alerts | json }}
+</pre>
+</div><!-- end NewStoryCtrl -->
+<script language="javascript" defer="defer" src="/wonderland/newStoryForm.js">
+</script>
+<hr/>

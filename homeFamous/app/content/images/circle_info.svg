@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="52px" height="52px" viewBox="0 0 52 52" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.2.2 (9983) - http://www.bohemiancoding.com/sketch -->
+    <title>circle_info</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="info" sketch:type="MSLayerGroup" transform="translate(0.000000, 3.000000)" stroke="#4990E2">
+            <ellipse id="Info" sketch:type="MSShapeGroup" cx="23.7363281" cy="23.7363281" rx="23.1852227" ry="23.1852227"></ellipse>
+        </g>
+        <path d="M24.5,22 L29,22 L29,37 L29,37 L33,37 L33,44 L16,44 L16,37 L20,37 L20,29 L16,29 L16,22 L24.5,22 Z M24.5,20 C28.0898509,20 31,17.0898509 31,13.5 C31,9.91014913 28.0898509,7 24.5,7 C20.9101491,7 18,9.91014913 18,13.5 C18,17.0898509 20.9101491,20 24.5,20 Z" id="Rectangle-5" stroke="#4990E2" sketch:type="MSShapeGroup"></path>
+    </g>
+</svg>

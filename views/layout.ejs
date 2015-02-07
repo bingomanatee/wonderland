@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>New Sails App</title>
+    <title>Wonderland Stories</title>
 
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
+    <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel='stylesheet' type='text/css'>
 
     <!--
         Stylesheets and Preprocessors
@@ -29,13 +29,14 @@
     -->
 
     <!--STYLES-->
-    <link rel="stylesheet" href="/styles/app.css">
-    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/ui-grid/3.0.0-RC.18/ui-grid.min.css">
     <link rel="stylesheet" href="/bootstrap-3.3.2-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/app.css">
+    <link rel="stylesheet" href="/styles/stories.css">
     <!--STYLES END-->
   </head>
 
-  <body>
+  <body ng-app="WonderlandApp">
   <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -45,24 +46,46 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">Project name</a>
+        <a class="navbar-brand" href="#">Wonderland</a>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
           <li class="active"><a href="#">Home</a></li>
           <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
+          <% if (account) { %>
+         <li><p class="navbar-text"> Logged in as <%- account.username %>
+           </p></li>
+          <li class="buttonWrapper">
+            <a class="btn" href="/signout">
+              Sign Out
+            </a>
+          </li>
+          <% } else { %>
+          <li class="buttonWrapper">
+            <button class="btn" data-toggle="modal" data-target="#myModal">
+              Sign In
+            </button>
+          </li>
+          <% } %>
         </ul>
+
       </div><!--/.nav-collapse -->
     </div>
   </nav>
 
   <div class="container">
 
-    <div class="starter-template">
-      <h1>Bootstrap starter template</h1>
-      <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-    </div>
+    <% if (flashMessages.hasMessages()){ %>
+    <% flashMessages.pullMessages(true).forEach(function(info) { %>
+    <div class="alert alert-<%= info.msgType %> with-close" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <%- info.content %>
+      <img class="icon" /></div>
+    <% }) // end forEach
+     %>
+    <% } // end if hasMessages
+    %>
     <%- body %>
   </div><!-- /.container -->
 
@@ -90,8 +113,9 @@
     <!--TEMPLATES-->
     
     <!--TEMPLATES END-->
-
-
+<% if (!account) { %>
+  <%- include stormpath/signin.ejs %>
+  <% } %>
     <!--
 
       Client-side Javascript
@@ -117,11 +141,15 @@
 
     <!--SCRIPTS-->
     <script src="/js/dependencies/sails.io.js"></script>
-    <script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
-    <script src="/angular-1.3.11/angular.min.js"></script>
-    <script src="/angular-1.3.11/angular-resource.min.js"></script>
     <script src="/js/dependencies/jquery/jquery-1.11.2.min.js"></script>
     <script src="/js/dependencies/lodash/lodash.min.js"></script>
+    <script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+    <script src="/angular-1.3.11/angular.min.js"></script>
+    <script src="/angular-1.3.11/angular-sanitize.min.js"></script>
+    <script src="/ui-grid/3.0.0-RC.18/ui-grid.min.js"></script>
+    <script src="/angular-1.3.11/angular-resource.min.js"></script>
+    <script src="/ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js"></script>
+    <script src="/wonderland/app.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

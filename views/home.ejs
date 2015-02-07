@@ -1,3 +1,35 @@
-<h1>Welcome to Wonderland</h1>
 
-<p>A Choose your own adventure site</p>
+  <div ng-controller="StoriesCtl" class="story-list">
+    <h1>Wonderland Stories</h1>
+
+    <% if (account) { %>
+    <%- include story/newStoryForm.ejs %>
+    <% } %>
+
+    <div class="list">
+
+      <div ng-if="account" class="well" style="overflow: hidden">
+        <h2>Your Stories</h2>
+
+        <wl-story ng-repeat="story in stories |filter: isOwnedByCurrentUser |orderBy :storyDate : reverse" class="story">
+       </wl-story>
+      </div>
+
+      <div style="overflow: hidden">
+        <h2><%= account ? 'Other Stories' : 'Stories' %></h2>
+      <div ng-repeat="story in stories |filter: isNotOwnedByCurrentUser |orderBy :storyDate : reverse" class="story">
+        <h2>{{story.title }}</h2>
+
+        <p class="desc">{{ story.description }}</p>
+
+        <p class="date">{{story.updatedAt | date : shortDate }}</p>
+
+        <div class="footer">
+          <button class="btn btn-success" ng-click="launchStory(story)">Read</button>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+<script src="/wonderland/stories.js" defer="defer"></script>

@@ -16,8 +16,16 @@ module.exports = {
     description: {
       type: 'string',
       required: true
+    },
+    createdUsername: {
+      type: 'string',
+      maxLength: 50
+    },
+    deleted: {
+      type: 'boolean',
+      default: false
     }
-
   }
+
 };
 
