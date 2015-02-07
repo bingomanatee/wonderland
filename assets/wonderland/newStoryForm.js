@@ -17,9 +17,12 @@ wonderlandApp.controller('NewStoryCtrl', function ($scope, $resource, uiGridCons
         var story = result.story;
         if (story) {
           console.log('story saved: ', story);
-          $scope.alerts.push({type: 'success', msg: 'saved story ' + story.id});
+          $scope.alerts.push({type: 'success', msg: 'saved story ' + story.id + ": " + story.title});
+          $scope.title = "";
+          $scope.description = "";
+          $scope.isCollapsed = false;
         } else if (result.error){
-          $scope.alerts.push({type: 'danger', msg: result.error});
+          $scope.alerts = [{type: 'danger', msg: result.error}];
         }
       });
     }

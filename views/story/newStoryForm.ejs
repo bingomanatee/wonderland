@@ -4,6 +4,8 @@
             ng-click="isCollapsed = !isCollapsed">
       Create a new story!
     </button>
+    <alert ng-repeat="alert in alerts" type="alert.type"
+           close="closeAlert($index)">{{alert.msg}}</alert>
   </div>
   <div collapse="isCollapsed">
     <div class="well">
@@ -11,8 +13,6 @@
       <h2>Create a new story</h2>
 
       <p>Begin your own &quot;Choose your own adventure&quot; style story:</p>
-      <alert ng-repeat="alert in alerts" type="alert.type"
-             close="closeAlert($index)">{{alert.msg}}</alert>
       <form id="newStoryForm">
         <div ng-class="storyFormClass()" ng-show="showAlert">
           <span></span>
