@@ -1,9 +1,15 @@
 wonderlandApp.controller('StoriesCtl',
   function ($scope, $resource, uiGridConstants, Stories, Accounts) {
 
-    $scope.stories = Stories.query(function (data) {
-      console.log("got stories: ", data);
-    });
+    function _loadStories() {
+      $scope.stories = Stories.query(function (data) {
+        console.log("got stories: ", data);
+      });
+    }
+
+    _loadStories();
+
+    Stories.watch(_loadStories, '*', '*');
 
     $scope.mySelections = [];
 
@@ -37,10 +43,12 @@ wonderlandApp.controller('StoriesCtl',
 
     $scope.account = null;
 
-      Accounts.account({}, function(result){
-        console.log('account: ', result);
-        if(result.account) $scope.account = result.account;
-      });
+    Accounts.account({}, function (result) {
+      console.log('account: ', result);
+      if (result.account) {
+        $scope.account = result.account;
+      }
+    });
 
     $scope.isOwnedByCurrentUser = function (story) {
       if (!$scope.account) {

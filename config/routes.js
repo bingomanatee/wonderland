@@ -48,5 +48,12 @@ module.exports.routes = {
   '/signout': 'StormpathController.signout',
   'get /account': 'StormpathController.account',
 
-  'post /stories': 'StoriesController.post'
+  'post /stories': 'StoriesController.post',
+
+  '/test/services': {view: 'test/serviceTest',
+  locals: {
+    testScript: '/tests/serviceTest.js', layout : 'testLayout'
+  }
+
+  }
 };

@@ -1,0 +1,35 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Mocha Tests</title>
+  <link rel="stylesheet" href="/lib/mocha/mocha.css" />
+</head>
+<body>
+<div id="mocha"></div>
+<!--SCRIPTS-->
+<script src="/js/dependencies/sails.io.js"></script>
+<script src="/js/dependencies/jquery/jquery-1.11.2.min.js"></script>
+<script src="/js/dependencies/lodash/lodash.min.js"></script>
+<script src="/bootstrap-3.3.2-dist/js/bootstrap.min.js"></script>
+<script src="/angular-1.3.11/angular.min.js"></script>
+<script src="/angular-1.3.11/angular-sanitize.min.js"></script>
+<script src="/ui-grid/3.0.0-RC.18/ui-grid.min.js"></script>
+<script src="/angular-1.3.11/angular-resource.min.js"></script>
+<script src="/ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js"></script>
+<script src="/wonderland/app.js"></script>
+<script src="/lib/mocha/mocha.js"></script>
+<script src="/lib/chai/chai.js"></script>
+<!--SCRIPTS END-->
+
+<%- body %>
+<script src="<%- testScript %>"></script>
+<script language="javascript">
+  mocha.checkLeaks();
+  mocha.globals(['jQuery']);
+  mocha.setup({
+    ui: 'tdd'
+  });
+  mocha.run();
+</script>
+</body>
+</html>
