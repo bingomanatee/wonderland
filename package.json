@@ -39,5 +39,8 @@
     "url": "git://github.com/dave/wonderland.git"
   },
   "author": "dave",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "fast-stats": "0.0.2"
+  }
 }

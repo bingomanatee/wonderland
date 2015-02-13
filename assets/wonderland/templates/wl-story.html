@@ -3,8 +3,10 @@
 <p class="desc">{{ story.description }}</p>
 
 <p class="username">{{story.createdUsername }}</p>
-<p class="date">{{story.updatedAt | date : shortDate }}</p>
+<p class="date">{{story.updatedAt | date : shortDate }} ({{ storyDate(story) }})</p>
 
 <div class="footer">
   <button class="btn btn-success" ng-click="launchStory(story)">Read</button>
+  <button  class="btn btn-default float-right" ng-show="account && account.username == story.createdUsername"
+    ng-click="editStory(story)">Edit</button>
 </div>

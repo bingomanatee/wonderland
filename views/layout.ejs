@@ -2,7 +2,10 @@
 <html>
   <head>
     <title>Wonderland Stories</title>
-
+<%
+if (typeof account == 'undefined') account = false;
+if (typeof flashMessages == 'undefined') flashMessages = false;
+%>
     <!-- Viewport mobile tag for sensible mobile support -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic' rel='stylesheet' type='text/css'>
@@ -76,7 +79,7 @@
 
   <div class="container">
 
-    <% if (flashMessages.hasMessages()){ %>
+    <% if (flashMessages && flashMessages.hasMessages()){ %>
     <% flashMessages.pullMessages(true).forEach(function(info) { %>
     <div class="alert alert-<%= info.msgType %> with-close" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

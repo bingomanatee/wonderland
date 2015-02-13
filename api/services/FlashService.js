@@ -2,12 +2,12 @@ function FlashMessages(req) {
   this.req = req;
 }
 
-function _flatten(msg){
+function _flatten(msg) {
   var out = [];
 
-  for (var msgType in msg){
-    if (msg.hasOwnProperty(msgType) && _.isArray(msg[msgType])){
-      msg[msgType].forEach(function(msg){
+  for (var msgType in msg) {
+    if (msg.hasOwnProperty(msgType) && _.isArray(msg[msgType])) {
+      msg[msgType].forEach(function (msg) {
         out.push({msgType: msgType, content: msg});
       });
     }
@@ -34,10 +34,14 @@ FlashMessages.prototype = {
     }
     this.req.session.flash[msgType].push(content);
   },
-  hasMessages: function(){
-    if (!this.req.session.flash) return false;
-    for(var p in this.req.session.flash){
-      if (_.isArray(this.req.session.flash[p]) && this.req.session.flash[p].length) return true;
+  hasMessages: function () {
+    if (!this.req.session.flash) {
+      return false;
+    }
+    for (var p in this.req.session.flash) {
+      if (_.isArray(this.req.session.flash[p]) && this.req.session.flash[p].length) {
+        return true;
+      }
     }
     return false;
   }
@@ -46,5 +50,8 @@ FlashMessages.prototype = {
 module.exports = {
   flashMessages: function (req) {
     return new FlashMessages(req);
+  },
+  addMessage: function (req, msgType, content) {
+    this.flashMessages(req).addMessage(msgType, content);
   }
 };

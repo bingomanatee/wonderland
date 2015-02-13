@@ -8,28 +8,24 @@
 
     <div class="list">
 
-      <div ng-if="account" class="well" style="overflow: hidden">
+      <div ng-if="account" class="well">
         <h2>Your Stories</h2>
 
-        <wl-story ng-repeat="story in stories |filter: isOwnedByCurrentUser |orderBy :storyDate : reverse" class="story">
+        <wl-story ng-repeat="story in stories |filter: isOwnedByCurrentUser |orderBy :storyDate : true | limitTo: MAX_STORIES"
+              class="story">
        </wl-story>
+
+        <div class="story-footer" ng-if="myStoryCount() > MAX_STORIES">Displaying {{MAX_STORIES}} of {{myStoryCount()}} stories</div>
       </div>
 
-      <div style="overflow: hidden">
+      <div class="well transparent">
         <h2><%= account ? 'Other Stories' : 'Stories' %></h2>
-      <div ng-repeat="story in stories |filter: isNotOwnedByCurrentUser |orderBy :storyDate : reverse" class="story">
-        <h2>{{story.title }}</h2>
+      <wl-story ng-repeat="story in stories |filter: isNotOwnedByCurrentUser |orderBy :storyDate : true |limitTo: MAX_STORIES"
+              class="story">
+      </wl-story>
+        <div class="story-footer" ng-if="publicStoryCount() > MAX_STORIES">Displaying {{MAX_STORIES}} of {{publicStoryCount()}} stories</div>
 
-        <p class="desc">{{ story.description }}</p>
-
-        <p class="date">{{story.updatedAt | date : shortDate }}</p>
-
-        <div class="footer">
-          <button class="btn btn-success" ng-click="launchStory(story)">Read</button>
-        </div>
       </div>
     </div>
-    </div>
-
   </div>
 <script src="/wonderland/stories.js" defer="defer"></script>

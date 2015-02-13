@@ -21,6 +21,7 @@ wonderlandApp.controller('NewStoryCtrl', function ($scope, $resource, uiGridCons
           $scope.title = "";
           $scope.description = "";
           $scope.isCollapsed = false;
+          Stories.observer.broadcast([story], 'created');
         } else if (result.error){
           $scope.alerts = [{type: 'danger', msg: result.error}];
         }

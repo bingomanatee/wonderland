@@ -1,6 +1,7 @@
 var assert = require("assert");
 var util = require('util');
 var StormpathService = require('./../api/services/StormpathService');
+var Stats = require('fast-stats').Stats;
 
 describe('Stormpath', function () {
   beforeEach(function (done) {
@@ -10,6 +11,7 @@ describe('Stormpath', function () {
     StormpathService.clearAllAccounts(function (err, deleted) {
       if (err) {
         util.log(util.format('error during account clearing: %s', err));
+        throw err;
       } else {
     //    util.log(util.format('deleted %d records.', deleted));
         done();
@@ -120,9 +122,7 @@ describe('Stormpath', function () {
         function completeSeries() {
           var max = Math.max.apply(Math, insertionTimes);
           var min = Math.min.apply(Math, insertionTimes);
-          var avg = insertionTimes.reduce(function (sum, value) {
-              return sum + value
-            }, 0) / count;
+          var avg = new Stats().push(insertionTimes).amean();
           util.log(util.format('min time: %d, max time: %d, average time: %d, successes: ',
             min, max, avg, successes));
           var deletedCount = 0;
@@ -130,7 +130,7 @@ describe('Stormpath', function () {
             account.delete(function () {
               if (++deletedCount == accounts.length) {
                 assert.equal(successes, count, 'all ' + count + ' records were created');
-                assert.ok(max < 4000, 'worst time is under 4 seconds');
+                assert.ok(max < 6000, 'worst time is under 6 seconds');
                 assert.ok(avg < 3000, 'average time is under 3 seconds');
 
                 done();
@@ -245,9 +245,7 @@ describe('Stormpath', function () {
           reporting = true;
           var max = Math.max.apply(Math, authTimes);
           var min = Math.min.apply(Math, authTimes);
-          var avg = authTimes.reduce(function (sum, value) {
-              return sum + value
-            }, 0) / accountsData.length;
+          var avg = new Stats().push(authTimes).amean();
         //  util.log('times: ' + util.inspect(authTimes));
           util.log(util.format('min time: %d, max time: %d, average time: %d, successes: ',
             min, max, avg, successes));

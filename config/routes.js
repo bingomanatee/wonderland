@@ -50,10 +50,16 @@ module.exports.routes = {
 
   'post /stories': 'StoriesController.post',
 
-  '/test/services': {view: 'test/serviceTest',
-  locals: {
-    testScript: '/tests/serviceTest.js', layout : 'testLayout'
-  }
+  '/stories/edit/:id': 'StoriesController.edit',
+
+  'get /storypages/for_story/:id': 'StoryPagesContorller.pages',
+
+  '/test/services': {
+    view: 'test/serviceTest',
+    locals: {
+      testScript: '/tests/serviceTest.js', layout: 'testLayout'
+    }
 
   }
 };
+

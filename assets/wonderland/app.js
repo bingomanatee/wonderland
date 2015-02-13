@@ -30,11 +30,12 @@ var wonderlandApp = angular.module('WonderlandApp',
       this.callback = callback;
       this.ids = _normalizeIds(ids);
       this.methods = _normalizeMethods(methods);
+      console.log("new observer from ", ids, methods, ': ', this);
     }
 
-    ObserverData.prototype.match = function (ids, method) {
-      ids = _normalizeIds(ids);
-      if (this.methods.length) {
+    ObserverData.prototype.match = function (records, method) {
+      var ids = _ids(records);
+      if (this.methods.length && (method != '*')) {
         var goodMethod = false;
         for (var m = 0; m < this.methods.length; ++m) {
           if (method == this.methods[m]) {
@@ -42,13 +43,15 @@ var wonderlandApp = angular.module('WonderlandApp',
             break;
           }
         }
+
         if (!goodMethod) {
+          console.log('method ', method, 'does not match ', this.methods);
           return false;
         }
       }
 
       if (this.ids.length && ids.length) {
-        var goodId = false;
+        var goodId = this.ids[0] == '*';
 
         for (var i = 0; i < ids.length; ++i) {
           if (goodId) {
@@ -77,9 +80,9 @@ var wonderlandApp = angular.module('WonderlandApp',
       return observerData;
     };
 
-    function _ids(records){
+    function _ids(records) {
       var out = [];
-      for (var i = 0; i < records.length; ++i){
+      for (var i = 0; i < records.length; ++i) {
         out.push(records[i].id);
       }
       return out;
@@ -89,10 +92,23 @@ var wonderlandApp = angular.module('WonderlandApp',
       if (method && typeof method == 'string') {
         for (var i = 0; i < this.watchers.length; ++i) {
           var watcher = this.watchers[i];
-          if (watcher.match(_ids(records), method)) {
-            watcher.callback.call(this.stories, reords);
+          if (watcher.match(records, method)) {
+            watcher.callback.call(this.stories, records);
           }
         }
+      }
+    };
+
+    StoryObserver.prototype.clear = function (what) {
+      if (!what) {
+        this.watchers = [];
+      } else if (typeof what == 'function') {
+        var a = [];
+        for (var i = 0; i < this.watchers.length; ++i)
+          if (this.watchers[i].callback !== what) {
+            a.push(this.watchers[i]);
+          }
+        this.watchers = a;
       }
     };
 
@@ -102,8 +118,29 @@ var wonderlandApp = angular.module('WonderlandApp',
     return Stories;
   }
   ])
-  .
-  factory('Accounts', ['$resource', function ($resource) {
+  .factory('StoryPages', ['$resource', function ($resource) {
+    var Pages = $resource('/storypages/:id', {id: '@id'}, {
+      forStory: {
+        url: '/storypages/for_story/:id',
+        params: {id: '@id'},
+        isArray: true,
+        transformResponse: function (data, headers) {
+          console.log('data: ', data, ' headers: ', headers);
+          if (/application\/json/.test(headers('Content-Type'))) {
+            console.log('json header found:', headers('Content-type'));
+            if (typeof data == 'object') return data.pages;
+            return (angular.fromJson(data).pages) || [];
+          } else {
+            console.log('no json header found');
+            return [];
+          }
+        }
+      }
+    });
+    return Pages;
+  }
+  ])
+  .factory('Accounts', ['$resource', function ($resource) {
     var Accounts = $resource('/accounts/:username', {id: '@id'}, {
       account: {url: '/account', method: 'GET'}
     });

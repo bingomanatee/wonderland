@@ -26,14 +26,14 @@
         </div>
         <div class="form-group">
           <label for="InputDesc">Description</label>
-    <textarea class="form-control description" ng-model="description"
+    <textarea class="form-control body" ng-model="body"
               placeholder="Summary of story" required="required" rows="6">
     </textarea>
         </div>
         <div class="form-group button-row">
           <div class="pull-right">
 
-            <button type="button" class="btn btn-default" ng-click="isCollapsed = false">Close
+            <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Close
             </button>
             <button type="submit" class="btn btn-primary" ng-click="sendStory()">Create Story</button>
           </div>
@@ -43,9 +43,7 @@
 
     </div>
   </div>
-<pre>
-  {{ alerts | json }}
-</pre>
+
 </div><!-- end NewStoryCtrl -->
 <script language="javascript" defer="defer" src="/wonderland/newStoryForm.js">
 </script>

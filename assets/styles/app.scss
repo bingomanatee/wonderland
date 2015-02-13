@@ -22,8 +22,8 @@ $wellColor: darken($mainColor, 33%);
 $wellColor1: transparentize($wellColor, 0.5);
 $wellColor2: transparentize($wellColor, 0.75);
 $wellColor3: transparentize($wellColor, 0.95);
-$wellMidPercent: 15%;
-$wellBottomPercent: 25%;
+$wellMidPercent: 5%;
+$wellBottomPercent: 15%;
 
 * {
   font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,6 +89,13 @@ h1, h2, h3, h4, h5 {
   background: linear-gradient(to bottom, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$wellColor1', endColorstr='$wellColor3', GradientType=0); /* IE6-8 */
   border: none;
+  &.transparent{
+    background: rgba(0,0,0,0);
+
+  }
+  clear: both;
+  overflow: hidden;
+  -webkit-box-shadow: none;
 }
 
 

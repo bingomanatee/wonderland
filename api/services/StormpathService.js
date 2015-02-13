@@ -5,6 +5,7 @@ var homedir = path.resolve(__dirname, '../../config/');
 var events = require('events');
 var util = require('util');
 var _ = require('lodash');
+var client;
 
 function StormpathServiceClass() {
   this.app = null;
@@ -31,12 +32,15 @@ _.extend(StormpathServiceClass.prototype,
     },
 
     getClient: function (callback) {
+      if (client) {
+        return callback(null, client);
+      }
       var keyfile = path.resolve(homedir, 'apiKey-43N2FPJT68WEERGEL1H1PWDN0.properties');
       stormpath.loadApiKey(keyfile, function apiKeyFileLoaded(err, apiKey) {
         if (err) {
           callback(err);
         }
-        var client = new stormpath.Client({apiKey: apiKey});
+        client = new stormpath.Client({apiKey: apiKey});
         callback(null, client);
       });
     },
@@ -46,7 +50,7 @@ _.extend(StormpathServiceClass.prototype,
         throw new Error('cannot clear accounts for not test mode');
       }
 
-      this._clearAccounts(done, 0);
+      this._clearAccounts(done);
     },
 
     _clearAccounts: function (cb, currentCount) {
@@ -62,8 +66,8 @@ _.extend(StormpathServiceClass.prototype,
             return cb(new Error('non array items'));
           }
           delete result.items;
-    //      util.log(util.format('accounts: %s', util.inspect(result)));
-      //    util.log('deleting ' + accounts.length + ' records');
+          //      util.log(util.format('accounts: %s', util.inspect(result)));
+          //    util.log('deleting ' + accounts.length + ' records');
           if (accounts.length) {
             accounts.forEach(function (account) {
               if (account) {
@@ -75,7 +79,7 @@ _.extend(StormpathServiceClass.prototype,
                   }
                 });
               } else {
-           //     util.log('non-account in items');
+                //     util.log('non-account in items');
                 ++doneCount;
               }
             });
@@ -119,8 +123,8 @@ _.extend(StormpathServiceClass.prototype,
     },
 
     authenticateAccount: function (username, password, callback) {
-      if (_.isObject(username)){
-        if(_.isFunction(password)){
+      if (_.isObject(username)) {
+        if (_.isFunction(password)) {
           callback = password;
         }
         password = username.password;

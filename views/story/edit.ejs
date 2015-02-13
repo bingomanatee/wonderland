@@ -1,0 +1,29 @@
+<div ng-controller="StoryEditCtrl" class="story-edit"  ng-init="init('<%= story.id %>')">
+<h1>Edit story &quot;{{ story.title }}&quot;</h1>
+  <p>{{story.description}}</p>
+  <h2>Pages</h2>
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+    <th>body</th>
+    </tr>
+    </thead>
+    <tr ng-repeat="page in pages">
+      <td>{{page.id}}</td>
+      <td>{{page.body | limitTo: 50}}...</td>
+    </tr>
+  </table>
+
+  <%- include newPageForm.ejs %>
+
+  <div ng-repeat="page in pages" class="page-ticket">
+    <h2><b>{{page.id}}</b> {{ page.title }}</h2>
+  </div>
+
+  <pre>
+    {{ pages | json }}
+  </pre>
+
+</div>
+<script src="/wonderland/storyEdit.js" defer="defer"></script>

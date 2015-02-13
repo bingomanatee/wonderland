@@ -17,18 +17,15 @@
 <script src="/angular-1.3.11/angular-resource.min.js"></script>
 <script src="/ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js"></script>
 <script src="/wonderland/app.js"></script>
+<!--SCRIPTS END-->
 <script src="/lib/mocha/mocha.js"></script>
 <script src="/lib/chai/chai.js"></script>
-<!--SCRIPTS END-->
-
+<script src="/angular-1.3.11/angular-mocks.js"></script>
 <%- body %>
 <script src="<%- testScript %>"></script>
 <script language="javascript">
   mocha.checkLeaks();
   mocha.globals(['jQuery']);
-  mocha.setup({
-    ui: 'tdd'
-  });
   mocha.run();
 </script>
 </body>

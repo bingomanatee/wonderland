@@ -1,5 +1,5 @@
 wonderlandApp.controller('StoriesCtl',
-  function ($scope, $resource, uiGridConstants, Stories, Accounts) {
+  function ($scope, $resource, uiGridConstants, Stories, Accounts, $filter) {
 
     function _loadStories() {
       $scope.stories = Stories.query(function (data) {
@@ -9,7 +9,7 @@ wonderlandApp.controller('StoriesCtl',
 
     _loadStories();
 
-    Stories.watch(_loadStories, '*', '*');
+    Stories.observer.watch(_loadStories);
 
     $scope.mySelections = [];
 
@@ -38,7 +38,6 @@ wonderlandApp.controller('StoriesCtl',
           $scope.mySelections = gridApi.selection.getSelectedRows();
         });
       }
-
     };
 
     $scope.account = null;
@@ -65,17 +64,56 @@ wonderlandApp.controller('StoriesCtl',
       console.log("click on ", story);
     };
 
+    $scope.editStory = function(story) {
+      document.location = '/stories/edit/' + story.id;
+    };
+
     $scope.launchStoryBound = $scope.launchStory.bind($scope);
 
     $scope.storyDate = function (story) {
-      var str = story.createdBy;
-      var d = Date.parse(str);
-      return d.valueOf();
+      var str = story.createdAt;
+      return Date.parse(str) || new Date().getTime();
     };
 
     $scope.$watch('mySelections', function (items) {
       console.log("selection", items);
     }, true);
+
+    $scope.publicStoryCount = function () {
+      if (!$scope.stories) {
+        return 0;
+      } else if (!$scope.account) {
+        return $scope.stories.length;
+      } else {
+        var c = 0;
+
+        for (var i = 0; i < $scope.stories.length; ++i) {
+          if ($scope.isNotOwnedByCurrentUser($scope.stories[i])) {
+            ++c;
+          }
+        }
+        return c;
+      }
+    };
+
+    $scope.MAX_STORIES = 6;
+
+    $scope.myStoryCount = function () {
+      if (!$scope.stories) {
+        return 0;
+      } else if (!$scope.account) {
+        return 0;
+      } else {
+        var c = 0;
+
+        for (var i = 0; i < $scope.stories.length; ++i) {
+          if ($scope.isOwnedByCurrentUser($scope.stories[i])) {
+            ++c;
+          }
+        }
+        return c;
+      }
+    }
 
   })
   .directive('wlStory', function () {
