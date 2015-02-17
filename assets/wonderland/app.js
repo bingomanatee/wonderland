@@ -120,6 +120,11 @@ var wonderlandApp = angular.module('WonderlandApp',
   ])
   .factory('StoryPages', ['$resource', function ($resource) {
     var Pages = $resource('/storypages/:id', {id: '@id'}, {
+      uniqueCode: {
+        url: '/storypages/code_for_story/:story/:code',
+        params: {story: '@story', code: '@code'},
+        method: 'get'
+      },
       forStory: {
         url: '/storypages/for_story/:id',
         params: {id: '@id'},

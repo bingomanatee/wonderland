@@ -50,7 +50,7 @@ module.exports.policies = {
   // }
   StoriesController: {
 
-    edit: ['injectLocals', 'isLoggedIn', 'ownsStory']
+    edit: ['injectLocals']// , 'isLoggedIn', 'ownsStory']
 
   }
 }

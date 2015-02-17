@@ -15,8 +15,7 @@ $infoColor3: transparentize($infoColor, 0.95);
 $alertMidPercent: 15%;
 $alertShadow: transparentize($infoColor, 0.8);
 
-$hrColor: rgba(0,0,0,0.25);
-
+$hrColor: rgba(0, 0, 0, 0.25);
 
 $wellColor: darken($mainColor, 33%);
 $wellColor1: transparentize($wellColor, 0.5);
@@ -24,6 +23,8 @@ $wellColor2: transparentize($wellColor, 0.75);
 $wellColor3: transparentize($wellColor, 0.95);
 $wellMidPercent: 5%;
 $wellBottomPercent: 15%;
+
+$semiWhite: rgba(255, 255, 255, 0.9);
 
 * {
   font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -89,15 +90,14 @@ h1, h2, h3, h4, h5 {
   background: linear-gradient(to bottom, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$wellColor1', endColorstr='$wellColor3', GradientType=0); /* IE6-8 */
   border: none;
-  &.transparent{
-    background: rgba(0,0,0,0);
+  &.transparent {
+    background: rgba(0, 0, 0, 0);
 
   }
   clear: both;
   overflow: hidden;
   -webkit-box-shadow: none;
 }
-
 
 .alert-info, .alert-success, .alert-warning, .alert-danger {
   background-color: transparentize(lighten($infoColor, 20%), 0.25);
@@ -125,7 +125,6 @@ h1, h2, h3, h4, h5 {
     content: url(/images/circle_danger.png);
   }
 }
-
 
 .button-row {
   min-height: 3.25em;
@@ -234,4 +233,61 @@ label {
 
 hr {
   border-top: 4px dashed $hrColor;
+}
+
+.full-page {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  display: block;
+  left: 0;
+  top: 0;
+  z-index: 10000;
+  overflow: hidden;
+  background-color: $semiWhite;
+
+  .full-page-main {
+    clear: both;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0;
+    padding: 0;
+    .full-page-cell {
+      float: left;
+      width: 50%;
+      white-space: normal;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  .full-page-head {
+    height: 70px;
+    margin: 0;
+    padding: 5px;
+    position: relative;
+    h2 {
+      margin: 0;
+      padding: 0;
+      font-size: 150%;
+      font-weight: 700;
+      text-align: center;
+    }
+    .full-page-close {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+    }
+  }
+  .full-page-foot {
+    height: 50px;
+    margin: 0;
+    padding: 5px;
+  }
+}
+
+.markup-preview {
+  vertical-align: top;
+  height: 100%;
+  overflow: scroll;
+  padding: 2em;
 }

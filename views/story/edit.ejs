@@ -1,29 +1,34 @@
-<div ng-controller="StoryEditCtrl" class="story-edit"  ng-init="init('<%= story.id %>')">
-<h1>Edit story &quot;{{ story.title }}&quot;</h1>
-  <p>{{story.description}}</p>
-  <h2>Pages</h2>
-  <table>
-    <thead>
-    <tr>
-      <th>ID</th>
-    <th>body</th>
-    </tr>
-    </thead>
-    <tr ng-repeat="page in pages">
-      <td>{{page.id}}</td>
-      <td>{{page.body | limitTo: 50}}...</td>
-    </tr>
-  </table>
+<div ng-controller="StoryEditCtrl" class="story-edit" ng-init="init('<%= story.id %>')">
+  <h1>Edit story &quot;{{ story.title }}&quot;</h1>
 
-  <%- include newPageForm.ejs %>
 
-  <div ng-repeat="page in pages" class="page-ticket">
-    <h2><b>{{page.id}}</b> {{ page.title }}</h2>
-  </div>
+  <tabset style="min-height: 40em">
+    <tab heading="story desription">
+      <h2>Description</h2>
 
-  <pre>
-    {{ pages | json }}
-  </pre>
+      <p>{{story.description}}</p>
+    </tab>
+    <tab heading="Story Pages">
 
+      <h2>Pages</h2>
+
+      <div class="story-pages">
+        <div class="story-row head">
+          <div class="story-cell id">ID</div>
+          <div class="story-cell title">Title</div>
+          <div class="story-cell code">Code</div>
+        </div>
+        <div class="story-row" ng-repeat="page in pages">
+          <div class="story-cell id">{{page.id}}</div>
+          <div class="story-cell title">{{page.title}}</div>
+          <div class="story-cell code">{{page.code}}</div>
+        </div>
+      </div>
+    </tab>
+    <tab heading="New Page">
+      <%- include newPageForm.ejs %>
+    </tab>
+  </tabset>
 </div>
+
 <script src="/wonderland/storyEdit.js" defer="defer"></script>

@@ -54,6 +54,9 @@ module.exports.routes = {
 
   'get /storypages/for_story/:id': 'StoryPagesContorller.pages',
 
+  '/storypages/code_for_story/:story/:code' : 'StoryPagesController.uniqueCode',
+  '/storypages/code_for_page/:page' : 'StoryPagesController.uniqueCodeForPage',
+
   '/test/services': {
     view: 'test/serviceTest',
     locals: {

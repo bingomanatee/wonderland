@@ -1,7 +1,9 @@
 $borderColor: rgb(200, 200, 200);
 $storyListInnerPadding: 0.5em;
-$translucentWhite: rgba(255,255,255,0.9);
-$dateColor: rgba(0,0,0,0.25);
+$translucentWhite: rgba(255, 255, 255, 0.9);
+$dateColor: rgba(0, 0, 0, 0.25);
+$semiWhite: rgba(255, 255, 255, 0.95);
+
 .story-list {
   .story {
     width: 20em;
@@ -15,7 +17,7 @@ $dateColor: rgba(0,0,0,0.25);
     min-height: 20em;
     p {
       margin: 0;
-      padding:  $storyListInnerPadding/2 $storyListInnerPadding;
+      padding: $storyListInnerPadding/2 $storyListInnerPadding;
     }
 
     .desc {
@@ -30,7 +32,7 @@ $dateColor: rgba(0,0,0,0.25);
 
     h2 {
       margin: 0;
-      padding:  $storyListInnerPadding/2 $storyListInnerPadding;
+      padding: $storyListInnerPadding/2 $storyListInnerPadding;
       font-size: 100%;
       font-weight: 700;
     }
@@ -45,6 +47,37 @@ $dateColor: rgba(0,0,0,0.25);
     clear: both;
     font-weight: 500;
     padding: 1em;
-    .btn {  min-width: 40%; }
+    .btn {
+      min-width: 40%;
+    }
+  }
+}
+
+.story-pages {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  .story-row {
+    overflow: hidden;
+    clear: both;
+    .story-cell {
+      float: left;
+      height: 2em;
+      &.id {
+        width: 4em;
+      }
+      &.title {
+        width: 30em;
+      }
+      &.code {
+        width: 20em;
+      }
+    }
+    &.head {
+      .story-cell {
+        font-weight: 700;
+        overflow: hidden;
+      }
+    }
   }
 }

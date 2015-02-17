@@ -1,45 +1,70 @@
-<div class="button-row">
-  <button class="btn btn-primary" type="button"
-          ng-click="isCollapsed = !isCollapsed">
-    Create a new page!
-  </button>
-  <alert ng-repeat="alert in alerts" type="alert.type"
-         close="closeAlert($index)">{{alert.msg}}
-  </alert>
-</div>
-<div collapse="isCollapsed">
-  <div class="well">
+<alert ng-repeat="alert in alerts" type="alert.type"
+       close="closeAlert($index)">{{alert.msg}}
+</alert>
 
-    <h2>Create a new page</h2>
+<h2>Create a new page</h2>
 
-    <p>Begin your own &quot;Choose your own adventure&quot; style page:</p>
-
-    <form id="newPageForm">
+<form id="newPageForm">
+  <div class="row">
+    <div class="col-md-8">
       <div class="form-group">
         <label for="InputUsername">Title</label>
-        <input type="text" ng-model="title" class="form-control title" required="required" min="5"
-               placeholder="Title of page">
-        {{ title }}
+        <input type="text" ng-model="newPage.title" class="form-control title" required="required"
+               min="5" placeholder="Title of page">
       </div>
+    </div>
+    <div class="col-md-4">
       <div class="form-group">
-        <label for="InputDesc">Description</label>
-    <textarea class="form-control body" ng-model="body"
-              placeholder="Summary of page" required="required" rows="6">
-    </textarea>
-        {{ description }}
+        <label for="InputUsername">Code</label>
+        <input type="text" ng-model="newPage.code" class="form-control code"
+               required="required" min="5"  placeholder="link code">
       </div>
-      <div class="form-group button-row">
-        <div class="pull-right">
+    </div>
+  </div>
 
-          <button type="button" class="btn btn-default" ng-click="isCollapsed = true">Close
-          </button>
-          <button type="submit" class="btn btn-primary" ng-click="sendPage()">Create Page</button>
+  <div class="form-group">
+    <label for="InputDesc">Text</label>
+    <table style="width: 100%">
+      <tr>
+        <td width="50%">
+    <textarea class="form-control body" ng-model="newPage.body"
+              placeholder="Summary of page" required="required" rows="20">
+    </textarea>
+        </td>
+        <td width="50%" class="markup-preview" ng-bind-html="newPage.body_marked">
+        </td>
+      </tr>
+    </table>
+    <button class="btn" type="button" ng-click="toggleSFP()">
+      Show Full Page
+    </button>
+  </div>
+  <div class="form-group button-row">
+    <div class="pull-right">
+      <button type="submit" class="btn btn-primary" ng-click="sendPage()">Create Page</button>
+    </div>
+  </div>
+  <div class="full-page ng-hide" style="" ng-show="isShowingFullPage()">
+    <div class="full-page-head"><h2>Content</h2>
+      <div class="full-page-close" ng-mouseenter="showFPhover = true"  ng-click="toggleSFP()"
+           ng-mouseleave="showFPhover = false"><img src="/images/circle_x.svg" ng-hide="showFPhover" /><img src="/images/circle_x_hover.svg" ng-show="showFPhover"></div>
+    <div class="full-page-main" ng-style="mainStyle">
+      <div class="full-page-cell entry" ng-style="cellStyle">
+    <textarea class="form-control body" style="width: 100%; height: 100%" ng-model="newPage.body"
+              placeholder="Summary of page" required="required" rows="20">
+      </textarea>
+      </div>
+      <div class="full-page-cell " ng-style="cellStyle">
+        <div ng-bind-html="newPage.body_marked"
+             class="markup-preview">
+
         </div>
       </div>
-
-    </form>
-
+    </div>
+    <div class="full-page-foot">
+      <button class="btn pull-right btn-primary" type="button" ng-click="toggleSFP()">
+        Hide Full Page
+      </button>
+    </div>
   </div>
-</div>
-<hr/>
-
+</form>
