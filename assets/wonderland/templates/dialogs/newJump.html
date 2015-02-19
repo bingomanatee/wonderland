@@ -1,0 +1,25 @@
+<div class="modal-header">
+  <h3 class="modal-title">Add a Jump!</h3>
+</div>
+<div class="modal-body">
+  <p>Add a jump to another page</p>
+  <form id="newStoryForm">
+
+    <div class="form-group">
+      <label for="InputJump">Prompt</label>
+          <textarea class="form-control body" ng-model="newJump.prompt" id="InputJump"
+                    placeholder="Prompt" required="required" rows="6">
+          </textarea>
+    </div>
+    <div class="form-group">
+      <label for="InputPage">Story Code</label>
+      <input type="text" ng-model="newJump.toPageCode" class="form-control title" required="required"
+             id="InputPage"  placeholder="Story Code">
+    </div>
+  </form>
+
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-primary" ng-click="ok()">Create Jump</button>
+</div>

@@ -24,7 +24,14 @@ $wellColor3: transparentize($wellColor, 0.95);
 $wellMidPercent: 5%;
 $wellBottomPercent: 15%;
 
-$semiWhite: rgba(255, 255, 255, 0.9);
+$white: rgb(255, 255, 255);
+$semiWhite: transparentize($white, 0.1);
+
+$tabColor: transparentize($yesColor, 0.5);
+
+$inputBGColor: transparentize($white, 0.3);
+
+$fullPageHeaderHeight: 70px;
 
 * {
   font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -173,8 +180,8 @@ h1, h2, h3, h4, h5 {
 }
 
 .form-control {
-  border-color: transparentize(darken($mainColor, 25%), 0.5);
-  background-color: lighten($mainColor, 25%);
+  border-color: transparentize(darken($mainColor, 50%), 0.5);
+  background-color: $inputBGColor;
 }
 
 .navbar-nav button.btn {
@@ -246,25 +253,15 @@ hr {
   overflow: hidden;
   background-color: $semiWhite;
 
-  .full-page-main {
-    clear: both;
-    overflow: hidden;
-    white-space: nowrap;
-    margin: 0;
-    padding: 0;
-    .full-page-cell {
-      float: left;
-      width: 50%;
-      white-space: normal;
-      margin: 0;
-      padding: 0;
-    }
-  }
   .full-page-head {
-    height: 70px;
+    height: $fullPageHeaderHeight;
+    width: 100%;
     margin: 0;
     padding: 5px;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+
     h2 {
       margin: 0;
       padding: 0;
@@ -278,10 +275,34 @@ hr {
       top: 5px;
     }
   }
+
+  .full-page-main {
+    width: 100%;
+    position: absolute;
+    top: $fullPageHeaderHeight;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    .full-page-cell {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 50%;
+      white-space: normal;
+      margin: 0;
+      padding: 0;
+      &.right {
+        left: auto;
+        right: 0;
+      }
+    }
+  }
   .full-page-foot {
     height: 50px;
     margin: 0;
     padding: 5px;
+    position: absolute;
+    bottom: 0;
   }
 }
 
@@ -290,4 +311,88 @@ hr {
   height: 100%;
   overflow: scroll;
   padding: 2em;
+}
+
+.nav-tabs > li {
+  padding: 0;
+  margin-bottom: -2px !important;
+}
+
+.nav-tabs > li > a {
+  color: black;
+  font-weight: 700;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+  background-color: $tabColor;
+  border: none;
+  color: white;
+}
+
+.nav-tabs > li > a:hover {
+  background-color: transparentize($tabColor, 0.125);
+  border: none;
+  color: black;
+}
+
+.nav-tabs {
+  border-bottom: 3px solid $tabColor;
+}
+
+::-webkit-scrollbar {
+  width: 11px;
+  height: 11px;
+}
+
+::-webkit-scrollbar-button {
+  width: 0px;
+  height: 0px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffe445;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffe445;
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: #fff1b1;
+}
+
+::-webkit-scrollbar-track {
+  background: #b5a12e;
+  border: 0px none #ffffff;
+  border-radius: 50px;
+}
+
+::-webkit-scrollbar-track:hover {
+  background: #b5a12e;
+}
+
+::-webkit-scrollbar-track:active {
+  background: #dac239;
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.table-striped > tbody > tr:nth-of-type(even) {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th {
+  border-top: 1px dotted rgba(0,0,0,0.25);
+}
+
+.table>thead>tr>th {
+  border-bottom: 2px solid rgba(0,0,0,0.25);
 }

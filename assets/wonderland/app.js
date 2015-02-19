@@ -118,7 +118,10 @@ var wonderlandApp = angular.module('WonderlandApp',
     return Stories;
   }
   ])
-  .factory('StoryPages', ['$resource', function ($resource) {
+  .factory('StoryJumps', ['$resource', function ($resource) {
+    var StoryJumps = $resource('/storyjumps/:id', {id: '@id'});
+    return StoryJumps;
+  }]).factory('StoryPages', ['$resource', function ($resource) {
     var Pages = $resource('/storypages/:id', {id: '@id'}, {
       uniqueCode: {
         url: '/storypages/code_for_story/:story/:code',
@@ -133,7 +136,9 @@ var wonderlandApp = angular.module('WonderlandApp',
           console.log('data: ', data, ' headers: ', headers);
           if (/application\/json/.test(headers('Content-Type'))) {
             console.log('json header found:', headers('Content-type'));
-            if (typeof data == 'object') return data.pages;
+            if (typeof data == 'object') {
+              return data.pages;
+            }
             return (angular.fromJson(data).pages) || [];
           } else {
             console.log('no json header found');

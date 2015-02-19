@@ -17,54 +17,71 @@
       <div class="form-group">
         <label for="InputUsername">Code</label>
         <input type="text" ng-model="newPage.code" class="form-control code"
-               required="required" min="5"  placeholder="link code">
+               required="required" min="5" placeholder="link code">
       </div>
     </div>
   </div>
 
   <div class="form-group">
     <label for="InputDesc">Text</label>
-    <table style="width: 100%">
-      <tr>
-        <td width="50%">
-    <textarea class="form-control body" ng-model="newPage.body"
-              placeholder="Summary of page" required="required" rows="20">
+   <div class="row">
+     <div class="col-md-6" style=" height: 20em">
+  <textarea class="form-control body" ng-model="newPage.body" style=" height: 19em"
+            placeholder="Summary of page" required="required" rows="20">
     </textarea>
-        </td>
-        <td width="50%" class="markup-preview" ng-bind-html="newPage.body_marked">
-        </td>
-      </tr>
-    </table>
-    <button class="btn" type="button" ng-click="toggleSFP()">
-      Show Full Page
-    </button>
-  </div>
-  <div class="form-group button-row">
-    <div class="pull-right">
-      <button type="submit" class="btn btn-primary" ng-click="sendPage()">Create Page</button>
-    </div>
-  </div>
-  <div class="full-page ng-hide" style="" ng-show="isShowingFullPage()">
-    <div class="full-page-head"><h2>Content</h2>
-      <div class="full-page-close" ng-mouseenter="showFPhover = true"  ng-click="toggleSFP()"
-           ng-mouseleave="showFPhover = false"><img src="/images/circle_x.svg" ng-hide="showFPhover" /><img src="/images/circle_x_hover.svg" ng-show="showFPhover"></div>
-    <div class="full-page-main" ng-style="mainStyle">
-      <div class="full-page-cell entry" ng-style="cellStyle">
-    <textarea class="form-control body" style="width: 100%; height: 100%" ng-model="newPage.body"
-              placeholder="Summary of page" required="required" rows="20">
-      </textarea>
-      </div>
-      <div class="full-page-cell " ng-style="cellStyle">
-        <div ng-bind-html="newPage.body_marked"
-             class="markup-preview">
+     </div>
+     <div class="col-md-6" class="markup-preview" ng-bind-html="newPage.body_marked" style=" height: 20em; overflow: scroll">
 
+     </div>
+   </div>
+   <div class="row">
+     <div class="col-md-12">
+       <button class="btn" type="button" ng-click="toggleSFP()">
+         Show Full Page
+       </button>
+     </div>
+   </div>
+  </div>
+
+  <h3>
+    <button class="btn btn-default" ng-click="hideJumps = !hideJumps">
+      <span class="glyphicon glyphicon-menu-right" ng-show="hideJumps"></span><span
+        class="glyphicon glyphicon-menu-down" ng-hide="hideJumps"></span>
+      {{ hideJumps?"Show Jumps":"Hide Jumps" }}
+    </button> Page Jumps
+  </h3>
+
+  <div collapse="hideJumps">
+    <div class="well well-lg">
+      <div class="row">
+        <div class="col-md-10">
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Prompt</th>
+              <th>To Code</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr ng-repeat="jump in jumps">
+              <td>{{ jump.prompt }}</td>
+              <td>{{ jump.toPageCode }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-default" ng-click="addJump()">Add Jump</button>
         </div>
       </div>
-    </div>
-    <div class="full-page-foot">
-      <button class="btn pull-right btn-primary" type="button" ng-click="toggleSFP()">
-        Hide Full Page
-      </button>
+
     </div>
   </div>
+
+  <div class="form-group button-row">
+    <div class="pull-right">
+      <button type="submit" class="btn btn-primary btn-lg" ng-click="sendPage()">Create Page</button>
+    </div>
+  </div>
+  <%= include fullScreenPageEdit.ejs %>
 </form>

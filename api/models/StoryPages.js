@@ -17,6 +17,15 @@ module.exports = {
 
     story: {
       model: 'stories'
+    },
+
+    jumps: function (callback) {
+      if (this.id) {
+        StoryJumps.find({fromStory: this.id})
+          .sort({order: 'asc'}).exec(callback);
+      } else {
+        callback(null, []);
+      }
     }
   },
 

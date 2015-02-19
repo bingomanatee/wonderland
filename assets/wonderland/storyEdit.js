@@ -1,6 +1,7 @@
 wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstants',
-  'Stories', 'StoryPages', '$window',
-  function ($scope, $resource, uiGridConstants, Stories, StoryPages, $window) {
+  'Stories', 'StoryPages', '$window', '$modal',
+  function ($scope, $resource, uiGridConstants,
+            Stories, StoryPages, $window, $modal) {
 
     function _loadPages() {
       $scope.pages = StoryPages.forStory({id: $scope.id});
@@ -12,6 +13,19 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
       StoryPages.save(data, _loadPages);
       $scope.newPage = {title: '', body: '', story: id};
     }
+
+    $scope.jumps = [];
+
+    $scope.addJump = function () {
+      var dlg = $modal.open({
+        templateUrl: '/wonderland/templates/dialogs/newJump.html',
+        controller: 'NewJumpCtrl',
+        size: 'lg'
+      }).result.then(function (newJump) {
+          console.log('recieved newJump ', newJump);
+          $scope.jumps.push(newJump);
+        })
+    };
 
     $scope.isCollapsed = true;
 
@@ -84,7 +98,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
     $scope.cellStyle = _mainStyle();
     function _resize() {
       $scope.mainStyle = _mainStyle();
-      $scope.cellStyle = _.extend(_mainStyle(), {width: '100%'});
+      $scope.cellStyle = _.extend(_mainStyle(), {});
       $scope.$apply();
     }
 
@@ -98,4 +112,17 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
       //The browser does not support Javascript event binding
     }
 
-  }]); // end controller
+  }]) // end controller
+  .controller('NewJumpCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+
+    $scope.ok = function () {
+      console.log('sending newJump ', $scope.newJump);
+      $modalInstance.close($scope.newJump);
+    };
+
+    $scope.cancel = function () {
+      $modalInstance.dismiss('cancel');
+    };
+
+    $scope.newJump = {prompt: '', toPageCode: ''};
+  }]);

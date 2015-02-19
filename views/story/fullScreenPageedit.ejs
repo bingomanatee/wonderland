@@ -1,0 +1,26 @@
+<div class="full-page ng-hide" style="" ng-show="isShowingFullPage()">
+  <div class="full-page-head"><h2>Content</h2>
+
+    <div class="full-page-close" ng-mouseenter="showFPhover = true" ng-click="toggleSFP()"
+         ng-mouseleave="showFPhover = false"><img src="/images/circle_x.svg" ng-hide="showFPhover"/><img
+        src="/images/circle_x_hover.svg" ng-show="showFPhover"></div>
+  </div>
+  <div class="full-page-main" ng-style="mainStyle">
+    <div class="full-page-cell entry" ng-style="cellStyle">
+    <textarea class="form-control body" style="width: 100%; height: 100%" ng-model="newPage.body"
+              placeholder="Summary of page" required="required" rows="20">
+      </textarea>
+    </div>
+    <div class="full-page-cell right" ng-style="cellStyle">
+      <div ng-bind-html="newPage.body_marked"
+           class="markup-preview">
+
+      </div>
+    </div>
+  </div>
+  <div class="full-page-foot">
+    <button class="btn pull-right btn-primary" type="button" ng-click="toggleSFP()">
+      Hide Full Page
+    </button>
+  </div>
+</div>
