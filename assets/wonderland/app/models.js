@@ -156,5 +156,10 @@ angular.module('WonderlandApp')
     });
 
     return Accounts;
-  }]);
-
+  }])
+  .factory('filterCode', function(){
+  return function(title){
+    if (!title || (typeof title != 'string')) return '';
+    return title.replace(/[^\w\d\-_]/gi, '').toLowerCase();
+  }
+});

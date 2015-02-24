@@ -4,33 +4,36 @@
 
 <h2>Create a new page</h2>
 
-<form id="newPageForm"  valid-submit="validateSubmitHit()" novalidate>
+<form id="newPageForm"  name="newpageform" form-validation="validateSubmitHit()" novalidate>
   <div class="row">
     <div class="col-md-5">
-      <div class="form-group">
-        <label for="InputUsername"  ng-class="{'error': form.$submitted && form.name.$invalid}">Title</label>
+      <div class="form-group" ng-class="{'has-error': newpageform.$submitted && newpageform.title.$invalid}">
+        <label class="control-label">Title</label>
         <input type="text" name="title" ng-model="newPage.title" class="form-control title" required="required"
-               min="8" placeholder="Title of page">
-               <div class="help">errors: {{ form.title.$error }}</div>
+        minlength="8" placeholder="Title of page" />
+        <div ng-messages="newpageform.title.$error" ng-messages-include="my-custom-messages" ng-show="newpageform.$submitted">
+         <div ng-message="minlength" class="validation-error">Must be at least 8 characters long</div>
+       </div>
+     </div>
+   </div>
+   <div class="col-md-3">
+    <div class="form-group"  ng-class="{'has-error': newpageform.$submitted && newpageform.code.$invalid}">
+      <label  class="control-label">Code</label>
+      <input type="text" name="code" ng-model="newPage.code" class="form-control code" pattern="^[\w\d\-_]*$"
+      required="required" minlength="5" placeholder="link code" ng-change="userCodeChange()" />
+      <div> <label><input type="checkbox" ng-model="newPage.customCode" ng-model-options="{ debounce: 500 }" /> Manual Page Code</label></div>
+      <div ng-messages="newpageform.code.$error" ng-messages-include="my-custom-messages">
+      <!--  ng-show="newpageform.$submitted" -->
+        <div ng-message="pattern" class="validation-error">Must only include lowercase letters and numbers</div>
+        <div ng-message="minlength" class="validation-error">Must be at least 5 characters long</div>
       </div>
-    </div>
-    <div class="col-md-3">
-      <div class="form-group">
-        <label for="InputUsername">Code</label>
-        <input type="text" ng-model="newPage.code" class="form-control code" pattern="^[\w\d\-_]*$"
-               required="required" min="5" placeholder="link code" ng-change="userCodeChange()" />
-               <div> <label><input type="checkbox" ng-model="newPage.customCode" ng-model-options="{ debounce: 500 }" /> Manual Page Code</label></div>
-      
-      </div>       
-    </div>
-        <div class="col-md-4" ng-show="showCodeSuggestion()">There is another page with this code;<br />
-         <button class="btn btn-small standard-caps" type="button" ng-click="useUniqueCode()">
-               Use Code &quot;{{codeSuggestion }}&quot;</button></div>
+    </div>       
   </div>
-<div>codeSuggestion: <b>{{ codeSuggestion }}</b><br />
-showCodeSuggestions: <b>{{ showCodeSuggestion() }}</b><br/>
-useCustomCode: <b>{{ !!newPage.customCode }}</b>
-</div>
+  <div class="col-md-4" ng-show="showCodeSuggestion()">There is another page with this code;<br />
+   <button class="btn btn-small standard-caps" type="button" ng-click="useUniqueCode()">
+     Use Code &quot;{{codeSuggestion }}&quot;</button></div>
+   </div>
+
   <div class="form-group">
     <label for="InputDesc">Text</label>
    <div class="row">
@@ -88,7 +91,7 @@ useCustomCode: <b>{{ !!newPage.customCode }}</b>
 
   <div class="row">
     <div class="col-md-2">
-      <button type="submit" class="btn btn-primary btn-lg" >Create Page <!-- ng-click="sendPage()" --></button>
+      <button type="submit" class="btn btn-primary btn-lg">Create Page <!-- ng-click="sendPage()" --></button>
     </div>
     <div class="col-md-10">
     <div class="alert alert-danger" ng-show="newPageHasErrors()"
@@ -101,3 +104,8 @@ useCustomCode: <b>{{ !!newPage.customCode }}</b>
   </div>
   <%= include fullScreenPageEdit.ejs %>
 </form>
+<div>codeSuggestion: <b>{{ codeSuggestion }}</b><br />
+showCodeSuggestions: <b>{{ showCodeSuggestion() }}</b><br/>
+useCustomCode: <b>{{ !!newPage.customCode }}</b><br />
+newpageform.$submitted: <b>{{ newpageform.$submitted }}</b>
+</div>

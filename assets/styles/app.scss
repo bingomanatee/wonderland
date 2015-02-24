@@ -36,6 +36,9 @@ $fullPageHeaderHeight: 70px;
 $disabledColor: rgba(0, 0, 0, 0.25);
 $disabledTextColor: rgb(51, 51, 51);
 
+$validationErrorColor: rgba(204, 0, 0, 0.8);
+$invalidFieldBackground: rgb(255, 225, 225);
+
 * {
   font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -410,4 +413,10 @@ hr {
 
 .standard-caps {
   text-transform: none
+}
+
+form .validation-error {
+  margin: 0.5em; 
+  font-size: 80%;
+  color: $validationErrorColor;
 }
