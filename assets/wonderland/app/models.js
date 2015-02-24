@@ -1,6 +1,18 @@
-var wonderlandApp = angular.module('WonderlandApp',
-  ['ngResource', 'ngSanitize', 'ui.grid', 'ui.grid.selection', 'ui.bootstrap'])
-  .factory('Stories', ['$resource', function ($resource) {
+angular.module('WonderlandApp')
+ .factory('popJsonArrayFactory', function () {
+
+    return function _popJsonArray(key) {
+      return function (data, headers) {
+        if (/application\/json/.test(headers('Content-Type'))) {
+          return (typeof data == 'object' ? data[key] : (angular.fromJson(data)[key])) || [];
+        } else {
+          return [];
+        }
+      }
+    }
+
+  })
+.factory('Stories', ['$resource', function ($resource) {
 
     function StoryObserver(stories) {
       this.stories = stories;
@@ -121,7 +133,8 @@ var wonderlandApp = angular.module('WonderlandApp',
   .factory('StoryJumps', ['$resource', function ($resource) {
     var StoryJumps = $resource('/storyjumps/:id', {id: '@id'});
     return StoryJumps;
-  }]).factory('StoryPages', ['$resource', function ($resource) {
+  }])
+  .factory('StoryPages', ['$resource', 'popJsonArrayFactory', function ($resource, popJsonArrayFactory) {
     var Pages = $resource('/storypages/:id', {id: '@id'}, {
       uniqueCode: {
         url: '/storypages/code_for_story/:story/:code',
@@ -132,25 +145,12 @@ var wonderlandApp = angular.module('WonderlandApp',
         url: '/storypages/for_story/:id',
         params: {id: '@id'},
         isArray: true,
-        transformResponse: function (data, headers) {
-          console.log('data: ', data, ' headers: ', headers);
-          if (/application\/json/.test(headers('Content-Type'))) {
-            console.log('json header found:', headers('Content-type'));
-            if (typeof data == 'object') {
-              return data.pages;
-            }
-            return (angular.fromJson(data).pages) || [];
-          } else {
-            console.log('no json header found');
-            return [];
-          }
-        }
+        transformResponse: popJsonArrayFactory('pages')
       }
     });
     return Pages;
   }
-  ])
-  .factory('Accounts', ['$resource', function ($resource) {
+  ]).factory('Accounts', ['$resource', function ($resource) {
     var Accounts = $resource('/accounts/:username', {id: '@id'}, {
       account: {url: '/account', method: 'GET'}
     });
@@ -158,4 +158,3 @@ var wonderlandApp = angular.module('WonderlandApp',
     return Accounts;
   }]);
 
-console.log('wonderlandLapp loaded');

@@ -25,7 +25,7 @@ var cssFilesToInject = [
 var jsFilesToInject = [
 
   // Load sails.io before everything else
-  'js/dependencies/sails.io.js',
+//  'js/dependencies/sails.io.js',
 
   // Dependencies like jQuery, or Angular are brought in here
   'js/dependencies/**/*.js',
@@ -37,7 +37,7 @@ var jsFilesToInject = [
   'ui-grid/3.0.0-RC.18/ui-grid.min.js',
   'angular-1.3.11/angular-resource.min.js',
   'ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js',
-  'wonderland/app.js'
+  'wonderland/app/*.js'
   // All of the rest of your client-side js files
   // will be injected here in no particular order.
  // 'js/**/*.js'

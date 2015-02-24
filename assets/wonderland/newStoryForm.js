@@ -1,4 +1,4 @@
-wonderlandApp.controller('NewStoryCtrl', function ($scope, $resource, uiGridConstants, Stories) {
+angular.module('WonderlandApp').controller('NewStoryCtrl', function ($scope, $resource, uiGridConstants, Stories) {
 
   $scope.isCollapsed = true;
 

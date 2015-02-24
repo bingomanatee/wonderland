@@ -1,0 +1,460 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "assets/wonderland/storyEdit.js",
+			"settings":
+			{
+				"buffer_size": 5060,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "Gruntfile.js",
+			"settings":
+			{
+				"buffer_size": 2134,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tasks/config/copy.js",
+			"settings":
+			{
+				"buffer_size": 812,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": ".tmp/public/wonderland/storyEdit.js",
+			"settings":
+			{
+				"buffer_size": 5060,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "tasks/pipeline.js",
+			"settings":
+			{
+				"buffer_size": 2408,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "api/models/StoryPages.js",
+			"settings":
+			{
+				"buffer_size": 1959,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/layout.ejs",
+			"settings":
+			{
+				"buffer_size": 6366,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "views/story/edit.ejs",
+			"settings":
+			{
+				"buffer_size": 1009,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"contents": "<alert ng-repeat=\"alert in alerts\" type=\"alert.type\"\n       close=\"closeAlert($index)\">{{alert.msg}}\n</alert>\n\n<h2>Create a new page</h2>\n\n<form id=\"newPageForm\">\n  <div class=\"row\">\n    <div class=\"col-md-8\">\n      <div class=\"form-group\">\n        <label for=\"InputUsername\">Title</label>\n        <input type=\"text\" ng-model=\"newPage.title\" class=\"form-control title\" required=\"required\"\n               min=\"5\" placeholder=\"Title of page\">\n      </div>\n    </div>\n    <div class=\"col-md-4\">\n      <div class=\"form-group\">\n        <label for=\"InputUsername\">Code</label>\n        <input type=\"text\" ng-model=\"newPage.code\" class=\"form-control code\"\n               required=\"required\" min=\"5\" placeholder=\"link code\">\n      </div>\n    </div>\n  </div>\n\n  <div class=\"form-group\">\n    <label for=\"InputDesc\">Text</label>\n   <div class=\"row\">\n     <div class=\"col-md-6\" style=\" height: 20em\">\n  <textarea class=\"form-control body\" ng-model=\"newPage.body\" style=\" height: 19em\"\n            placeholder=\"Summary of page\" required=\"required\" rows=\"20\">\n    </textarea>\n     </div>\n     <div class=\"col-md-6\" class=\"markup-preview\" ng-bind-html=\"newPage.body_marked\" style=\" height: 20em; overflow: scroll\">\n\n     </div>\n   </div>\n   <div class=\"row\">\n     <div class=\"col-md-12\">\n       <button class=\"btn\" type=\"button\" ng-click=\"toggleSFP()\">\n         Show Full Page\n       </button>\n     </div>\n   </div>\n  </div>\n\n  <h3>\n    <button class=\"btn btn-default\" ng-click=\"hideJumps = !hideJumps\">\n      <span class=\"glyphicon glyphicon-menu-right\" ng-show=\"hideJumps\"></span><span\n        class=\"glyphicon glyphicon-menu-down\" ng-hide=\"hideJumps\"></span>\n      {{ hideJumps?\"Show Jumps\":\"Hide Jumps\" }}\n    </button> Page Jumps\n  </h3>\n\n  <div collapse=\"hideJumps\">\n    <div class=\"well well-lg\">\n      <div class=\"row\">\n        <div class=\"col-md-10\">\n          <table class=\"table table-striped\">\n            <thead>\n            <tr>\n              <th>Prompt</th>\n              <th>To Code</th>\n            </tr>\n            </thead>\n            <tbody>\n            <tr ng-repeat=\"jump in jumps\">\n              <td>{{ jump.prompt }}</td>\n              <td>{{ jump.toPageCode }}</td>\n            </tr>\n            </tbody>\n          </table>\n        </div>\n        <div class=\"col-md-2\">\n          <button class=\"btn btn-default\" ng-click=\"addJump()\">Add Jump</button>\n        </div>\n      </div>\n\n    </div>\n  </div>\n\n  <div class=\"row\">\n    <div class=\"col-md-10\">\n    {{ newPageStatusMessage() }}\n    </div>\n    <div class=\"col-md-2\">\n      <button type=\"submit\" ng-show=\"class=\"btn btn-primary btn-lg\" ng-click=\"sendPage()\">Create Page</button>\n    </div>\n  </div>\n  <%= include fullScreenPageEdit.ejs %>\n</form>\n",
+			"file": "views/story/newPageForm.ejs",
+			"file_size": 2700,
+			"file_write_time": 1424719807000000,
+			"settings":
+			{
+				"buffer_size": 2709,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/dave/Documents/repos/wonderland/assets/js/dependencies/sails.io.js",
+		"/Users/dave/Documents/repos/wonderland/tasks/config/sync.js"
+	],
+	"find":
+	{
+		"height": 35.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 8,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "assets/wonderland/storyEdit.js",
+					"settings":
+					{
+						"buffer_size": 5060,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								5060
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 967.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Gruntfile.js",
+					"settings":
+					{
+						"buffer_size": 2134,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "tasks/config/copy.js",
+					"settings":
+					{
+						"buffer_size": 812,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": ".tmp/public/wonderland/storyEdit.js",
+					"settings":
+					{
+						"buffer_size": 5060,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5060,
+								5060
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1462.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "tasks/pipeline.js",
+					"settings":
+					{
+						"buffer_size": 2408,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								762,
+								762
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "api/models/StoryPages.js",
+					"settings":
+					{
+						"buffer_size": 1959,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "views/layout.ejs",
+					"settings":
+					{
+						"buffer_size": 6366,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								348,
+								348
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "views/story/edit.ejs",
+					"settings":
+					{
+						"buffer_size": 1009,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "views/story/newPageForm.ejs",
+					"settings":
+					{
+						"buffer_size": 2709,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2567,
+								2567
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Text/Plain text.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 112.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 0.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"replace":
+	{
+		"height": 0.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 226.0,
+	"status_bar_visible": true
+}

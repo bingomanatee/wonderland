@@ -13,7 +13,7 @@
     </div>
     <div class="form-group">
       <label for="InputPage">Story Code</label>
-      <input type="text" ng-model="newJump.toPageCode" class="form-control title" required="required"
+      <input type="text" ng-model="newJump.toPageCode" class="form-control title" required="required" pattern="^[\w\d\-_]*$"
              id="InputPage"  placeholder="Story Code">
     </div>
   </form>

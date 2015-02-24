@@ -33,6 +33,9 @@ $inputBGColor: transparentize($white, 0.3);
 
 $fullPageHeaderHeight: 70px;
 
+$disabledColor: rgba(0, 0, 0, 0.25);
+$disabledTextColor: rgb(51, 51, 51);
+
 * {
   font-family: Ubuntu, "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -46,8 +49,10 @@ body {
   background-color: $darkColor;
 }
 
-h1, h2, h3, h4, h5 {
+.h1, .h2, .h3, h1, h2, h3 {
   color: $darkColor;
+  margin-top: 0.5em;
+  margin-bottom: 0.25em;
 }
 
 .alert {
@@ -58,14 +63,14 @@ h1, h2, h3, h4, h5 {
   margin-top: 0.5em;
   position: relative;
   text-align: left;
+  min-height: 70px;
+  max-width: 80%;
 
   img.icon {
     position: absolute;
     right: 20px;
-    top: 5px;
+    top: 20px;
   }
-  min-height: 60px;
-  max-width: 40em;
 }
 
 .alert.with-close {
@@ -84,26 +89,6 @@ h1, h2, h3, h4, h5 {
   background: -ms-linear-gradient(top, $infoColor1 0%, $infoColor2 $alertMidPercent, $infoColor3 100%); /* IE10+ */
   background: linear-gradient(to bottom, $infoColor1 0%, $infoColor2 $alertMidPercent, $infoColor3 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$infoColor1', endColorstr='$infoColor3', GradientType=0); /* IE6-8 */
-}
-
-.well {
-  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-  //  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI5JSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-  background: -moz-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $wellColor1), color-stop($wellMidPercent, $wellColor2), color-stop($wellBottomPercent, $wellColor3)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* IE10+ */
-  background: linear-gradient(to bottom, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$wellColor1', endColorstr='$wellColor3', GradientType=0); /* IE6-8 */
-  border: none;
-  &.transparent {
-    background: rgba(0, 0, 0, 0);
-
-  }
-  clear: both;
-  overflow: hidden;
-  -webkit-box-shadow: none;
 }
 
 .alert-info, .alert-success, .alert-warning, .alert-danger {
@@ -131,6 +116,27 @@ h1, h2, h3, h4, h5 {
   img.icon {
     content: url(/images/circle_danger.png);
   }
+}
+
+
+.well {
+  /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+  //  background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjI5JSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIwLjUiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzk4ODZiNyIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+  background: -moz-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $wellColor1), color-stop($wellMidPercent, $wellColor2), color-stop($wellBottomPercent, $wellColor3)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* IE10+ */
+  background: linear-gradient(to bottom, $wellColor1 0%, $wellColor2 $wellMidPercent, $wellColor3 $wellBottomPercent); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='$wellColor1', endColorstr='$wellColor3', GradientType=0); /* IE6-8 */
+  border: none;
+  &.transparent {
+    background: rgba(0, 0, 0, 0);
+
+  }
+  clear: both;
+  overflow: hidden;
+  -webkit-box-shadow: none;
 }
 
 .button-row {
@@ -395,4 +401,13 @@ hr {
 
 .table>thead>tr>th {
   border-bottom: 2px solid rgba(0,0,0,0.25);
+}
+
+.btn-primary.disabled, .btn-primary.disabled.active, .btn-primary.disabled.focus, .btn-primary.disabled:active, .btn-primary.disabled:focus, .btn-primary.disabled:hover, .btn-primary[disabled], .btn-primary[disabled].active, .btn-primary[disabled].focus, .btn-primary[disabled]:active, .btn-primary[disabled]:focus, .btn-primary[disabled]:hover, fieldset[disabled] .btn-primary, fieldset[disabled] .btn-primary.active, fieldset[disabled] .btn-primary.focus, fieldset[disabled] .btn-primary:active, fieldset[disabled] .btn-primary:focus, fieldset[disabled] .btn-primary:hover {
+  background-color: $disabledColor;
+  color: $disabledTextColor;
+}
+
+.standard-caps {
+  text-transform: none
 }

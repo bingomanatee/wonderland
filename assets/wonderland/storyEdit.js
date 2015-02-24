@@ -1,7 +1,7 @@
-wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstants',
-  'Stories', 'StoryPages', '$window', '$modal',
-  function ($scope, $resource, uiGridConstants,
-            Stories, StoryPages, $window, $modal) {
+wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$resource', 
+  'uiGridConstants',  'Stories', 'StoryPages', 'StoryJumps', 'filterCode',
+  function ($scope, $window, $modal,  $resource,
+    uiGridConstants, Stories, StoryPages, StoryJumps, filterCode) {
 
     function _loadPages() {
       $scope.pages = StoryPages.forStory({id: $scope.id});
@@ -10,8 +10,28 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
     function _sendPage() {
       var data = $scope.newPage;
       data.story = $scope.id;
-      StoryPages.save(data, _loadPages);
-      $scope.newPage = {title: '', body: '', story: id};
+      StoryPages.save(data, function(result){
+        var saves = $scope.jumps.length;
+        function _onSave(){
+          if (--saves <= 0 ){
+                  $scope.alers.push({type: 'success', msg: 'All Jumps Saved'});
+          }
+        }
+
+        if (result.id){
+          console.log('story page saved; saving jumps', result);
+          angular.forEach($scope.jumps, function(jump){
+            jump.story = result.id;
+            StoryJumps.save(jump, _onSave);
+          });
+          $scope.jumps = [];
+          $scope.newPage = {title: '', body: '', story: result.id};
+          $scope.alerts.push({type: 'success', msg: 'Saved story page'});
+        } else {
+          $scope.alerts.push({type: 'danger', msg: 'Failed to save story page'});
+        }
+      });
+
     }
 
     $scope.jumps = [];
@@ -22,10 +42,14 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
         controller: 'NewJumpCtrl',
         size: 'lg'
       }).result.then(function (newJump) {
-          console.log('recieved newJump ', newJump);
-          $scope.jumps.push(newJump);
-        })
+        console.log('recieved newJump ', newJump);
+        $scope.jumps.push(newJump);
+      })
     };
+
+    $scope.validateSubmitHit = function(){
+      console.log('validate submit hit');
+    }
 
     $scope.isCollapsed = true;
 
@@ -65,20 +89,90 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
     };
 
     $scope.isShowingFullPage = function () {
-      console.log('getting sfp');
       return $scope.state.showFullPage;
     };
 
-    $scope.$watch(
-      'newPage.title', function (title) {
-        $scope.newPage.code = title.replace(/[^\w\d\-_]/gi, '').toLowerCase();
+    // ----------- Code/ custom code management
 
-        StoryPages.uniqueCode({story: $scope.id, code: $scope.newPage.code}, function (result) {
-          console.log("unique code for ", $scope.newPage.code, result);
-          $scope.newPage.clde = result.code;
-        })
+   // $scope.customCode = false; // whether the user is customizing the code, in which case the code is not updated by reflecting title
+    $scope.codeSuggestion = ''; // an alternative to the current code
+    $scope.codeIsUnique = true;
+
+    $scope.userCodeChange = function(value){
+      console.log('user code change: ', value);
+      $scope.newPage.customCode = true;
+    }
+
+    $scope.showCodeSuggestion = function(){
+      if (!$scope.newPage.code) return false;
+      return !$scope.codeIsUnique;
+    };
+
+    function _codeCheck(result){   
+      $scope.codeIsUnique = (result.code == $scope.newPage.code);         
+      $scope.codeSuggestion = result.hasOwnProperty('code') ? result.code : '';
+    }
+
+    $scope.$watch('newPage.title', function (title) {
+        if (title && !$scope.newPage.customCode){
+          $scope.newPage.code = filterCode(title);
+        }
+      });
+
+//@TODO: insulate against cascading changes
+    $scope.$watch('newPage.code', function(code){
+      if (code){
+          StoryPages.uniqueCode({story: $scope.id, code: code}, _codeCheck);
       }
-    );
+    });
+
+    $scope.$watch('newPage.customCode', function(cc){
+       // console.log('customCode updated to ', cc);
+        if (!cc){
+          $scope.newPage.code = filterCode($scope.newPage.title);
+        }
+    });
+
+    $scope.useUniqueCode = function(){
+      $scope.newPage.code = $scope.codeSuggestion;
+      $scope.newPage.customCode = true;
+    }
+
+    // ---------- end code/custom code
+
+    $scope.newPageErrors = function (){
+      var errors = [];
+      if (!($scope.newPage.title && $scope.newPage.title.length > 7)){
+        errors.push('Your new page needs a title at least 8 characters long');
+      }
+      if (!($scope.newPage.body && $scope.newPage.body.length> 20)){
+        errors.push('Your new page needs a body at least 20 characters long');
+      }
+
+      if (!($scope.newPage.code)){
+        errors.push('Your new page needs a code');
+      } else if (!($scope.codeIsUnique)){
+        errors.push('Your new page code must be unique within the scope of the story');
+      }
+
+      return errors;
+    };
+
+    $scope.newPageHasErrors = function(){
+      return $scope.newPageErrors().length;
+    }
+
+    $scope.newPageStatusMessage = function(){
+      var err = _newPageErrors();
+      var text = '';
+      if (err.length){
+        text = _unmetReqTemplates({errors: err});
+      } else if ($scope.jumps.length == 0){
+        text =  '<div class="alert alert-info">You can save this page; however there are no exit jumps from the page</div>'
+      } else text = '<div class="info">Your page is ready to save</div>';
+
+      return text;
+    };
 
     $scope.$watch('newPage.body', function (b) {
       try {
@@ -90,7 +184,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
 
     function _mainStyle() {
       var out = {height: $window.innerHeight - 120};
-      console.log('setting main style to ', out);
+   //   console.log('setting main style to ', out);
       return out;
     }
 
@@ -113,16 +207,16 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$resource', 'uiGridConstan
     }
 
   }]) // end controller
-  .controller('NewJumpCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
+.controller('NewJumpCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
-    $scope.ok = function () {
-      console.log('sending newJump ', $scope.newJump);
-      $modalInstance.close($scope.newJump);
-    };
+  $scope.ok = function () {
+    console.log('sending newJump ', $scope.newJump);
+    $modalInstance.close($scope.newJump);
+  };
 
-    $scope.cancel = function () {
-      $modalInstance.dismiss('cancel');
-    };
+  $scope.cancel = function () {
+    $modalInstance.dismiss('cancel');
+  };
 
-    $scope.newJump = {prompt: '', toPageCode: ''};
-  }]);
+  $scope.newJump = {prompt: '', toPageCode: ''};
+}]);
