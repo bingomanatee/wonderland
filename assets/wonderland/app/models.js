@@ -1,5 +1,5 @@
 angular.module('WonderlandApp')
- .factory('popJsonArrayFactory', function () {
+  .factory('popJsonArrayFactory', function () {
 
     return function _popJsonArray(key) {
       return function (data, headers) {
@@ -12,11 +12,14 @@ angular.module('WonderlandApp')
     }
 
   })
-.factory('Stories', ['$resource', function ($resource) {
+  .factory('ObserverData', function () {
 
-    function StoryObserver(stories) {
-      this.stories = stories;
-      this.watchers = [];
+    function _ids(records) {
+      var out = [];
+      for (var i = 0; i < records.length; ++i) {
+        out.push(records[i].id);
+      }
+      return out;
     }
 
     function _normalizeIds(ids) {
@@ -84,34 +87,34 @@ angular.module('WonderlandApp')
       return true;
     };
 
-    StoryObserver.prototype.watch = function (callback, ids, methods) {
+    return ObserverData;
+  })
+  .factory('ModelObserver', ['ObserverData', function (ObserverData) {
+
+    function ModelObserver(model) {
+      this.model = model;
+      this.watchers = [];
+    }
+
+    ModelObserver.prototype.watch = function (callback, ids, methods) {
 
       var observerData = new ObserverData(callback, ids, methods);
-
       this.watchers.push(observerData);
       return observerData;
     };
 
-    function _ids(records) {
-      var out = [];
-      for (var i = 0; i < records.length; ++i) {
-        out.push(records[i].id);
-      }
-      return out;
-    }
-
-    StoryObserver.prototype.broadcast = function (records, method) {
+    ModelObserver.prototype.broadcast = function (records, method) {
       if (method && typeof method == 'string') {
         for (var i = 0; i < this.watchers.length; ++i) {
           var watcher = this.watchers[i];
           if (watcher.match(records, method)) {
-            watcher.callback.call(this.stories, records);
+            watcher.callback.call(this.model, records);
           }
         }
       }
     };
 
-    StoryObserver.prototype.clear = function (what) {
+    ModelObserver.prototype.clear = function (what) {
       if (!what) {
         this.watchers = [];
       } else if (typeof what == 'function') {
@@ -124,17 +127,20 @@ angular.module('WonderlandApp')
       }
     };
 
-    var Stories = $resource('/stories/:id', {id: '@id'}, {});
-    Stories.observer = new StoryObserver(Stories);
-
-    return Stories;
+    return ModelObserver;
+  }])
+  .factory('Stories', ['$resource', 'ModelObserver', function ($resource, ModelObserver) {
+    var model = $resource('/stories/:id', {id: '@id'}, {});
+    model.observer = new ModelObserver(model);
+    return model;
   }
   ])
-  .factory('StoryJumps', ['$resource', function ($resource) {
+  .factory('StoryJumps', ['$resource', 'ModelObserver', function ($resource, ModelObserver) {
     var StoryJumps = $resource('/storyjumps/:id', {id: '@id'});
+    StoryJumps.observer = new ModelObserver(StoryJumps);
     return StoryJumps;
   }])
-  .factory('StoryPages', ['$resource', 'popJsonArrayFactory', function ($resource, popJsonArrayFactory) {
+  .factory('StoryPages', ['$resource', 'popJsonArrayFactory', 'ModelObserver', function ($resource, popJsonArrayFactory, ModelObserver) {
     var Pages = $resource('/storypages/:id', {id: '@id'}, {
       uniqueCode: {
         url: '/storypages/code_for_story/:story/:code',
@@ -148,6 +154,7 @@ angular.module('WonderlandApp')
         transformResponse: popJsonArrayFactory('pages')
       }
     });
+    Pages.observer = new ModelObserver(Pages);
     return Pages;
   }
   ]).factory('Accounts', ['$resource', function ($resource) {
@@ -157,9 +164,11 @@ angular.module('WonderlandApp')
 
     return Accounts;
   }])
-  .factory('filterCode', function(){
-  return function(title){
-    if (!title || (typeof title != 'string')) return '';
-    return title.replace(/[^\w\d\-_]/gi, '').toLowerCase();
-  }
-});
+  .factory('filterCode', function () {
+    return function (title) {
+      if (!title || (typeof title != 'string')) {
+        return '';
+      }
+      return title.replace(/[^\w\d\-_]/gi, '').toLowerCase();
+    }
+  });

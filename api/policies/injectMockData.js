@@ -1,13 +1,13 @@
 var util = require('util');
 
 module.exports = function (req, res, next) {
+
   var baseView = res.view;
-  util.log('**************** injecting account');
+  // util.log('**************** injecting account');
   res.view = function (path, options) {
 
     var mixins = {
-      account: req.session.account || false,
-      flashMessages: FlashService.flashMessages(req)
+      test_mode: req.param('test_mode') || 0
     };
 
     options = options|| (typeof options == 'object') ? _.defaults(options, mixins) : mixins;

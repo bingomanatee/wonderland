@@ -26,7 +26,7 @@ module.exports.policies = {
    *                                                                          *
    ***************************************************************************/
 
-  '*': 'injectLocals',
+  '*': ['injectLocals', 'injectMockData'],
 
   /***************************************************************************
    *                                                                          *
@@ -50,7 +50,7 @@ module.exports.policies = {
   // }
   StoriesController: {
 
-    edit: ['injectLocals']// , 'isLoggedIn', 'ownsStory']
+    edit: ['injectLocals', 'injectMockData']// , 'isLoggedIn', 'ownsStory']
 
   }
 }

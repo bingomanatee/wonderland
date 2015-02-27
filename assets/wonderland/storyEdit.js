@@ -1,10 +1,14 @@
-wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$resource', 
+wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$resource',
   'uiGridConstants',  'Stories', 'StoryPages', 'StoryJumps', 'filterCode',
   function ($scope, $window, $modal,  $resource,
     uiGridConstants, Stories, StoryPages, StoryJumps, filterCode) {
 
     function _loadPages() {
-      $scope.pages = StoryPages.forStory({id: $scope.id});
+      if ($scope.id)  $scope.pages = StoryPages.forStory({id: $scope.id});
+    }
+
+    function _loadStory(){
+      if ($scope.id)   $scope.story = Stories.get({id: $scope.id});
     }
 
     function _sendPage() {
@@ -12,29 +16,41 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
       data.story = $scope.id;
       StoryPages.save(data, function(result){
         var saves = $scope.jumps.length;
-        function _onSave(){
-          if (--saves <= 0 ){
-                  $scope.alers.push({type: 'success', msg: 'All Jumps Saved'});
-          }
-        }
+        var sent = false;
+        var savedJumps = [];
+        function _onSave(data){
+          savedJumps.push(data);
+          if (sent) return;
+          if (--saves == 0 ){
+           {
+             $scope.alerts.push({type: 'success', msg: 'All Jumps Saved'});
+             sent = true;
+             StoryJumps.observer.broadcast(savedJumps, 'new');
+           }
+         }
+       }
 
-        if (result.id){
-          console.log('story page saved; saving jumps', result);
-          angular.forEach($scope.jumps, function(jump){
-            jump.story = result.id;
-            StoryJumps.save(jump, _onSave);
-          });
-          $scope.jumps = [];
-          $scope.newPage = {title: '', body: '', story: result.id};
-          $scope.alerts.push({type: 'success', msg: 'Saved story page'});
-        } else {
-          $scope.alerts.push({type: 'danger', msg: 'Failed to save story page'});
-        }
-      });
+       if (result.id){
+        console.log('story page saved; saving jumps', result);
+        angular.forEach($scope.jumps, function(jump){
+          jump.story = result.id;
+          StoryJumps.save(jump, _onSave);
+        });
+        $scope.jumps = [];
+        $scope.newPage = {title: '', body: '', story: result.id};
+        $scope.alerts.push({type: 'success', msg: 'Saved story page'});
+      } else {
+        $scope.alerts.push({type: 'danger', msg: 'Failed to save story page'});
+      }
+    });
 
     }
 
     $scope.jumps = [];
+    $scope.state = {showFullPage: false};
+    $scope.isCollapsed = true;
+    $scope.newPage = {title: '', body: ''};
+    $scope.id = 0;
 
     $scope.addJump = function () {
       var dlg = $modal.open({
@@ -51,10 +67,6 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
       console.log('validate submit hit');
     }
 
-    $scope.isCollapsed = true;
-
-    $scope.newPage = {title: '', body: ''};
-
     $scope.alerts = [];
     $scope.closeAlert = function (index) {
       $scope.alerts.splice(index, 1);
@@ -69,13 +81,11 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
     });
 
     $scope.init = function (id) {
-      $scope.story = Stories.get({id: id});
-
       $scope.id = id;
+      _loadStory();
       _loadPages();
     };
 
-    $scope.state = {showFullPage: false};
 
     $scope.$watch('state.showFullPage', function (v) {
       console.log('sfp = ', v);
@@ -108,37 +118,37 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
       return !$scope.codeIsUnique;
     };
 
-    function _codeCheck(result){   
-      $scope.codeIsUnique = (result.code == $scope.newPage.code);         
+    function _codeCheck(result){
+      $scope.codeIsUnique = (result.code == $scope.newPage.code);
       $scope.codeSuggestion = result.hasOwnProperty('code') ? result.code : '';
     }
 
     $scope.$watch('newPage.title', function (title) {
-        if (title && !$scope.newPage.customCode){
-          $scope.newPage.code = filterCode(title);
-        }
-      });
-
-//@TODO: insulate against cascading changes
-    $scope.$watch('newPage.code', function(code){
-      if (code){
-          StoryPages.uniqueCode({story: $scope.id, code: code}, _codeCheck);
+      if (title && !$scope.newPage.customCode){
+        $scope.newPage.code = filterCode(title);
       }
     });
 
-    $scope.$watch('newPage.customCode', function(cc){
+//@TODO: insulate against cascading changes
+$scope.$watch('newPage.code', function(code){
+  if (code){
+    StoryPages.uniqueCode({story: $scope.id, code: code}, _codeCheck);
+  }
+});
+
+$scope.$watch('newPage.customCode', function(cc){
        // console.log('customCode updated to ', cc);
-        if (!cc){
-          $scope.newPage.code = filterCode($scope.newPage.title);
-        }
+       if (!cc){
+        $scope.newPage.code = filterCode($scope.newPage.title);
+      }
     });
 
-    $scope.useUniqueCode = function(){
-      $scope.newPage.code = $scope.codeSuggestion;
-      $scope.newPage.customCode = true;
-    }
+$scope.useUniqueCode = function(){
+  $scope.newPage.code = $scope.codeSuggestion;
+  $scope.newPage.customCode = true;
+}
 
-    // ---------- end code/custom code
+    // ---------- footer errors
 
     $scope.newPageErrors = function (){
       var errors = [];
@@ -160,7 +170,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
 
     $scope.newPageHasErrors = function(){
       return $scope.newPageErrors().length;
-    }
+    };
 
     $scope.newPageStatusMessage = function(){
       var err = _newPageErrors();
@@ -174,6 +184,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
       return text;
     };
 
+
     $scope.$watch('newPage.body', function (b) {
       try {
         $scope.newPage.body_marked = marked(b);
@@ -182,27 +193,29 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope',  '$window', '$modal', '$res
       }
     });
 
-    function _mainStyle() {
-      var out = {height: $window.innerHeight - 120};
+// -------------- Dynamic style for full page version
+
+function _mainStyle() {
+  var out = {height: $window.innerHeight - 120};
    //   console.log('setting main style to ', out);
-      return out;
-    }
+   return out;
+ }
 
-    $scope.mainStyle = _mainStyle();
-    $scope.cellStyle = _mainStyle();
-    function _resize() {
-      $scope.mainStyle = _mainStyle();
-      $scope.cellStyle = _.extend(_mainStyle(), {});
-      $scope.$apply();
-    }
+ $scope.mainStyle = _mainStyle();
+ $scope.cellStyle = _mainStyle();
+ function _resize() {
+  $scope.mainStyle = _mainStyle();
+  $scope.cellStyle = _.extend(_mainStyle(), {});
+  $scope.$apply();
+}
 
-    if ($window.attachEvent) {
-      $window.attachEvent('onresize', _resize);
-    }
-    else if ($window.addEventListener) {
-      $window.addEventListener('resize', _resize, true);
-    }
-    else {
+if ($window.attachEvent) {
+  $window.attachEvent('onresize', _resize);
+}
+else if ($window.addEventListener) {
+  $window.addEventListener('resize', _resize, true);
+}
+else {
       //The browser does not support Javascript event binding
     }
 

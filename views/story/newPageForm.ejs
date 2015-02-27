@@ -4,7 +4,7 @@
 
 <h2>Create a new page</h2>
 
-<form id="newPageForm"  name="newpageform" form-validation="validateSubmitHit()" novalidate>
+<form id="newPageForm"  name="newpageform" valid-submit="sendPage()" novalidate>
   <div class="row">
     <div class="col-md-5">
       <div class="form-group" ng-class="{'has-error': newpageform.$submitted && newpageform.title.$invalid}">
