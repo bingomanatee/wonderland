@@ -2,7 +2,7 @@ var util = require('util');
 
 module.exports = function (req, res, next) {
   var baseView = res.view;
-  util.log('**************** injecting account');
+
   res.view = function (path, options) {
 
     var mixins = {

@@ -51,8 +51,15 @@
       .respond(function (m, url) {
         console.log('responding to code_for_story', url);
         var code = url.split('/').pop();
+        var suggestion = code;
+        _.forEach(pages.pages, function(page){
+          if (page.code == code){
+            suggestion = code + '_1'; // not robust
+          }
+        });
+
         var out = {
-          code: code
+          code: suggestion
         };
 
         console.log('....returning code ', code);

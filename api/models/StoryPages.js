@@ -19,6 +19,13 @@ module.exports = {
       model: 'stories'
     },
 
+    jumps:{
+      collection: 'storyjumps',
+      via: 'story'
+    }
+
+  /*,
+
     jumps: function (callback) {
       if (this.id) {
         StoryJumps.find({fromStory: this.id})
@@ -26,7 +33,7 @@ module.exports = {
       } else {
         callback(null, []);
       }
-    }
+    } */
   },
 
   filterCode: function (str) {

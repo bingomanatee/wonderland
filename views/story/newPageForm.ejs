@@ -27,10 +27,10 @@
         <div ng-message="pattern" class="validation-error">Must only include lowercase letters and numbers</div>
         <div ng-message="minlength" class="validation-error">Must be at least 5 characters long</div>
       </div>
-    </div>       
+    </div>
   </div>
   <div class="col-md-4" ng-show="showCodeSuggestion()">There is another page with this code;<br />
-   <button class="btn btn-small standard-caps" type="button" ng-click="useUniqueCode()">
+   <button class="btn btn-small standard-caps code-suggestion" type="button" ng-click="useUniqueCode()">
      Use Code &quot;{{codeSuggestion }}&quot;</button></div>
    </div>
 
