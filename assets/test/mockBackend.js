@@ -49,10 +49,13 @@
 
     $httpBackend.when('GET', new RegExp('^\/storypages\/code_for_story\/15\/.*'), header)
       .respond(function (m, url) {
-        // console.log('responding to code_for_story', url);
+        console.log('responding to code_for_story', url);
+        var code = url.split('/').pop();
         var out = {
-          code: 'testresultcode'
+          code: code
         };
+
+        console.log('....returning code ', code);
         return [200, out, {'Content-Type': 'application/json'}];
       });
 
@@ -68,13 +71,6 @@
         pages.pages.push(pageWithId);
         return [200, pageWithId, {'Content-Type': 'application/json'}];
       });
-    // adds a new phone to the phones array
-    /*  $httpBackend.whenPOST('/phones').respond(function (method, url, data) {
-     var phone = angular.fromJson(data);
-     phones.push(phone);
-     return [200, phone, {}];
-     });
-     $httpBackend.whenGET(/^\/templates\//).passThrough(); */
-    //...
+
   });
 })();

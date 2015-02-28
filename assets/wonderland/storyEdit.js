@@ -24,14 +24,17 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
         var savedJumps = [];
 
         function _onSave(data) {
-        if (data)  savedJumps.push(data);
+          if (data) {
+            savedJumps.push(data);
+          }
           if (sent) {
             return;
           }
           if (--saves <= 0) {
             {
-             if (savedJumps.length)
-               $scope.alerts.push({type: 'success', msg: 'All Jumps Saved'});
+              if (savedJumps.length) {
+                $scope.alerts.push({type: 'success', msg: 'All Jumps Saved'});
+              }
               sent = true;
               StoryPages.observer.broadcast(result, 'new');
             }
@@ -143,10 +146,18 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
       }
     });
 
+    var _reflect_code = _.debounce(function () {
+      console.log('debounced at 800');
+      StoryPages.uniqueCode({
+        story: $scope.id,
+        code: $scope.newPage.code
+      }, _codeCheck)
+    }, 800);
+
 //@TODO: insulate against cascading changes
     $scope.$watch('newPage.code', function (code) {
       if (code) {
-        StoryPages.uniqueCode({story: $scope.id, code: code}, _codeCheck);
+        _reflect_code();
       }
     });
 
