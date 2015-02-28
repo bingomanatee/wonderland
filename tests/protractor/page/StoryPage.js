@@ -33,6 +33,7 @@ StoryPage.prototype = {
     this.newJumpButton.click();
     this.jumpPrompt.sendKeys(prompt);
     this.jumpPageCode.sendKeys(pageCode);
+    this.createJumpButton.click();
   },
   open: function () {
     browser.get('http://localhost:' + this.port + '/stories/edit/15?test_mode=1');

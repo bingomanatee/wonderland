@@ -27,7 +27,7 @@
           <td class="id">{{page.id}}</td>
           <td class="title">{{page.title}}</td>
           <td class="code">{{page.code}}</td>
-          <td>
+          <td class="jumps">
             <ul ng-if="page.jumps.length">
               <li ng-repeat="jump in page.jumps">
                 {{ jump.toPageCode }}

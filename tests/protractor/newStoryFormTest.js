@@ -5,7 +5,7 @@ describe('New story form test', function () {
 
   var StoryPage = require('./page/StoryPage');
 
-  xit('should add a story and list it in pages', function (done) {
+  it('should add a story and list it in pages', function (done) {
     var page = new StoryPage(port);
     page.open();
 
@@ -32,22 +32,19 @@ describe('New story form test', function () {
     page.openNewPageTab();
     page.setNewPageFields('New Test Page Title', 'A very long New Test Page Body');
     page.createNewJump('back to test page 1', 'testpage1');
-    page.createJumpButton.click();
+    page.createPage();
+    page.openStoryPagesTab();
 
-    browser.pause();
-    setTimeout(function(){
-      page.createPage();
-      page.openStoryPagesTab();
-
-      expect(page.storyListRows.last()
-        .element(by.css('td.title')).getText())
-        .toBe('New Test Page Title');
-      setTimeout(done, 10000);
-    }, 50000);
-
+    expect(page.storyListRows.last()
+      .element(by.css('td.title')).getText())
+      .toBe('New Test Page Title');
+    expect(page.storyListRows.last()
+      .all(by.css('td.jumps ul li')).last().getText())
+      .toBe('testpage1');
+    setTimeout(done, 200);
   }, 100000);
 
-  xit('should reflect unique or non-unique codes', function (done) {
+  it('should reflect unique or non-unique codes', function (done) {
     var page = new StoryPage(port);
     page.open();
 
@@ -61,5 +58,4 @@ describe('New story form test', function () {
     }, 3500);
   }, 100000);
 
-})
-;
+});
