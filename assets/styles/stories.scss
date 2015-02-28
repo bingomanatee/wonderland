@@ -67,10 +67,24 @@ $semiWhite: rgba(255, 255, 255, 0.95);
         width: 4em;
       }
       &.title {
-        width: 30em;
+        width: 20em;
       }
       &.code {
-        width: 20em;
+        width: 15em;
+      }
+      &.jumps {
+        width: 15em;
+        ul {
+          list-style: none;
+          li:before {
+            display:inline-block;
+            content: "&#9654;";
+            width:10px;
+            height:10px;
+            background:red;
+            margin-right:5px;
+          }
+        }
       }
     }
     &.head {

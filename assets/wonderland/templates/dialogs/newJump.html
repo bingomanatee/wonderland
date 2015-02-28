@@ -3,23 +3,24 @@
 </div>
 <div class="modal-body">
   <p>Add a jump to another page</p>
-  <form id="newStoryForm">
+  <form id="newJumpForm">
 
     <div class="form-group">
-      <label for="InputJump">Prompt</label>
-          <textarea class="form-control body" ng-model="newJump.prompt" id="InputJump"
+      <label>Prompt</label>
+          <textarea class="form-control" ng-model="newJump.prompt"
                     placeholder="Prompt" required="required" rows="6">
           </textarea>
     </div>
     <div class="form-group">
-      <label for="InputPage">Story Code</label>
-      <input type="text" ng-model="newJump.toPageCode" class="form-control title" required="required" pattern="^[\w\d\-_]*$"
-             id="InputPage"  placeholder="Story Code">
+      <label>Story Code</label>
+      <input type="text" ng-model="newJump.toPageCode" class="form-control" required="required" pattern="^[\w\d\-_]*$"
+             placeholder="To Story Code">
+      <p>It is not necessary for the to page indicated by this code to exist yet</p>
     </div>
   </form>
 
 </div>
 <div class="modal-footer">
   <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
-  <button class="btn btn-primary" ng-click="ok()">Create Jump</button>
+  <button class="btn btn-primary save-jump" ng-click="ok()">Create Jump</button>
 </div>

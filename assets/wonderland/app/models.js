@@ -46,16 +46,14 @@ angular.module('WonderlandApp')
       this.callback = callback;
       this.ids = _normalizeIds(ids);
       this.methods = _normalizeMethods(methods);
-      console.log("new observer from ", ids, methods, ': ', this);
-    }
+          }
 
     ObserverData.prototype.toString = function () {
       return 'methods: ' + this.methods.join(',') + ', ids: ' + this.ids.join(',');
     };
 
     ObserverData.prototype.match = function (records, method) {
-      console.log('looking for listener for method ', method);
-      var ids = _ids(records);
+            var ids = _ids(records);
       if (this.methods.length && (method != '*')) {
         var goodMethod = false;
         for (var m = 0; m < this.methods.length; ++m) {
@@ -66,8 +64,7 @@ angular.module('WonderlandApp')
         }
 
         if (!goodMethod) {
-          console.log('method ', method, 'does not match ', this.methods);
-          return false;
+                    return false;
         }
       }
 
@@ -108,21 +105,18 @@ angular.module('WonderlandApp')
 
     ModelObserver.prototype.watch = function (callback, ids, methods) {
       var observerData = new ObserverData(callback, ids, methods);
-      console.log('listening to ', observerData.toString(), ', for ', this.name);
-      this.watchers.push(observerData);
+            this.watchers.push(observerData);
       return observerData;
     };
 
     ModelObserver.prototype.broadcast = function (records, method) {
-      console.log('broadcasting ', records, method, 'for ', this.name);
-      if (method && typeof method == 'string') {
+            if (method && typeof method == 'string') {
         for (var i = 0; i < this.watchers.length; ++i) {
           var watcher = this.watchers[i];
           if (watcher.match(records, method)) {
             watcher.callback.call(this.model, records);
           } else {
-            console.log('broadcast message ', method, ' ignored by ', watcher.ToString());
-          }
+                      }
         }
       }
     };

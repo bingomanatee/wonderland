@@ -15,14 +15,32 @@
           id: 1,
           story: 15,
           title: 'Test Page 1',
-          code: 'testpage1'
+          code: 'testpage1',
+          jumps: []
         }, {
           id: 2,
           story: 15,
           title: 'Test Page 2',
-          code: 'testpage2'
+          code: 'testpage2',
+          jumps: []
         }]
     };
+
+    function _nextJump(){
+      console.log('getting nextJump');
+      return 1 + _.reduce(pages.pages, function(next, page){
+          console.log('finding next from page ', page, 'starting at ', next);
+          debugger;
+        return _.reduce(page.jumps, function(next, jump){
+          console.log('updating next from jump ', jump, 'starting at ', next);
+          return Math.max(jump.id, next);
+        }, next);
+      }, 0);
+    }
+
+    function _getPage(id){
+      return _.find(pages.pages, {id: id});
+    }
 
     var newPage = {
       id: 3,
@@ -44,7 +62,7 @@
     $httpBackend.when('GET', '/storypages/for_story/15')
       .respond(function () {
         console.log('getting ', pages.pages.length, ' story pages');
-        return [200, pages, {'Content-Type': 'application/json'}];
+        return [200, pages, header];
       });
 
     $httpBackend.when('GET', new RegExp('^\/storypages\/code_for_story\/15\/.*'), header)
@@ -52,8 +70,8 @@
         console.log('responding to code_for_story', url);
         var code = url.split('/').pop();
         var suggestion = code;
-        _.forEach(pages.pages, function(page){
-          if (page.code == code){
+        _.forEach(pages.pages, function (page) {
+          if (page.code == code) {
             suggestion = code + '_1'; // not robust
           }
         });
@@ -63,20 +81,36 @@
         };
 
         console.log('....returning code ', code);
-        return [200, out, {'Content-Type': 'application/json'}];
+        return [200, out, header];
       });
+
+    $httpBackend.whenGET('/wonderland/templates/dialogs/newJump.html').passThrough();
 
     $httpBackend.when('POST', '/storypages')
       .respond(function (m, url, newPage) {
         try {
           newPage = JSON.parse(newPage);
-        } catch (err){
+        } catch (err) {
           console.log('cannot parse new page: ', newPage);
         }
         console.log('pushing new page ', newPage);
-        var pageWithId = _.extend({id: 4}, newPage);
+        var pageWithId = _.extend({id: 4, jumps: []}, newPage);
         pages.pages.push(pageWithId);
-        return [200, pageWithId, {'Content-Type': 'application/json'}];
+        return [200, pageWithId, header];
+      });
+
+    $httpBackend.when('POST', '/storyjumps')
+      .respond(function (m, url, data, headers) {
+
+        var jump = JSON.parse(data);
+        var page = jump.fromPage ? _getPage(jump.fromPage) : false;
+        if (!page){
+          return [404, {error: 'cannot find page ' + jump.fromPage}, header]
+        }
+        jump.id = _nextJump();
+        page.jumps.push(jump);
+
+        return [200, jump, header];
       });
 
   });

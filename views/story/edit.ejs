@@ -11,18 +11,32 @@
     <tab heading="Story Pages">
 
       <h2>Pages</h2>
-      <div class="story-pages">
-        <div class="story-row head">
-          <div class="story-cell id">ID</div>
-          <div class="story-cell title">Title</div>
-          <div class="story-cell code">Code</div>
-        </div>
-        <div class="story-row" ng-repeat="page in pages">
-          <div class="story-cell id">{{page.id}}</div>
-          <div class="story-cell title">{{page.title}}</div>
-          <div class="story-cell code">{{page.code}}</div>
-        </div>
-      </div>
+
+      <table class="table table-striped story-list">
+        <thead>
+        <tr>
+          <th class="id">ID</th>
+          <th class="title">Title</th>
+          <th class="code">Code</th>
+          <th class="jumps">Jumps</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr ng-repeat="page in pages">
+          <td class="id">{{page.id}}</td>
+          <td class="title">{{page.title}}</td>
+          <td class="code">{{page.code}}</td>
+          <td>
+            <ul ng-if="page.jumps.length">
+              <li ng-repeat="jump in page.jumps">
+                {{ jump.toPageCode }}
+              </li>
+            </ul>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </tab>
     <tab heading="New Page">
       <%- include newPageForm.ejs %>

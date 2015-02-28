@@ -9,7 +9,7 @@ var util = require('util');
 
 module.exports = {
   for_story: function (req, res) {
-    StoryPages.find({story: req.param('id')}, function (err, pages) {
+    StoryPages.find({story: req.param('id')}).populate('jumps').exec( function (err, pages) {
       //util.log(util.format('got story pages: %s (err %s)',
       //   util.inspect(pages), util.inspect(err)));
 

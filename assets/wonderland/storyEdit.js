@@ -44,7 +44,8 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
         if (result.id) {
           if ($scope.jumps.length) {
             angular.forEach($scope.jumps, function (jump) {
-              jump.story = result.id;
+              jump.fromPage = result.id;
+              jump.story = $scope.id;
               StoryJumps.save(jump, _onSave);
             });
           } else {
@@ -70,7 +71,8 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
       var dlg = $modal.open({
         templateUrl: '/wonderland/templates/dialogs/newJump.html',
         controller: 'NewJumpCtrl',
-        size: 'lg'
+        size: 'lg',
+        windowClass: ['add-jump-dialog']
       }).result.then(function (newJump) {
           console.log('recieved newJump ', newJump);
           $scope.jumps.push(newJump);
@@ -79,7 +81,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
 
     $scope.validateSubmitHit = function () {
       console.log('validate submit hit');
-    }
+    };
 
     $scope.alerts = [];
     $scope.closeAlert = function (index) {
@@ -249,7 +251,7 @@ wonderlandApp.controller('StoryEditCtrl', ['$scope', '$window', '$modal', '$reso
   .controller('NewJumpCtrl', ['$scope', '$modalInstance', function ($scope, $modalInstance) {
 
     $scope.ok = function () {
-      console.log('sending newJump ', $scope.newJump);
+      console.log('NewJumpCtrl: sending newJump ', $scope.newJump);
       $modalInstance.close($scope.newJump);
     };
 
