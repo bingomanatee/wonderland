@@ -3,7 +3,8 @@ angular.module('WonderlandApp')
 
     return function _popJsonArray(key) {
       return function (data, headers) {
-        if (/application\/json/.test(headers('Content-Type'))) {
+        var contentType = headers('Content-Type');
+        if (/application\/json/.test(contentType)) {
           return (typeof data == 'object' ? data[key] : (angular.fromJson(data)[key])) || [];
         } else {
           return [];
@@ -48,7 +49,12 @@ angular.module('WonderlandApp')
       console.log("new observer from ", ids, methods, ': ', this);
     }
 
+    ObserverData.prototype.toString = function () {
+      return 'methods: ' + this.methods.join(',') + ', ids: ' + this.ids.join(',');
+    };
+
     ObserverData.prototype.match = function (records, method) {
+      console.log('looking for listener for method ', method);
       var ids = _ids(records);
       if (this.methods.length && (method != '*')) {
         var goodMethod = false;
@@ -65,24 +71,27 @@ angular.module('WonderlandApp')
         }
       }
 
-      if (this.ids.length && ids.length) {
-        var goodId = this.ids[0] == '*';
+      if (this.ids[0] == '*') {
+        return true;
+      }
 
-        for (var i = 0; i < ids.length; ++i) {
-          if (goodId) {
-            break;
-          }
-          for (var j = 0; j < this.ids.length; ++j) {
-            if (ids[i] == this.ids[j]) {
-              goodId = true;
+      if (this.ids.length && ids.length) {
+        var goodId = false;
+
+        if (!goodId) {
+          for (var i = 0; i < ids.length; ++i) {
+            if (goodId) {
               break;
+            }
+            for (var j = 0; j < this.ids.length; ++j) {
+              if (ids[i] == this.ids[j]) {
+                goodId = true;
+                break;
+              }
             }
           }
         }
-
-        if (!goodId) {
-          return false;
-        }
+        return goodId;
       }
       return true;
     };
@@ -91,24 +100,28 @@ angular.module('WonderlandApp')
   })
   .factory('ModelObserver', ['ObserverData', function (ObserverData) {
 
-    function ModelObserver(model) {
+    function ModelObserver(model, name) {
       this.model = model;
       this.watchers = [];
+      this.name = name;
     }
 
     ModelObserver.prototype.watch = function (callback, ids, methods) {
-
       var observerData = new ObserverData(callback, ids, methods);
+      console.log('listening to ', observerData.toString(), ', for ', this.name);
       this.watchers.push(observerData);
       return observerData;
     };
 
     ModelObserver.prototype.broadcast = function (records, method) {
+      console.log('broadcasting ', records, method, 'for ', this.name);
       if (method && typeof method == 'string') {
         for (var i = 0; i < this.watchers.length; ++i) {
           var watcher = this.watchers[i];
           if (watcher.match(records, method)) {
             watcher.callback.call(this.model, records);
+          } else {
+            console.log('broadcast message ', method, ' ignored by ', watcher.ToString());
           }
         }
       }
@@ -131,13 +144,13 @@ angular.module('WonderlandApp')
   }])
   .factory('Stories', ['$resource', 'ModelObserver', function ($resource, ModelObserver) {
     var model = $resource('/stories/:id', {id: '@id'}, {});
-    model.observer = new ModelObserver(model);
+    model.observer = new ModelObserver(model, 'Stories');
     return model;
   }
   ])
   .factory('StoryJumps', ['$resource', 'ModelObserver', function ($resource, ModelObserver) {
     var StoryJumps = $resource('/storyjumps/:id', {id: '@id'});
-    StoryJumps.observer = new ModelObserver(StoryJumps);
+    StoryJumps.observer = new ModelObserver(StoryJumps, 'StoryJumps');
     return StoryJumps;
   }])
   .factory('StoryPages', ['$resource', 'popJsonArrayFactory', 'ModelObserver', function ($resource, popJsonArrayFactory, ModelObserver) {
@@ -154,7 +167,7 @@ angular.module('WonderlandApp')
         transformResponse: popJsonArrayFactory('pages')
       }
     });
-    Pages.observer = new ModelObserver(Pages);
+    Pages.observer = new ModelObserver(Pages, 'Pages');
     return Pages;
   }
   ]).factory('Accounts', ['$resource', function ($resource) {
