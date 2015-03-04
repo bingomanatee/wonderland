@@ -1,8 +1,14 @@
 <%- include ../form/genericFormErrors.ejs %>
+<style>
 
+
+</style>
 <div ng-controller="StoryEditCtrl" class="story-edit" ng-init="init('<%= story.id %>')">
   <h1>Edit story &quot;{{ story.title }}&quot;</h1>
   <tabset style="min-height: 40em">
+    <tab heading="Page Graph">
+      <page-graph story="id" />
+    </tab>
     <tab heading="story desription">
       <h2>Description</h2>
 
@@ -45,3 +51,5 @@
 </div>
 
 <script src="/wonderland/storyEdit.js" defer="defer"></script>
+
+<script src="/lib/d3/d3.min.js" defer="defer"></script>

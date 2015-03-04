@@ -4,6 +4,9 @@ $translucentWhite: rgba(255, 255, 255, 0.9);
 $dateColor: rgba(0, 0, 0, 0.25);
 $semiWhite: rgba(255, 255, 255, 0.95);
 
+$pageGraphStrokeColor: rgba(255, 255, 255, 0.75);
+$pageGraphStrokeWidth: 2.5px;
+
 .story-list {
   .story {
     width: 20em;
@@ -50,6 +53,20 @@ $semiWhite: rgba(255, 255, 255, 0.95);
     .btn {
       min-width: 40%;
     }
+  }
+}
+
+page-graph {
+
+  .node {
+    stroke: $pageGraphStrokeColor;
+    stroke-width: $pageGraphStrokeWidth/2;
+  }
+
+  .link {
+    fill: none;
+    stroke: $pageGraphStrokeColor;
+    stroke-width: $pageGraphStrokeWidth;
   }
 }
 

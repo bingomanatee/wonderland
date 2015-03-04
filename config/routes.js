@@ -50,7 +50,8 @@ module.exports.routes = {
 
   'post /stories': 'StoriesController.post',
 
-  '/stories/edit/:id': 'StoriesController.edit',
+  'get /stories/edit/:id': 'StoriesController.edit',
+  'get /storypages/graph_for_story/:id': 'StoryPagesController.as_graph',
 
   'get /storypages/for_story/:id': 'StoryPagesContorller.pages',
 

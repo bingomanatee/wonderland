@@ -17,6 +17,7 @@
 var cssFilesToInject = [
   'ui-grid/3.0.0-RC.18/ui-grid.min.css',
   'bootstrap-3.3.2-dist/css/bootstrap.min.css',
+  'lib/prajwalkman-angular-slider/angular-slider.min.css',
   'styles/**/*.css'
 ];
 
@@ -36,6 +37,7 @@ var jsFilesToInject = [
   'angular-1.3.11/angular-sanitize.min.js',
   'angular-1.3.11/angular-messages.min.js',
   'ui-grid/3.0.0-RC.18/ui-grid.min.js',
+  'lib/prajwalkman-angular-slider/angular-slider.min.js',
   'angular-1.3.11/angular-resource.min.js',
   'ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js',
   'wonderland/app/*.js'

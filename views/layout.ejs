@@ -1,15 +1,20 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <title>Wonderland Stories</title>
-  <%
+<%
 if (typeof account == 'undefined') {
   account = false;
+}
+if (typeof test_mode == 'undefined') {
+  test_mode = false;
 }
 if (typeof flashMessages == 'undefined') {
   flashMessages = false;
 }
-  %>
+
+%>
+<html>
+<head>
+  <title>Wonderland Stories</title>
+
   <!-- Viewport mobile tag for sensible mobile support -->
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <link href='http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic'
@@ -39,6 +44,7 @@ if (typeof flashMessages == 'undefined') {
   <!--STYLES-->
   <link rel="stylesheet" href="/ui-grid/3.0.0-RC.18/ui-grid.min.css">
   <link rel="stylesheet" href="/bootstrap-3.3.2-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/lib/prajwalkman-angular-slider/angular-slider.min.css">
   <link rel="stylesheet" href="/styles/app.css">
   <link rel="stylesheet" href="/styles/stories.css">
   <!--STYLES END-->
@@ -161,10 +167,12 @@ if (typeof flashMessages == 'undefined') {
 <script src="/angular-1.3.11/angular-sanitize.min.js"></script>
 <script src="/angular-1.3.11/angular-messages.min.js"></script>
 <script src="/ui-grid/3.0.0-RC.18/ui-grid.min.js"></script>
+<script src="/lib/prajwalkman-angular-slider/angular-slider.min.js"></script>
 <script src="/angular-1.3.11/angular-resource.min.js"></script>
 <script src="/ui-bootstrap/ui-bootstrap-tpls-0.9.0.min.js"></script>
 <script src="/wonderland/app/app.js"></script>
 <script src="/wonderland/app/form.js"></script>
+<script src="/wonderland/app/graphs.js"></script>
 <script src="/wonderland/app/models.js"></script>
 <!--SCRIPTS END-->
 <% if (test_mode) { %>
