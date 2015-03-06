@@ -17,6 +17,7 @@ angular.module('WonderlandApp')
 
         $scope.distance = 20;
         $scope.strength = 10;
+        var forceGraph;
 
         function _loadGraph(id) {
 
@@ -33,7 +34,7 @@ angular.module('WonderlandApp')
             var nodes = graph.nodes.slice(),
               links = [],
               bilinks = [];
-
+forceGraph = graph;
             graph.links.forEach(function (link) {
               var s = nodes[link.source],
                 t = nodes[link.target],
@@ -63,11 +64,6 @@ angular.module('WonderlandApp')
               })
               .call(force.drag);
 
-            node.append("title")
-              .text(function (d) {
-                return d.name;
-              });
-
             force.on("tick", function () {
               link.attr("d", function (d) {
                 return "M" + d[0].x + "," + d[0].y
@@ -82,12 +78,22 @@ angular.module('WonderlandApp')
         }
 
         $scope.$watch('distance', function (d) {
-          force.linkDistance = d;
+          force.linkDistance(d);
         });
 
-        $scope.$watch('strength', function (d) {
-          force.strength = d;
-        });
+        //Restart the visualisation after any node and link changes
+        function restart() {
+          link = link.data(graph.links);
+          link.exit().remove();
+          link.enter().insert("line", ".node").attr("class", "link");
+          node = node.data(graph.nodes);
+          node.enter().insert("circle", ".cursor").attr("class", "node").attr("r", 5).call(force.drag);
+          force.start();
+        }
+        
+        //$scope.$watch('strength', function (d) {
+        //  force.strength = d;
+        //});
 
         $scope.$watch('story', function (id) {
           if (id) {
